@@ -131,6 +131,19 @@ Run the resulting image using the corresponding platform tool.
 Firecracker requires KVM support.
 Xen requires a system with Xen installed.
 
+A successful run will show a message such as the one below:
+
+```text
+Booting from ROM..Powered by
+o.   .o       _ _               __ _
+Oo   Oo  ___ (_) | __ __  __ _ ' _) :_
+oO   oO ' _ `| | |/ /  _)' _` | |_|  _)
+oOo oOO| | | | |   (| | | (_) |  _) :_
+ OoOoO ._, ._:_:_,\_._,  .__,_:_, \___)
+                Calypso 0.17.0~5d38d108
+Hello from Unikraft!
+```
+
 ### Run on QEMU/x86_64
 
 ```console
@@ -180,3 +193,68 @@ sudo xl create -c xen.arm64.cfg
 ```
 
 You need use `sudo` or the `root` account to run Xen.
+
+## Customize
+
+C Hello is the simplest application to be run with Unikraft.
+This makes it ideal as a minimal testing ground for new features: it builds fast, it doesn't have dependencies.
+
+### Update the Unikraft Core Code
+
+If updating the Unikraft core code in the `../repos/unikraft/` directory, you then go through the [configure](#configure), [build](#build) and [run](#run) steps.
+
+### Add Other Source Code Files
+
+The current configuration use a single source file: `hello.c`.
+If looking to add another file to the build, update the [`Makefile.uk`](Makefile.uk) file.
+
+For example, to add a new file `support.c` to the build, update the [`Makefile.uk`](Makefile.uk) file to:
+
+```make
+$(eval $(call addlib,appchello))
+
+APPCHELLO_SRCS-y += $(APPCHELLO_BASE)/hello.c
+APPCHELLO_SRCS-y += $(APPCHELLO_BASE)/support.c
+```
+
+To add a new include directory, such as a local `include/` directory, update the [`Makefile.uk`](Makefile.uk) file to:
+
+```make
+$(eval $(call addlib,appchello))
+
+APPCHELLO_SRCS-y += $(APPCHELLO_BASE)/hello.c
+CINCLUDES-y += -I$(APPCHELLO_BASE)/include
+```
+
+Then go through the [configure](#configure), [build](#build) and [run](#run) steps.
+
+### Add Libraries
+
+It may be the case that you want to add a library to the build, in order to test the library or a certain feature.
+If that is the case, update the `UK_LIBS` variable in the [`Makefile`](Makefile).
+
+For example, to add the Musl library to the build, clone the [`lib-musl` library repository](https://github.com/unikraft/lib-musl):
+
+```console
+test -d ../repos/libs/musl || git clone https://github.com/unikraft/lib-musl ../repos/libs/musl
+```
+
+and update the `UK_LIBS` line the [`Makefile`](Makefile) to:
+
+```make
+UK_LIBS ?= $(LIBS_BASE)/musl
+```
+
+To add another library, such as LWIP, clone the [corresponding `lib-lwip` repository](https://github.com/unikraft/lib-musl):
+
+```console
+test -d ../repos/libs/lwip || git clone https://github.com/unikraft/lib-lwip ../repos/libs/lwip
+```
+
+and update the `UK_LIBS` line the [`Makefile`](Makefile) to:
+
+```make
+UK_LIBS ?= $(LIBS_BASE)/musl:$(LIBS_BASE)/lwip
+```
+
+Then go through the [configure](#configure), [build](#build) and [run](#run) steps.
