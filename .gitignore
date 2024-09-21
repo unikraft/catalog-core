@@ -1,0 +1,31 @@
+# Repository directory
+/repos/
+
+# Configuration files
+.config*
+
+# Temporary and editor files
+*~
+*swp
+*swo
+\#*\#
+.\#*
+\#_*\#
+.\#_*
+
+# Build output directory
+out/
+
+# Build output files
+*.o
+*.a
+*.d
+*.so
+
+# Patch files
+/*.patch
+/*.diff
+*.orig
+*.rej
+*.bak
+*.pyc
