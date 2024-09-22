@@ -45,7 +45,7 @@ Clone it in `../repos/unikraft/` if not already cloned:
 ```console
 test -d ../repos/unikraft || git clone https://github.com/unikraft/unikraft ../repos/unikraft
 ```
-If you want use a custom variant of the repository (e.g. apply your own patch, make modifications), update it accordingly in th `../repos/` directory.
+If you want use a custom variant of the repository (e.g. apply your own patch, make modifications), update it accordingly in the `../repos/` directory.
 
 ## Clean
 
