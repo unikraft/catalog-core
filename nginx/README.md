@@ -412,6 +412,7 @@ In case of a successful run, you get the HTML content:
 </html>
 ```
 
+<<<<<<< HEAD
 ## Close
 
 As a server, Nginx will run forever until you close the Unikraft virtual machine that runs it.
