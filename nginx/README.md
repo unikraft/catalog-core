@@ -114,7 +114,7 @@ test -d "../repos/libs/nginx" || git clone https://github.com/unikraft/lib-nginx
 test -d "../repos/libs/lwip" || git clone https://github.com/unikraft/lib-lwip ../repos/libs/lwip
 ```
 
-If you want to patch, use another branch or update the corresponding repositories in the `../repos/...` directory.
+If you want use a custom variant of a repository (e.g. apply your own patch, make modifications), update it accordingly in th `../repos/` directory.
 
 ## Clean
 
