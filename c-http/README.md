@@ -84,7 +84,7 @@ test -d "../repos/unikraft" || git clone https://github.com/unikraft/unikraft ..
 test -d "../repos/libs/lwip" || git clone https://github.com/unikraft/lib-lwip ../repos/libs/lwip
 ```
 
-If you want use a custom variant of a repository (e.g. apply your own patch, make modifications), update it accordingly in th `../repos/` directory.
+If you want use a custom variant of a repository (e.g. apply your own patch, make modifications), update it accordingly in the `../repos/` directory.
 
 ## Clean
 
@@ -390,4 +390,53 @@ sudo xl destroy c-http
 
 ## Customize
 
-### Customize the Filesystem Contents
+C Hello is the simplest networking application to be run with Unikraft.
+This makes it ideal as a minimal testing ground for new features: it builds fast, it only has LWIP as a dependency.
+
+### Update the Unikraft Core Code
+
+If updating the Unikraft core code in the `../repos/unikraft/` directory, you then go through the [configure](#configure), [build](#build) and [run](#run) steps.
+
+### Add Other Source Code Files
+
+The current configuration use a single source file: `server.c`.
+If looking to add another file to the build, update the [`Makefile.uk`](Makefile.uk) file.
+
+For example, to add a new file `support.c` to the build, update the [`Makefile.uk`](Makefile.uk) file to:
+
+```make
+$(eval $(call addlib,appchttp))
+
+APPCHTTP_SRCS-y += $(APPCHTTP_BASE)/server.c
+APPCHTTP_SRCS-y += $(APPCHTTP_BASE)/support.c
+```
+
+To add a new include directory, such as a local `include/` directory, update the [`Makefile.uk`](Makefile.uk) file to:
+
+```make
+$(eval $(call addlib,appchttp))
+
+APPCHTTP_SRCS-y += $(APPCHTTP_BASE)/server.c
+CINCLUDES-y += -I$(APPCHTTP_BASE)/include
+```
+
+Then go through the [configure](#configure), [build](#build) and [run](#run) steps.
+
+### Add Other Libraries
+
+It may be the case that you want to add another library to the build, in order to test the library or a certain feature.
+If that is the case, update the `UK_LIBS` variable in the [`Makefile`](Makefile).
+
+For example, to add the Musl library to the build, clone the [`lib-musl` library repository](https://github.com/unikraft/lib-musl):
+
+```console
+test -d ../repos/libs/musl || git clone https://github.com/unikraft/lib-musl ../repos/libs/musl
+```
+
+and update the `UK_LIBS` line the [`Makefile`](Makefile) to:
+
+```make
+UK_LIBS ?= $(LIBS_BASE)/musl:$(LIBS_BASE)/lwip
+```
+
+Then go through the [configure](#configure), [build](#build) and [run](#run) steps.
