@@ -1,0 +1,14 @@
+# Configure C HTTP application with networking, i.e. the use of LWIP.
+# Enable extendeded information for configuring network parameters.
+
+config APPCHTTP
+bool "Configure C HTTP with LWIP"
+default y
+
+	# Select LWIP networking stack library.
+	select LIBLWIP
+
+	# Use extended information (einfo) for configuring network parameters.
+	# This component parses the configuration string in the command line:
+	#    netdev.ip=172.44.0.2/24:172.44.0.1:::
+	select LIBUKNETDEV_EINFO_LIBPARAM
