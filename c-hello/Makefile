@@ -4,7 +4,7 @@ UK_APP ?= $(PWD)
 LIBS_BASE = $(PWD)/../repos/libs
 UK_LIBS ?=
 
-.PHONY: all defconfig
+.PHONY: all
 
 all:
 	@$(MAKE) -C $(UK_ROOT) L=$(UK_LIBS) A=$(UK_APP) O=$(UK_BUILD)
