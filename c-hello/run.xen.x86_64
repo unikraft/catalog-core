@@ -6,4 +6,4 @@ if test ! -f "out/c-hello_xen-x86_64"; then
     exit 1
 fi
 
-sudo xl create -c out/c-hello_xen-x86_64
+sudo xl create -c xen.x86_64.cfg
