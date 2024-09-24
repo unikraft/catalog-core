@@ -6,4 +6,4 @@ if test ! -f "out/c-hello_xen-arm64"; then
     exit 1
 fi
 
-sudo xl create -c out/c-hello_xen-arm64
+sudo xl create -c xen.arm64.cfg
