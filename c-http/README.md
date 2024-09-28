@@ -390,7 +390,7 @@ sudo xl destroy c-http
 
 ## Customize
 
-C Hello is the simplest networking application to be run with Unikraft.
+C HTTP is the simplest networking application to be run with Unikraft.
 This makes it ideal as a minimal testing ground for new features: it builds fast, it only has LWIP as a dependency.
 
 ### Update the Unikraft Core Code
