@@ -1,0 +1,12 @@
+# Configure C++ Hello application. Use C++ libraries.
+
+config APPCPPHELLO
+bool "Configure C++ Hello"
+default y
+
+	# Select C++ libraries.
+	select LIBCOMPILER_RT
+	select LIBCXX
+	select LIBCXXABI
+	select LIBUNWIND
+	select LIBMUSL
