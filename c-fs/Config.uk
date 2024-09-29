@@ -1,0 +1,13 @@
+# Configure C application that prints file contents.
+# This is useful to understand and test filesystem support in Unikraft.
+# Enable initrd / CPIO-related core components and configurations.
+
+config APPCFS
+bool "Configure C filesystem application with initrd as rootfs"
+default y
+
+	# Select filesystem core components: vfscore, cpio, ramfs.
+	select LIBVFSCORE
+	select LIBVFSCORE_AUTOMOUNT_UP
+	select LIBRAMFS
+	select LIBUKCPIO
