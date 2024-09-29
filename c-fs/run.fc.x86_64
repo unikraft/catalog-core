@@ -1,0 +1,16 @@
+#!/bin/sh
+
+if test ! -f "out/c-fs_fc-x86_64"; then
+    echo "No kernel file out/c-fs_fc-x86_64." 1>&2
+    echo "Did you run ./build.fc.x86_64 ?" 1>&2
+    exit 1
+fi
+
+# Pack filesystem as an initial ramdisk CPIO file.
+rm -f initrd.cpio
+../repos/unikraft/support/scripts/mkcpio initrd.cpio ./rootfs/
+
+rm -f firecracker.socket
+firecracker-x86_64 \
+        --api-sock firecracker.socket \
+        --config-file fc.x86_64.json
