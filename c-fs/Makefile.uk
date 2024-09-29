@@ -1,0 +1,3 @@
+$(eval $(call addlib,appcfs))
+
+APPCFS_SRCS-y += $(APPCFS_BASE)/cat.c
