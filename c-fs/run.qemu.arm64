@@ -1,0 +1,20 @@
+#!/bin/sh
+
+if test ! -f "out/c-fs_qemu-arm64"; then
+    echo "No kernel file out/c-fs_qemu-arm64." 1>&2
+    echo "Did you run ./build.qemu.arm64 ?" 1>&2
+    exit 1
+fi
+
+# Pack filesystem as an initial ramdisk CPIO file.
+rm -f initrd.cpio
+../repos/unikraft/support/scripts/mkcpio initrd.cpio ./rootfs/
+
+qemu-system-aarch64 \
+    -nographic \
+    -machine virt \
+    -m 8 \
+    -cpu max \
+    -kernel out/c-fs_qemu-arm64 \
+    -append "c-fs_qemu-x86_64 vfs.fstab=[ \"initrd0:/:extract::ramfs=1:\" ] -- /hello.txt" \
+    -initrd ./initrd.cpio

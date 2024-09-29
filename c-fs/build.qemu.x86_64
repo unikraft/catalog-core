@@ -1,0 +1,13 @@
+#!/bin/sh
+
+test -d "../repos/unikraft" || git clone https://github.com/unikraft/unikraft ../repos/unikraft
+
+make distclean
+UK_DEFCONFIG=$(pwd)/defconfig.qemu.x86_64 make defconfig
+touch Makefile.uk
+make prepare
+if test -z "$CC"; then
+    make -j $(nproc)
+else
+    make CC="$CC" -j $(nproc)
+fi
