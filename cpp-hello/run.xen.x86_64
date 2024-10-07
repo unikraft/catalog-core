@@ -1,0 +1,9 @@
+#!/bin/sh
+
+if test ! -f "out/cpp-hello_xen-x86_64"; then
+    echo "No kernel file out/cpp-hello_xen-x86_64." 1>&2
+    echo "Did you run ./build.xen.x86_64 ?" 1>&2
+    exit 1
+fi
+
+sudo xl create -c xen.x86_64.cfg
