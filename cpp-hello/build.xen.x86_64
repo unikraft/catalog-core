@@ -1,0 +1,18 @@
+#!/bin/sh
+
+test -d "../repos/unikraft" || git clone https://github.com/unikraft/unikraft ../repos/unikraft
+test -d "../repos/libs/libcxxabi" || git clone https://github.com/unikraft/lib-libcxxabi ../repos/libs/libcxxabi
+test -d "../repos/libs/libcxx" || git clone https://github.com/unikraft/lib-libcxx ../repos/libs/libcxx
+test -d "../repos/libs/libunwind" || git clone https://github.com/unikraft/lib-libunwind ../repos/libs/libunwind
+test -d "../repos/libs/compiler-rt" || git clone https://github.com/unikraft/lib-compiler-rt ../repos/libs/compiler-rt
+test -d "../repos/libs/musl" || git clone https://github.com/unikraft/lib-musl ../repos/libs/musl
+
+make distclean
+UK_DEFCONFIG=$(pwd)/defconfig.xen.x86_64 make defconfig
+touch Makefile.uk
+make prepare
+if test -z "$CC"; then
+    make -j $(nproc)
+else
+    make CC="$CC" -j $(nproc)
+fi
