@@ -1,0 +1,17 @@
+#!/bin/sh
+
+if test ! -f "out/python3-hello_xen-arm64"; then
+    echo "No kernel file out/python3-hello_xen-arm64." 1>&2
+    echo "Did you run ./build.xen.arm64 ?" 1>&2
+    exit 1
+fi
+
+# Generate root filesystem from Dockerfile.
+rm -fr ./rootfs
+docker build -o ./rootfs -f Dockerfile .
+
+# Pack filesystem as an initial ramdisk CPIO file.
+rm -f initrd.cpio
+../repos/unikraft/support/scripts/mkcpio initrd.cpio ./rootfs/
+
+sudo xl create -c xen.arm64.cfg
