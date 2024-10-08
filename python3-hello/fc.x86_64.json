@@ -1,0 +1,14 @@
+{
+  "boot-source": {
+    "kernel_image_path": "out/python3-hello_fc-x86_64",
+    "boot_args": "python3-hello_fc-x86_64 vfs.fstab=[ \"initrd0:/:extract::ramfs=1:\" ] env.vars=[ PYTHONPATH=\"/usr/local/lib/python3.10:/usr/local/lib/python3.10/site-packages\" ] -- /app/hello.py",
+    "initrd_path": "initrd.cpio"
+  },
+  "drives": [],
+  "machine-config": {
+    "vcpu_count": 1,
+    "mem_size_mib": 256,
+    "smt": false,
+    "track_dirty_pages": false
+  }
+}
