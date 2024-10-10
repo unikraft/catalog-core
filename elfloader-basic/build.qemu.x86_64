@@ -1,6 +1,6 @@
 #!/bin/sh
 
-test -d "../repos/unikraft" || git clone https://github.com/unikraft/unikraft ..../repos/unikraft
+test -d "../repos/unikraft" || git clone https://github.com/unikraft/unikraft ../repos/unikraft
 test -d "../repos/libs/libelf" || git clone https://github.com/unikraft/lib-libelf ../repos/libs/libelf
 
 make distclean
