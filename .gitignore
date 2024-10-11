@@ -38,3 +38,7 @@ out/
 *.zip
 *.Z
 *.7z
+
+# Test output files
+log.build.*
+log.run.*
