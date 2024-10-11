@@ -24,3 +24,7 @@ config APPPYTHON3
 	# required for passing the `PYTHONPATH` environment variable.
 	select LIBPOSIX_ENVIRON
 	select LIBPOSIX_ENVIRON_LIBPARAM
+
+	# Add randomness support.
+	select LIBUKRANDOM
+	select LIBUKRANDOM_GETRANDOM
