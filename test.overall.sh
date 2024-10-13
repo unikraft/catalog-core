@@ -1,6 +1,6 @@
 #!/bin/sh
 
-to_test="c-fs c-hello c-http cpp-hello elfloader-basic nginx python3-hello"
+to_test="c-fs c-hello c-http cpp-hello elfloader-basic elfloader-net nginx python3-hello"
 
 if test $# -eq 1; then
     to_test="$1"
