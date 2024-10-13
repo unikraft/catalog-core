@@ -1,0 +1,36 @@
+#!/bin/sh
+
+if test ! -f "out/elfloader_qemu-x86_64"; then
+    echo "No kernel file out/elfloader_qemu-x86_64." 1>&2
+    echo "Did you run ./build.qemu.x86_64 ?" 1>&2
+    exit 1
+fi
+
+{
+# Remove previously created network interface.
+sudo ip link set dev virbr0 down
+sudo ip link del dev virbr0
+sudo ip link set dev tap0 down
+sudo ip link del dev tap0
+} > /dev/null 2>&1
+
+# Create bridge interface for QEMU networking.
+sudo ip link add dev virbr0 type bridge
+sudo ip address add 172.44.0.1/24 dev virbr0
+sudo ip link set dev virbr0 up
+
+# Build ELFs.
+make -C rootfs/
+
+# Pack filesystem as an initial ramdisk CPIO file.
+rm -f initrd.cpio
+../repos/unikraft/support/scripts/mkcpio initrd.cpio ./rootfs/
+
+sudo qemu-system-x86_64 \
+    -nographic \
+    -m 64 \
+    -cpu max \
+    -netdev bridge,id=en0,br=virbr0 -device virtio-net-pci,netdev=en0 \
+    -append "elfloader_qemu-x86_64 netdev.ip=172.44.0.2/24:172.44.0.1::: vfs.fstab=[ \"initrd0:/:extract::ramfs=1:\" ] -- /c-server" \
+    -kernel out/elfloader_qemu-x86_64 \
+    -initrd ./initrd.cpio
