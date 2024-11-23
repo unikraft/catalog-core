@@ -18,6 +18,7 @@ To build and run a Hello Linux ELF using the Unikraft ELF Loader, use the comman
 
 ```console
 test -d ../repos/unikraft || git clone https://github.com/unikraft/unikraft ../repos/unikraft
+test -d ../repos/apps/elfloader || git clone https://github.com/unikraft/app-elfloader ../repos/apps/elfloader
 test -d ../repos/libs/libelf || git clone https://github.com/unikraft/lib-libelf ../repos/libs/libelf
 make distclean
 > /tmp/defconfig echo 'CONFIG_PLAT_KVM=y
@@ -76,6 +77,7 @@ Clone them in `../repos/` if not already cloned:
 
 ```console
 test -d "../repos/unikraft" || git clone https://github.com/unikraft/unikraft ../repos/unikraft
+test -d "../repos/apps/elfloader" || git clone https://github.com/unikraft/app-elfloader ../repos/apps/elfloader
 test -d "../repos/libs/libelf" || git clone https://github.com/unikraft/lib-libelf ../repos/libs/libelf
 ```
 
