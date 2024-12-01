@@ -58,7 +58,7 @@ sudo qemu-system-x86_64 \
     -cpu max \
     -netdev bridge,id=en0,br=virbr0 -device virtio-net-pci,netdev=en0 \
     -append "elfloader_qemu-x86_64 netdev.ip=172.44.0.2/24:172.44.0.1::: vfs.fstab=[ \"initrd0:/:extract::ramfs=1:\" ] -- /c-server" \
-    -kernel out/elfloader_qemu-x86_64 \
+    -kernel workdir/build/elfloader_qemu-x86_64 \
     -initrd ./initrd.cpio
 ```
 
@@ -124,8 +124,8 @@ Build the application for the current configuration:
 make -j $(nproc)
 ```
 
-This results in the creation of the `out/` directory storing the build artifacts.
-The unikernel application image file is `out/elfloader_<plat>-x86_64`, where `<plat>` is the platform name (`qemu`, `fc`).
+This results in the creation of the `workdir/build/` directory storing the build artifacts.
+The unikernel application image file is `workdir/build/elfloader_<plat>-x86_64`, where `<plat>` is the platform name (`qemu`, `fc`).
 
 ### Use a Different Compiler
 
@@ -171,7 +171,7 @@ In order to remove the build artifacts, use:
 make clean
 ```
 
-In order to remove fetched files also, that is the removal of the `out/` directory, use:
+In order to remove fetched files also, that is the removal of the `workdir/build/` directory, use:
 
 ```console
 make properclean
@@ -231,7 +231,7 @@ sudo qemu-system-x86_64 \
     -cpu max \
     -netdev bridge,id=en0,br=virbr0 -device virtio-net-pci,netdev=en0 \
     -append "elfloader_qemu-x86_64 netdev.ip=172.44.0.2/24:172.44.0.1::: vfs.fstab=[ \"initrd0:/:extract::ramfs=1:\" ] -- /c-server" \
-    -kernel out/elfloader_qemu-x86_64 \
+    -kernel workdir/build/elfloader_qemu-x86_64 \
     -initrd ./initrd.cpio
 ```
 
@@ -313,7 +313,7 @@ For other ELFs, you need to follow the steps:
        -cpu max \
        -netdev bridge,id=en0,br=virbr0 -device virtio-net-pci,netdev=en0 \
        -append "elfloader_qemu-x86_64 netdev.ip=172.44.0.2/24:172.44.0.1::: vfs.fstab=[ \"initrd0:/:extract::ramfs=1:\" ] -- /<new-command-here>" \
-       -kernel out/elfloader_qemu-x86_64 \
+       -kernel workdir/build/elfloader_qemu-x86_64 \
        -initrd ./initrd.cpio
    ```
 
