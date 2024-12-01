@@ -13,13 +13,12 @@ The Unikraft ELF Loader currently runs on x86_64 (ARM64 work is underway) and on
 
 For a quick setup, run the commands below.
 Note that you still need to install the [requirements](../README.md#requirements).
+Before everything, make sure you run the [top-level `setup.sh` script](../setup.sh).
 
 To build and run a Hello Linux ELF using the Unikraft ELF Loader, use the commands below:
 
 ```console
-test -d ../repos/unikraft || git clone https://github.com/unikraft/unikraft ../repos/unikraft
-test -d ../repos/apps/elfloader || git clone https://github.com/unikraft/app-elfloader ../repos/apps/elfloader
-test -d ../repos/libs/libelf || git clone https://github.com/unikraft/lib-libelf ../repos/libs/libelf
+./setup.sh
 make distclean
 > /tmp/defconfig echo 'CONFIG_PLAT_KVM=y
 CONFIG_KVM_VMM_QEMU=y
@@ -45,7 +44,7 @@ CONFIG_LIBDEVFS_AUTOMOUNT=y'
 UK_DEFCONFIG=/tmp/defconfig make defconfig
 make -j $(nproc)
 make -C rootfs/
-test -f initrd.cpio || ../repos/unikraft/support/scripts/mkcpio initrd.cpio ./rootfs/
+test -f initrd.cpio || ./workdir/unikraft/support/scripts/mkcpio initrd.cpio ./rootfs/
 qemu-system-x86_64 \
     -nographic \
     -m 64 \
@@ -73,15 +72,21 @@ The resulting ELF will be packed in an initial ramdisk CPIO file and will be pas
 ## Set Up
 
 Set up the required repositories.
-Clone them in `../repos/` if not already cloned:
+For this, you have two options:
 
-```console
-test -d "../repos/unikraft" || git clone https://github.com/unikraft/unikraft ../repos/unikraft
-test -d "../repos/apps/elfloader" || git clone https://github.com/unikraft/app-elfloader ../repos/apps/elfloader
-test -d "../repos/libs/libelf" || git clone https://github.com/unikraft/lib-libelf ../repos/libs/libelf
-```
+1. Use the `setup.sh` script:
 
-If you want use a custom variant of a repository (e.g. apply your own patch, make modifications), update it accordingly in the `../repos/` directory.
+   ```console
+   ./setup.sh
+   ```
+
+   It will create symbolic links to the required repositories in `../repos/`.
+   Be sure to run the [top-level `setup.sh` script](../setup.sh).
+
+   If you want use a custom variant of repositories (e.g. apply your own patch, make modifications), update it accordingly in the `../repos/` directory.
+
+1. Have your custom setup of repositories in the `workdir/` directory.
+   Clone, update and customize repositories to your own needs.
 
 ## Clean
 
@@ -145,7 +150,7 @@ Use the command below for that:
 
 ```console
 rm -f initrd.cpio
-../repos/unikraft/support/scripts/mkcpio initrd.cpio ./rootfs/
+./workdir/unikraft/support/scripts/mkcpio initrd.cpio ./rootfs/
 ```
 
 ## Clean Up
