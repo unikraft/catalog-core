@@ -1,9 +1,9 @@
 #!/bin/sh
 
-. ./test.common.sh
+. ./scripts/test/common.sh
 
 default_host=172.44.0.2
-default_port=8080
+default_port=80
 
 if test $# -eq 1; then
     echo "Host and port unspecified." 1>&2
@@ -28,7 +28,7 @@ start_instance
 # Wait for start.
 sleep 3
 
-./test.sh
+./scripts/test/single.sh
 if test $? -ne 0; then
     exit 1
 fi
