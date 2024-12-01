@@ -1,7 +1,7 @@
 #!/bin/sh
 
-if test ! -f "out/nginx_qemu-arm64"; then
-    echo "No kernel file out/nginx_qemu-arm64." 1>&2
+if test ! -f "workdir/build/nginx_qemu-arm64"; then
+    echo "No kernel file workdir/build/nginx_qemu-arm64." 1>&2
     echo "Did you run ./build.qemu.arm64 ?" 1>&2
     exit 1
 fi
@@ -30,5 +30,5 @@ sudo qemu-system-aarch64 \
     -cpu max \
     -netdev bridge,id=en0,br=virbr0 -device virtio-net-pci,netdev=en0 \
     -append "nginx netdev.ip=172.44.0.2/24:172.44.0.1::: vfs.fstab=[ \"initrd0:/:extract::ramfs=1:\" ] -- -c /nginx/conf/nginx.conf" \
-    -kernel out/nginx_qemu-arm64 \
+    -kernel workdir/build/nginx_qemu-arm64 \
     -initrd ./initrd.cpio
