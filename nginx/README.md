@@ -44,7 +44,7 @@ sudo qemu-system-x86_64 \
     -cpu max \
     -netdev bridge,id=en0,br=virbr0 -device virtio-net-pci,netdev=en0 \
     -append "nginx netdev.ip=172.44.0.2/24:172.44.0.1::: vfs.fstab=[ \"initrd0:/:extract::ramfs=1:\" ] -- -c /nginx/conf/nginx.conf" \
-    -kernel out/nginx_qemu-x86_64 \
+    -kernel workdir/build/nginx_qemu-x86_64 \
     -initrd ./initrd.cpio
 ```
 
@@ -89,7 +89,7 @@ sudo qemu-system-aarch64 \
     -cpu max \
     -netdev bridge,id=en0,br=virbr0 -device virtio-net-pci,netdev=en0 \
     -append "nginx netdev.ip=172.44.0.2/24:172.44.0.1::: vfs.fstab=[ \"initrd0:/:extract::ramfs=1:\" ] -- -c /nginx/conf/nginx.conf" \
-    -kernel out/nginx_qemu-arm64 \
+    -kernel workdir/build/nginx_qemu-arm64 \
     -initrd ./initrd.cpio
 ```
 
@@ -144,8 +144,8 @@ Build the application for the current configuration:
 make -j $(nproc)
 ```
 
-This results in the creation of the `out/` directory storing the build artifacts.
-The unikernel application image file is `out/nginx_<plat>-<arch>`, where `<plat>` is the platform name (`qemu`, `fc`, `xen`), and `<arch>` is the architecture (`x86_64` or `arm64`).
+This results in the creation of the `workdir/build/` directory storing the build artifacts.
+The unikernel application image file is `workdir/build/nginx_<plat>-<arch>`, where `<plat>` is the platform name (`qemu`, `fc`, `xen`), and `<arch>` is the architecture (`x86_64` or `arm64`).
 
 ### Use a Different Compiler
 
@@ -191,7 +191,7 @@ In order to remove the build artifacts, use:
 make clean
 ```
 
-In order to remove fetched files also, that is the removal of the `out/` directory, use:
+In order to remove fetched files also, that is the removal of the `workdir/build/` directory, use:
 
 ```console
 make properclean
@@ -250,7 +250,7 @@ sudo qemu-system-x86_64 \
     -cpu max \
     -netdev bridge,id=en0,br=virbr0 -device virtio-net-pci,netdev=en0 \
     -append "nginx netdev.ip=172.44.0.2/24:172.44.0.1::: vfs.fstab=[ \"initrd0:/:extract::ramfs=1:\" ] -- -c /nginx/conf/nginx.conf" \
-    -kernel out/nginx_qemu-x86_64 \
+    -kernel workdir/build/nginx_qemu-x86_64 \
     -initrd ./initrd.cpio
 ```
 
@@ -282,7 +282,7 @@ sudo qemu-system-aarch64 \
     -cpu max \
     -netdev bridge,id=en0,br=virbr0 -device virtio-net-pci,netdev=en0 \
     -append "nginx netdev.ip=172.44.0.2/24:172.44.0.1::: vfs.fstab=[ \"initrd0:/:extract::ramfs=1:\" ] -- -c /nginx/conf/nginx.conf" \
-    -kernel out/nginx_qemu-arm64 \
+    -kernel workdir/build/nginx_qemu-arm64 \
     -initrd ./initrd.cpio
 ```
 
@@ -515,7 +515,7 @@ sudo qemu-system-x86_64 \
     -cpu max \
     -netdev bridge,id=en0,br=virbr0 -device virtio-net-pci,netdev=en0 \
     -append "nginx netdev.ip=172.44.0.2/24:172.44.0.1::: vfs.fstab=[ \"fs0:/:9pfs:::\" ] -- -c /nginx/conf/nginx.conf" \
-    -kernel out/nginx_qemu-x86_64 \
+    -kernel workdir/build/nginx_qemu-x86_64 \
     -fsdev local,id=myid,path=$(pwd)/9pfs-rootfs/,security_model=none \
     -device virtio-9p-pci,fsdev=myid,mount_tag=fs0
 ```

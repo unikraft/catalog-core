@@ -31,7 +31,7 @@ qemu-system-x86_64 \
     -nographic \
     -m 8 \
     -cpu max \
-    -kernel out/c-fs_qemu-x86_64 \
+    -kernel workdir/build/c-fs_qemu-x86_64 \
     -append "c-fs_qemu-x86_64 vfs.fstab=[ \"initrd0:/:extract::ramfs=1:\" ] -- /hello.txt" \
     -initrd ./initrd.cpio
 ```
@@ -111,8 +111,8 @@ Build the application for the current configuration:
 make -j $(nproc)
 ```
 
-This results in the creation of the `out/` directory storing the build artifacts.
-The unikernel application image file is `out/c-fs_<plat>-<arch>`, where `<plat>` is the platform name (`qemu`, `fc`, `xen`), and `<arch>` is the architecture (`x86_64` or `arm64`).
+This results in the creation of the `workdir/build/` directory storing the build artifacts.
+The unikernel application image file is `workdir/build/c-fs_<plat>-<arch>`, where `<plat>` is the platform name (`qemu`, `fc`, `xen`), and `<arch>` is the architecture (`x86_64` or `arm64`).
 
 ### Use a Different Compiler
 
@@ -158,7 +158,7 @@ In order to remove the build artifacts, use:
 make clean
 ```
 
-In order to remove fetched files also, that is the removal of the `out/` directory, use:
+In order to remove fetched files also, that is the removal of the `workdir/build/` directory, use:
 
 ```console
 make properclean
@@ -196,7 +196,7 @@ qemu-system-x86_64 \
     -nographic \
     -m 8 \
     -cpu max \
-    -kernel out/c-fs_qemu-x86_64 \
+    -kernel workdir/build/c-fs_qemu-x86_64 \
     -append "c-fs_qemu-x86_64 vfs.fstab=[ \"initrd0:/:extract::ramfs=1:\" ] -- /hello.txt" \
     -initrd ./initrd.cpio
 ```
@@ -209,7 +209,7 @@ qemu-system-aarch64 \
     -machine virt \
     -m 8 \
     -cpu max \
-    -kernel out/c-fs_qemu-arm64 \
+    -kernel workdir/build/c-fs_qemu-arm64 \
     -append "c-fs_qemu-x86_64 vfs.fstab=[ \"initrd0:/:extract::ramfs=1:\" ] -- /hello.txt" \
     -initrd ./initrd.cpio
 ```

@@ -1,6 +1,6 @@
 {
   "boot-source": {
-    "kernel_image_path": "out/c-http_fc-arm64",
+    "kernel_image_path": "workdir/build/c-http_fc-arm64",
     "boot_args": "c-http_fc-arm64 netdev.ip=172.44.0.2/24:172.44.0.1::: -- placeholder"
   },
   "drives": [],
