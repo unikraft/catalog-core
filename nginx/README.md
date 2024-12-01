@@ -8,14 +8,12 @@ Make sure you installed the [requirements](../README.md#requirements).
 
 For a quick setup, run the commands below.
 Note that you still need to install the [requirements](../README.md#requirements).
+Before everything, make sure you run the [top-level `setup.sh` script](../setup.sh).
 
 To build and run the application for `x86_64`, use the commands below:
 
 ```console
-test -d ../repos/unikraft || git clone https://github.com/unikraft/unikraft ../repos/unikraft
-test -d ../repos/libs/musl || git clone https://github.com/unikraft/lib-musl ../repos/libs/musl
-test -d ../repos/libs/lwip || git clone https://github.com/unikraft/lib-lwip ../repos/libs/lwip
-test -d ../repos/libs/nginx || git clone https://github.com/unikraft/lib-nginx ../repos/libs/nginx
+./setup.sh
 make distclean
 > /tmp/defconfig echo 'CONFIG_PLAT_KVM=y
 CONFIG_KVM_VMM_QEMU=y
@@ -39,7 +37,7 @@ sudo ip link del dev virbr0
 sudo ip link add dev virbr0 type bridge
 sudo ip address add 172.44.0.1/24 dev virbr0
 sudo ip link set dev virbr0 up
-test -f initrd.cpio || ../repos/unikraft/support/scripts/mkcpio initrd.cpio ./rootfs/
+test -f initrd.cpio || ./workdir/unikraft/support/scripts/mkcpio initrd.cpio ./rootfs/
 sudo qemu-system-x86_64 \
     -nographic \
     -m 8 \
@@ -57,10 +55,7 @@ To close the virtual machine, see the instructions in the ["Close QEMU" section]
 To do the same for `AArch64`, run the commands below:
 
 ```console
-test -d ../repos/unikraft || git clone https://github.com/unikraft/unikraft ../repos/unikraft
-test -d ../repos/libs/musl || git clone https://github.com/unikraft/lib-musl ../repos/libs/musl
-test -d ../repos/libs/lwip || git clone https://github.com/unikraft/lib-lwip ../repos/libs/lwip
-test -d ../repos/libs/nginx || git clone https://github.com/unikraft/lib-nginx ../repos/libs/nginx
+./setup.sh
 make distclean
 > /tmp/defconfig echo 'CONFIG_PLAT_KVM=y
 CONFIG_KVM_VMM_QEMU=y
@@ -87,7 +82,7 @@ sudo ip link del dev virbr0
 sudo ip link add dev virbr0 type bridge
 sudo ip address add 172.44.0.1/24 dev virbr0
 sudo ip link set dev virbr0 up
-test -f initrd.cpio || ../repos/unikraft/support/scripts/mkcpio initrd.cpio ./rootfs/
+test -f initrd.cpio || ./workdir/unikraft/support/scripts/mkcpio initrd.cpio ./rootfs/
 sudo qemu-system-aarch64 \
     -nographic \
     -m 8 \
@@ -105,16 +100,21 @@ Information about every step and about other types of builds is detailed below.
 ## Set Up
 
 Set up the required repositories.
-Clone them in `../repos/` if not already cloned:
+For this, you have two options:
 
-```console
-test -d "../repos/unikraft" || git clone https://github.com/unikraft/unikraft ../repos/unikraft
-test -d "../repos/libs/musl" || git clone https://github.com/unikraft/lib-musl ../repos/libs/musl
-test -d "../repos/libs/nginx" || git clone https://github.com/unikraft/lib-nginx ../repos/libs/nginx
-test -d "../repos/libs/lwip" || git clone https://github.com/unikraft/lib-lwip ../repos/libs/lwip
-```
+1. Use the `setup.sh` script:
 
-If you want use a custom variant of a repository (e.g. apply your own patch, make modifications), update it accordingly in the `../repos/` directory.
+   ```console
+   ./setup.sh
+   ```
+
+   It will create symbolic links to the required repositories in `../repos/`.
+   Be sure to run the [top-level `setup.sh` script](../setup.sh).
+
+   If you want use a custom variant of repositories (e.g. apply your own patch, make modifications), update it accordingly in the `../repos/` directory.
+
+1. Have your custom setup of repositories in the `workdir/` directory.
+   Clone, update and customize repositories to your own needs.
 
 ## Clean
 
@@ -178,7 +178,7 @@ Use the command below for that:
 
 ```console
 rm -f initrd.cpio
-../repos/unikraft/support/scripts/mkcpio initrd.cpio ./rootfs/
+./workdir/unikraft/support/scripts/mkcpio initrd.cpio ./rootfs/
 ```
 
 ## Clean Up
