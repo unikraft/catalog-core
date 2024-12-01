@@ -18,7 +18,7 @@ make distclean
 echo -e 'CONFIG_PLAT_KVM=y\nCONFIG_PLAT_KVM_VMM_QEMU=y\nCONFIG_ARCH_X86_64=y' > /tmp/defconfig
 UK_DEFCONFIG=/tmp/defconfig make defconfig
 make -j $(nproc)
-qemu-system-x86_64 -nographic -m 8 -cpu max -kernel out/c-hello_qemu-x86_64
+qemu-system-x86_64 -nographic -m 8 -cpu max -kernel workdir/build/c-hello_qemu-x86_64
 ```
 
 This will configure, build and run the application, resulting in a `Hello from Unikraft!` message being printed.
@@ -31,7 +31,7 @@ make distclean
 echo -e 'CONFIG_PLAT_KVM=y\nCONFIG_PLAT_KVM_VMM_QEMU=y\nCONFIG_ARCH_ARM_64=y' > /tmp/defconfig
 UK_DEFCONFIG=/tmp/defconfig make defconfig
 make -j $(nproc)
-qemu-system-aarch64 -nographic -machine virt -m 8 -cpu max -kernel out/c-hello_qemu-arm64
+qemu-system-aarch64 -nographic -machine virt -m 8 -cpu max -kernel workdir/build/c-hello_qemu-arm64
 ```
 
 Similar to the `x86_64` build, this will result in a `Hello from Unikraft!` message being printed.
@@ -85,8 +85,8 @@ Build the application for the current configuration:
 make -j $(nproc)
 ```
 
-This results in the creation of the `out/` directory storing the build artifacts.
-The unikernel application image file is `out/c-hello_<plat>-<arch>`, where `<plat>` is the platform name (`qemu`, `fc`, `xen`), and `<arch>` is the architecture (`x86_64` or `arm64`).
+This results in the creation of the `workdir/build/` directory storing the build artifacts.
+The unikernel application image file is `workdir/build/c-hello_<plat>-<arch>`, where `<plat>` is the platform name (`qemu`, `fc`, `xen`), and `<arch>` is the architecture (`x86_64` or `arm64`).
 
 ### Use a Different Compiler
 
@@ -122,7 +122,7 @@ In order to remove the build artifacts, use:
 make clean
 ```
 
-In order to remove fetched files also, that is the removal of the `out/` directory, use:
+In order to remove fetched files also, that is the removal of the `workdir/build/` directory, use:
 
 ```console
 make properclean
@@ -156,13 +156,13 @@ Hello from Unikraft!
 ### Run on QEMU/x86_64
 
 ```console
-qemu-system-x86_64 -nographic -m 8 -cpu max -kernel out/c-hello_qemu-x86_64
+qemu-system-x86_64 -nographic -m 8 -cpu max -kernel workdir/build/c-hello_qemu-x86_64
 ```
 
 ### Run on QEMU/ARM64
 
 ```console
-qemu-system-aarch64 -nographic -machine virt -m 8 -cpu max -kernel out/c-hello_qemu-arm64
+qemu-system-aarch64 -nographic -machine virt -m 8 -cpu max -kernel workdir/build/c-hello_qemu-arm64
 ```
 
 ### Run on Firecracker/x86_64

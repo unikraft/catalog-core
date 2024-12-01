@@ -36,7 +36,7 @@ qemu-system-x86_64 \
     -m 256 \
     -cpu max \
     -append "python3-hello_qemu-x86_64 vfs.fstab=[ \"initrd0:/:extract::ramfs=1:\" ] env.vars=[ PYTHONPATH=\"/usr/local/lib/python3.10:/usr/local/lib/python3.10/site-packages\" ] -- /app/hello.py" \
-    -kernel out/python3-hello_qemu-x86_64 \
+    -kernel workdir/build/python3-hello_qemu-x86_64 \
     -initrd ./initrd.cpio
 ```
 
@@ -74,7 +74,7 @@ qemu-system-aarch64 \
     -m 256 \
     -cpu max \
     -append "python3-hello_qemu-arm64 vfs.fstab=[ \"initrd0:/:extract::ramfs=1:\" ] env.vars=[ PYTHONPATH=\"/usr/local/lib/python3.10:/usr/local/lib/python3.10/site-packages\" ] -- /app/hello.py" \
-    -kernel out/python3-hello_qemu-arm64 \
+    -kernel workdir/build/python3-hello_qemu-arm64 \
     -initrd ./initrd.cpio
 ```
 
@@ -131,8 +131,8 @@ Build the application for the current configuration:
 make -j $(nproc)
 ```
 
-This results in the creation of the `out/` directory storing the build artifacts.
-The unikernel application image file is `out/python3-hello_<plat>-<arch>`, where `<plat>` is the platform name (`qemu`, `fc`, `xen`), and `<arch>` is the architecture (`x86_64` or `arm64`).
+This results in the creation of the `workdir/build/` directory storing the build artifacts.
+The unikernel application image file is `workdir/build/python3-hello_<plat>-<arch>`, where `<plat>` is the platform name (`qemu`, `fc`, `xen`), and `<arch>` is the architecture (`x86_64` or `arm64`).
 
 ### Use a Different Compiler
 
@@ -186,7 +186,7 @@ In order to remove the build artifacts, use:
 make clean
 ```
 
-In order to remove fetched files also, that is the removal of the `out/` directory, use:
+In order to remove fetched files also, that is the removal of the `workdir/build/` directory, use:
 
 ```console
 make properclean
@@ -230,7 +230,7 @@ qemu-system-x86_64 \
     -m 256 \
     -cpu max \
     -append "python3-hello_qemu-x86_64 vfs.fstab=[ \"initrd0:/:extract::ramfs=1:\" ] env.vars=[ PYTHONPATH=\"/usr/local/lib/python3.10:/usr/local/lib/python3.10/site-packages\" ] -- /app/hello.py" \
-    -kernel out/python3-hello_qemu-x86_64 \
+    -kernel workdir/build/python3-hello_qemu-x86_64 \
     -initrd ./initrd.cpio
 ```
 
@@ -243,7 +243,7 @@ qemu-system-aarch64 \
     -m 256 \
     -cpu max \
     -append "python3-hello_qemu-arm64 vfs.fstab=[ \"initrd0:/:extract::ramfs=1:\" ] env.vars=[ PYTHONPATH=\"/usr/local/lib/python3.10:/usr/local/lib/python3.10/site-packages\" ] -- /app/hello.py" \
-    -kernel out/python3-hello_qemu-arm64 \
+    -kernel workdir/build/python3-hello_qemu-arm64 \
     -initrd ./initrd.cpio
 ```
 
@@ -398,7 +398,7 @@ qemu-system-x86_64 \
     -fsdev local,id=myid,path=$(pwd)/9pfs-rootfs/,security_model=none \
     -device virtio-9p-pci,fsdev=myid,mount_tag=fs0 \
     -append "python3-hello_qemu-x86_64 vfs.fstab=[ \"fs0:/:9pfs:::\" ] env.vars=[ PYTHONPATH=\"/usr/local/lib/python3.10:/usr/local/lib/python3.10/site-packages\" ] -- /app/hello.py" \
-    -kernel out/python3-hello_qemu-x86_64
+    -kernel workdir/build/python3-hello_qemu-x86_64
 ```
 
 You would use a similar command for QEMU/ARM64.
