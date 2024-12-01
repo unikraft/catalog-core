@@ -1,6 +1,6 @@
 #!/bin/sh
 
-. ./test.common.sh
+. ./scripts/test/common.sh
 
 if test $# -ne 1; then
     echo "Unknown arguments." 1>&2

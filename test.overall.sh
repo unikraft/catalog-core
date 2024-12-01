@@ -6,11 +6,13 @@ if test $# -eq 1; then
     to_test="$1"
 fi
 
+./setup.sh
+
 for d in $to_test; do
     echo "[$d]"
     echo ""
     cd "$d"
-    ./test.all.sh
+    ./scripts/test/all.sh
     cd ..
     echo ""
 done
