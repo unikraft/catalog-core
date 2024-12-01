@@ -33,7 +33,7 @@ sudo qemu-system-x86_64 \
     -cpu max \
     -netdev bridge,id=en0,br=virbr0 -device virtio-net-pci,netdev=en0 \
     -append "c-http netdev.ip=172.44.0.2/24:172.44.0.1::: -- " \
-    -kernel out/c-http_qemu-x86_64
+    -kernel workdir/build/c-http_qemu-x86_64
 ```
 
 This will configure, build and run C HTTP on Unikraft.
@@ -66,7 +66,7 @@ sudo qemu-system-aarch64 \
     -cpu max \
     -netdev bridge,id=en0,br=virbr0 -device virtio-net-pci,netdev=en0 \
     -append "c-http netdev.ip=172.44.0.2/24:172.44.0.1::: -- " \
-    -kernel out/c-http_qemu-arm64
+    -kernel workdir/build/c-http_qemu-arm64
 ```
 
 Similar to the `x86_64` build, this will configure, build and run C HTTP on Unikraft.
@@ -120,8 +120,8 @@ Build the application for the current configuration:
 make -j $(nproc)
 ```
 
-This results in the creation of the `out/` directory storing the build artifacts.
-The unikernel application image file is `out/c-http_<plat>-<arch>`, where `<plat>` is the platform name (`qemu`, `fc`, `xen`), and `<arch>` is the architecture (`x86_64` or `arm64`).
+This results in the creation of the `workdir/build/` directory storing the build artifacts.
+The unikernel application image file is `workdir/build/c-http_<plat>-<arch>`, where `<plat>` is the platform name (`qemu`, `fc`, `xen`), and `<arch>` is the architecture (`x86_64` or `arm64`).
 
 ### Use a Different Compiler
 
@@ -157,7 +157,7 @@ In order to remove the build artifacts, use:
 make clean
 ```
 
-In order to remove fetched files also, that is the removal of the `out/` directory, use:
+In order to remove fetched files also, that is the removal of the `workdir/build/` directory, use:
 
 ```console
 make properclean
@@ -216,7 +216,7 @@ sudo qemu-system-x86_64 \
     -cpu max \
     -netdev bridge,id=en0,br=virbr0 -device virtio-net-pci,netdev=en0 \
     -append "c-http netdev.ip=172.44.0.2/24:172.44.0.1::: -- " \
-    -kernel out/c-http_qemu-x86_64
+    -kernel workdir/build/c-http_qemu-x86_64
 ```
 
 You need use `sudo` or the `root` account to run QEMU with bridged networking.
@@ -247,7 +247,7 @@ sudo qemu-system-aarch64 \
     -cpu max \
     -netdev bridge,id=en0,br=virbr0 -device virtio-net-pci,netdev=en0 \
     -append "c-http netdev.ip=172.44.0.2/24:172.44.0.1::: -- " \
-    -kernel out/c-http_qemu-arm64
+    -kernel workdir/build/c-http_qemu-arm64
 ```
 
 You need use `sudo` or the `root` account to run QEMU with bridged networking.
