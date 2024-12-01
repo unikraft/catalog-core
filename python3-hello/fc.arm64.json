@@ -1,6 +1,6 @@
 {
   "boot-source": {
-    "kernel_image_path": "out/python3-hello_fc-arm64",
+    "kernel_image_path": "workdir/build/python3-hello_fc-arm64",
     "boot_args": "python3-hello_fc-arm64 vfs.fstab=[ \"initrd0:/:extract::ramfs=1:\" ] env.vars=[ PYTHONPATH=\"/usr/local/lib/python3.10:/usr/local/lib/python3.10/site-packages\" ] -- /app/hello.py",
     "initrd_path": "initrd.cpio"
   },
