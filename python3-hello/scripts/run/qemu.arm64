@@ -1,7 +1,7 @@
 #!/bin/sh
 
-if test ! -f "out/python3-hello_qemu-arm64"; then
-    echo "No kernel file out/python3-hello_qemu-arm64." 1>&2
+if test ! -f "workdir/build/python3-hello_qemu-arm64"; then
+    echo "No kernel file workdir/build/python3-hello_qemu-arm64." 1>&2
     echo "Did you run ./build.qemu.arm64 ?" 1>&2
     exit 1
 fi
@@ -20,5 +20,5 @@ qemu-system-aarch64 \
     -m 256 \
     -cpu max \
     -append "python3-hello_qemu-arm64 vfs.fstab=[ \"initrd0:/:extract::ramfs=1:\" ] env.vars=[ PYTHONPATH=\"/usr/local/lib/python3.10:/usr/local/lib/python3.10/site-packages\" ] -- /app/hello.py" \
-    -kernel out/python3-hello_qemu-arm64 \
+    -kernel workdir/build/python3-hello_qemu-arm64 \
     -initrd ./initrd.cpio

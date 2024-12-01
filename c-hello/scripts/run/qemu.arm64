@@ -1,7 +1,7 @@
 #!/bin/sh
 
-if test ! -f "out/c-hello_qemu-arm64"; then
-    echo "No kernel file out/c-hello_qemu-arm64." 1>&2
+if test ! -f "workdir/build/c-hello_qemu-arm64"; then
+    echo "No kernel file workdir/build/c-hello_qemu-arm64." 1>&2
     echo "Did you run ./build.qemu.arm64 ?" 1>&2
     exit 1
 fi
@@ -11,4 +11,4 @@ qemu-system-aarch64 \
     -machine virt \
     -m 8 \
     -cpu max \
-    -kernel out/c-hello_qemu-arm64
+    -kernel workdir/build/c-hello_qemu-arm64
