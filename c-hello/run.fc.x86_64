@@ -1,7 +1,7 @@
 #!/bin/sh
 
-if test ! -f "out/c-hello_fc-x86_64"; then
-    echo "No kernel file out/c-hello_fc-x86_64." 1>&2
+if test ! -f "workdir/build/c-hello_fc-x86_64"; then
+    echo "No kernel file workdir/build/c-hello_fc-x86_64." 1>&2
     echo "Did you run ./build.fc.x86_64 ?" 1>&2
     exit 1
 fi
