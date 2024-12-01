@@ -1,7 +1,7 @@
-UK_ROOT ?= $(PWD)/../repos/unikraft
+UK_ROOT ?= $(PWD)/workdir/unikraft
 UK_BUILD ?= $(PWD)/out
 UK_APP ?= $(PWD)
-LIBS_BASE = $(PWD)/../repos/libs
+LIBS_BASE = $(PWD)/workdir/libs
 UK_LIBS ?= $(LIBS_BASE)/lwip
 
 .PHONY: all
