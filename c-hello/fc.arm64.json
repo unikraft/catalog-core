@@ -1,6 +1,6 @@
 {
   "boot-source": {
-    "kernel_image_path": "out/c-hello_fc-arm64"
+    "kernel_image_path": "workdir/build/c-hello_fc-arm64"
   },
   "drives": [],
   "machine-config": {
