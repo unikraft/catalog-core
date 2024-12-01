@@ -1,6 +1,6 @@
 {
   "boot-source": {
-    "kernel_image_path": "out/nginx_fc-arm64",
+    "kernel_image_path": "workdir/build/nginx_fc-arm64",
     "boot_args": "nginx_fc-arm64 netdev.ip=172.44.0.2/24:172.44.0.1::: vfs.fstab=[ \"initrd0:/:extract::ramfs=1:\" ] -- -c /nginx/conf/nginx.conf",
     "initrd_path": "initrd.cpio"
   },

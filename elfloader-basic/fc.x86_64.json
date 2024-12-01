@@ -1,6 +1,6 @@
 {
   "boot-source": {
-    "kernel_image_path": "out/elfloader_fc-x86_64",
+    "kernel_image_path": "workdir/build/elfloader_fc-x86_64",
     "boot_args": "elfloader_fc-x86_64 vfs.fstab=[ \"initrd0:/:extract::ramfs=1:\" ] -- /hello-c",
     "initrd_path": "initrd.cpio"
   },

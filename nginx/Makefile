@@ -1,5 +1,5 @@
 UK_ROOT ?= $(PWD)/workdir/unikraft
-UK_BUILD ?= $(PWD)/out
+UK_BUILD ?= $(PWD)/workdir/build
 UK_APP ?= $(PWD)
 LIBS_BASE = $(PWD)/workdir/libs
 UK_LIBS ?= $(LIBS_BASE)/musl:$(LIBS_BASE)/nginx:$(LIBS_BASE)/lwip
