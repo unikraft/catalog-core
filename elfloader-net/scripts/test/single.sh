@@ -1,6 +1,6 @@
 #!/bin/sh
 
-. ./test.common.sh
+. ./scripts/test/common.sh
 
 default_host=172.44.0.2
 default_port=8080
