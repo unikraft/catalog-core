@@ -1,7 +1,7 @@
 #!/bin/sh
 
-if test ! -f "out/elfloader_qemu-x86_64"; then
-    echo "No kernel file out/elfloader_qemu-x86_64." 1>&2
+if test ! -f "workdir/build/elfloader_qemu-x86_64"; then
+    echo "No kernel file workdir/build/elfloader_qemu-x86_64." 1>&2
     echo "Did you run ./build.qemu.x86_64 ?" 1>&2
     exit 1
 fi
@@ -18,5 +18,5 @@ qemu-system-x86_64 \
     -m 64 \
     -cpu max \
     -append "elfloader_qemu-x86_64 vfs.fstab=[ \"initrd0:/:extract::ramfs=1:\" ] -- /hello-c" \
-    -kernel out/elfloader_qemu-x86_64 \
+    -kernel workdir/build/elfloader_qemu-x86_64 \
     -initrd ./initrd.cpio
