@@ -16,13 +16,7 @@ To build and run the application for `x86_64`, use the commands below:
 ```console
 ./setup.sh
 make distclean
-> /tmp/defconfig echo -e 'CONFIG_PLAT_KVM=y
-CONFIG_KVM_VMM_QEMU=y
-CONFIG_ARCH_X86_64=y
-CONFIG_LIBVFSCORE=y
-CONFIG_LIBVFSCORE_AUTOMOUNT_UP=y
-CONFIG_LIBRAMFS=y
-CONFIG_LIBUKCPIO=y'
+wget -O /tmp/defconfig https://github.com/unikraft/catalog-core/tree/scripts/c-fs/scripts/defconfig/qemu.x86_64
 UK_DEFCONFIG=/tmp/defconfig make defconfig
 make -j $(nproc)
 rm -f initrd.cpio
@@ -43,13 +37,7 @@ To do the same for `AArch64`, run the commands below:
 ```console
 ./setup.sh
 make distclean
-> /tmp/defconfig echo -e 'CONFIG_PLAT_KVM=y
-CONFIG_KVM_VMM_QEMU=y
-CONFIG_ARCH_ARM_64=y
-CONFIG_LIBVFSCORE=y
-CONFIG_LIBVFSCORE_AUTOMOUNT_UP=y
-CONFIG_LIBRAMFS=y
-CONFIG_LIBUKCPIO=y'
+wget -O /tmp/defconfig https://github.com/unikraft/catalog-core/tree/scripts/c-fs/scripts/defconfig/qemu.arm64
 UK_DEFCONFIG=/tmp/defconfig make defconfig
 make -j $(nproc)
 rm -f initrd.cpio
