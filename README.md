@@ -70,6 +70,22 @@ echo "allow all" | sudo tee /etc/qemu/bridge.conf
 
 It enables QEMU bridged networking.
 
+### Docker
+
+Certain applications require [Docker]() to build the application and / or the application filesystem.
+
+To install Docker, follow the [official instructions]().
+Alo follow the [post-install instructions]().
+Instructions to install Docker are also part of the [Unikraft documentation]().
+
+Validate you have a correct Docker installation by running, as an ordinary user (i.e. not `root`):
+
+```console
+docker run hello-world
+```
+
+In case of a correct Docker installation, the above command will print out a longer "Hello, World!"-like message.
+
 ### Clang
 
 Unikraft supports Clang.
