@@ -44,8 +44,8 @@ To do the same for `AArch64`, run the commands below:
 ./setup.sh
 make distclean
 > /tmp/defconfig echo -e 'CONFIG_PLAT_KVM=y
-CONFIG_KVM_VMM_FIRECRACKER=y
-CONFIG_ARCH_X86_64=y
+CONFIG_KVM_VMM_QEMU=y
+CONFIG_ARCH_ARM_64=y
 CONFIG_LIBVFSCORE=y
 CONFIG_LIBVFSCORE_AUTOMOUNT_UP=y
 CONFIG_LIBRAMFS=y
@@ -54,10 +54,13 @@ UK_DEFCONFIG=/tmp/defconfig make defconfig
 make -j $(nproc)
 rm -f initrd.cpio
 ./workdir/unikraft/support/scripts/mkcpio initrd.cpio ./rootfs/
-rm -f firecracker.socket
-firecracker-x86_64 \
-        --api-sock firecracker.socket \
-        --config-file fc.x86_64.json
+qemu-system-aarch64 \
+    -nographic \
+    -m 8 \
+    -cpu max \
+    -kernel workdir/build/c-fs_qemu-arm64 \
+    -append "c-fs_qemu-arm64 vfs.fstab=[ \"initrd0:/:extract::ramfs=1:\" ] -- /hello.txt" \
+    -initrd ./initrd.cpio
 ```
 
 Similar to the `x86_64` build, this will result in a `Hello from Unikraft!` message being printed, from the contents of the `rootfs/hello.txt` file.
