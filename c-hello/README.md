@@ -112,28 +112,6 @@ where `<version>` is the GCC version, such as `11`, `12`.
 
 Note that GCC >= 8 is required to build Unikraft.
 
-## Clean Up
-
-Doing a new configuration, or a new build may require cleaning up the configuration and build artifacts.
-
-In order to remove the build artifacts, use:
-
-```console
-make clean
-```
-
-In order to remove fetched files also, that is the removal of the `workdir/build/` directory, use:
-
-```console
-make properclean
-```
-
-In order to remove the generated `.config` file as well, use:
-
-```console
-make distclean
-```
-
 ## Run
 
 Run the resulting image using the corresponding platform tool.
@@ -202,6 +180,28 @@ sudo xl create -c xen.arm64.cfg
 ```
 
 You need use `sudo` or the `root` account to run Xen.
+
+## Clean Up
+
+Doing a new configuration, or a new build may require cleaning up the configuration and build artifacts.
+
+In order to remove the build artifacts, use:
+
+```console
+make clean
+```
+
+In order to remove fetched files also, that is the removal of the `workdir/build/` directory, use:
+
+```console
+make properclean
+```
+
+In order to remove the generated `.config` file as well, use:
+
+```console
+make distclean
+```
 
 ## Customize
 
