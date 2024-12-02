@@ -15,18 +15,7 @@ To build and run the application for `x86_64`, use the commands below:
 ```console
 ./setup.sh
 make distclean
-> /tmp/defconfig echo 'CONFIG_PLAT_KVM=y
-CONFIG_KVM_VMM_QEMU=y
-CONFIG_ARCH_X86_64=y
-CONFIG_LIBPYTHON3=y
-CONFIG_LIBPYTHON3_MAIN_FUNCTION=y
-CONFIG_LIBVFSCORE=y
-CONFIG_LIBVFSCORE_AUTOMOUNT_UP=y
-CONFIG_LIBRAMFS=y
-CONFIG_LIBUKCPIO=y
-CONFIG_STACK_SIZE_PAGE_ORDER=10
-CONFIG_LIBPOSIX_ENVIRON=y
-CONFIG_LIBPOSIX_ENVIRON_LIBPARAM=y'
+wget -O /tmp/defconfig https://github.com/unikraft/catalog-core/tree/scripts/python3-hello/scripts/defconfig/qemu.x86_64
 UK_DEFCONFIG=/tmp/defconfig make defconfig
 make -j $(nproc)
 test -d ./rootfs/ || docker build -o ./rootfs -f Dockerfile .
@@ -49,21 +38,7 @@ To do the same for `AArch64`, run the commands below:
 ```console
 ./setup.sh
 make distclean
-> /tmp/defconfig echo 'CONFIG_PLAT_KVM=y
-CONFIG_KVM_VMM_QEMU=y
-CONFIG_ARCH_ARM_64=y
-CONFIG_LIBPYTHON3=y
-CONFIG_LIBPYTHON3_MAIN_FUNCTION=y
-CONFIG_LIBVFSCORE=y
-CONFIG_LIBVFSCORE_AUTOMOUNT_UP=y
-CONFIG_LIBRAMFS=y
-CONFIG_LIBUKCPIO=y
-CONFIG_STACK_SIZE_PAGE_ORDER=10
-CONFIG_LIBPOSIX_ENVIRON=y
-CONFIG_LIBPOSIX_ENVIRON_LIBPARAM=y
-CONFIG_ARM64_ERRATUM_858921=n
-CONFIG_ARM64_ERRATUM_835769=n
-CONFIG_ARM64_ERRATUM_843419=n'
+wget -O /tmp/defconfig https://github.com/unikraft/catalog-core/tree/scripts/python3-hello/scripts/defconfig/qemu.arm64
 UK_DEFCONFIG=/tmp/defconfig make defconfig
 make -j $(nproc)
 test -d ./rootfs/ || docker build -o ./rootfs -f Dockerfile .
