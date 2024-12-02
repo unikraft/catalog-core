@@ -60,6 +60,16 @@ sudo apt install -y --no-install-recommends \
   libarchive-tools
 ```
 
+### QEMU
+
+For running applications with QEMU bridged networking, use the command below:
+
+```console
+echo "allow all" | sudo tee /etc/qemu/bridge.conf
+```
+
+It enables QEMU bridged networking.
+
 ### Clang
 
 Unikraft supports Clang.
