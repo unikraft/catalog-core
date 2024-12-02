@@ -106,3 +106,42 @@ On Ubuntu/Debian or other `apt`-based distributions, use the following command t
 ```console
 sudo apt install -y xen-utils
 ```
+
+## Scripted Runs and Testing
+
+To make it easy to quickly build, run and test Unikraft applications, you may use pre-created scripts.
+
+### Scripted Runs
+
+For scripted runs, switch to the `scripts` branch of the repository:
+
+```console
+git checkout -b scripts origin/scripts
+```
+
+Then use the scripts in the `scripts/` directory of each application.
+The build scripts are in the `scripts/build/` directory and the run scripts are in the `scripts/run/` directory.
+
+See instructions in the `scripts/README.md` file about running scripts.
+As noted in `scripts/README.md` file, scripts are run from the application directory.
+
+### Testing
+
+To test applications, switch to the `test` branch of the repository:
+
+```console
+git checkout -b test origin/test
+```
+
+Test all applications by running:
+
+```console
+./test.overall.sh
+```
+
+To test individual applications, navigate to each application directory and run the scripts in the `scripts/test/` directory.
+
+Build and run logs from running tests are stored in the `scripts/test/log/` directory.
+
+See instructions in the `scripts/test/README.md` file about running scripts.
+As noted in the `scripts/test/README.md` file, scripts are run from the application directory.
