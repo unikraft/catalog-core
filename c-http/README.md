@@ -22,11 +22,7 @@ To build and run the application for `x86_64`, use the commands below:
 ```console
 ./setup.sh
 make distclean
-> /tmp/defconfig echo 'CONFIG_PLAT_KVM=y
-CONFIG_KVM_VMM_QEMU=y
-CONFIG_ARCH_X86_64=y
-CONFIG_LIBLWIP=y
-CONFIG_LIBUKNETDEV_EINFO_LIBPARAM=y'
+wget -O /tmp/defconfig https://github.com/unikraft/catalog-core/tree/scripts/c-http/scripts/defconfig/qemu.x86_64
 UK_DEFCONFIG=/tmp/defconfig make defconfig
 make -j $(nproc)
 sudo ip link set dev virbr0 down
@@ -52,14 +48,7 @@ To do the same for `AArch64`, run the commands below:
 ```console
 ./setup.sh
 make distclean
-> /tmp/defconfig echo 'CONFIG_PLAT_KVM=y
-CONFIG_KVM_VMM_QEMU=y
-CONFIG_ARCH_ARM_64=y
-CONFIG_LIBLWIP=y
-CONFIG_LIBUKNETDEV_EINFO_LIBPARAM=y
-CONFIG_ARM64_ERRATUM_858921=n
-CONFIG_ARM64_ERRATUM_835769=n
-CONFIG_ARM64_ERRATUM_843419=n'
+wget -O /tmp/defconfig https://github.com/unikraft/catalog-core/tree/scripts/c-hello/scripts/defconfig/qemu.arm64
 UK_DEFCONFIG=/tmp/defconfig make defconfig
 make -j $(nproc)
 sudo ip link set dev virbr0 down
