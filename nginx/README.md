@@ -10,6 +10,13 @@ For a quick setup, run the commands below.
 Note that you still need to install the [requirements](../README.md#requirements).
 Before everything, make sure you run the [top-level `setup.sh` script](../setup.sh).
 
+**Note**: This is a network application.
+For using QEMU, enable bridged networking, as instructed in the [top-level `README.md`](../README.md#qemu):
+
+```console
+echo "allow all" | sudo tee /etc/qemu/bridge.conf
+```
+
 To build and run the application for `x86_64`, use the commands below:
 
 ```console
