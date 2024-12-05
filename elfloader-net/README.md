@@ -13,38 +13,21 @@ The Unikraft ELF Loader currently runs on x86_64 (ARM64 work is underway) and on
 
 For a quick setup, run the commands below.
 Note that you still need to install the [requirements](../README.md#requirements).
+Before everything, make sure you run the [top-level `setup.sh` script](../setup.sh).
+
+**Note**: This is a network application.
+For using QEMU, enable bridged networking, as instructed in the [top-level `README.md`](../README.md#qemu):
+
+```console
+echo "allow all" | sudo tee /etc/qemu/bridge.conf
+```
 
 To build and run a simple HTTP server Linux ELF using the Unikraft ELF Loader, use the commands below:
 
 ```console
-test -d ../repos/unikraft || git clone https://github.com/unikraft/unikraft ../repos/unikraft
-test -d ../repos/apps/elfloader || git clone https://github.com/unikraft/app-elfloader ../repos/apps/elfloader
-test -d ../repos/libs/libelf || git clone https://github.com/unikraft/lib-libelf ../repos/libs/libelf
-test -d ../repos/libs/lwip || git clone https://github.com/unikraft/lib-lwip ../repos/libs/lwip
+./setup.sh
 make distclean
-> /tmp/defconfig echo 'CONFIG_PLAT_KVM=y
-CONFIG_KVM_VMM_QEMU=y
-CONFIG_ARCH_X86_64=y
-CONFIG_APPELFLOADER_DEPENDENCIES=y
-CONFIG_APPELFLOADER_ARCH_PRCTL=y
-CONFIG_APPELFLOADER_BRK=y
-CONFIG_APPELFLOADER_CUSTOMAPPNAME=y
-CONFIG_APPELFLOADER_STACK_NBPAGES=128
-CONFIG_APPELFLOADER_VFSEXEC_EXECBIT=n
-CONFIG_APPELFLOADER_VFSEXEC=y
-CONFIG_APPELFLOADER_HFS=y
-CONFIG_APPELFLOADER_HFS_ETCRESOLVCONF=y
-CONFIG_APPELFLOADER_HFS_ETCHOSTS=y
-CONFIG_APPELFLOADER_HFS_ETCHOSTNAME=y
-CONFIG_APPELFLOADER_HFS_REPLACEEXIST=y
-CONFIG_LIBVFSCORE=y
-CONFIG_LIBVFSCORE_AUTOMOUNT_UP=y
-CONFIG_LIBRAMFS=y
-CONFIG_LIBUKCPIO=y
-CONFIG_LIBDEVFS=y
-CONFIG_LIBDEVFS_AUTOMOUNT=y
-CONFIG_LIBLWIP=y
-CONFIG_LIBUKNETDEV_EINFO_LIBPARAM=y'
+wget -O /tmp/defconfig https://github.com/unikraft/catalog-core/tree/scripts/elfloader-net/scripts/defconfig/qemu.x86_64
 UK_DEFCONFIG=/tmp/defconfig make defconfig
 make -j $(nproc)
 sudo ip link set dev virbr0 down
@@ -53,14 +36,14 @@ sudo ip link add dev virbr0 type bridge
 sudo ip address add 172.44.0.1/24 dev virbr0
 sudo ip link set dev virbr0 up
 make -C rootfs/
-test -f initrd.cpio || ../repos/unikraft/support/scripts/mkcpio initrd.cpio ./rootfs/
+test -f initrd.cpio || ./workdir/unikraft/support/scripts/mkcpio initrd.cpio ./rootfs/
 sudo qemu-system-x86_64 \
     -nographic \
     -m 64 \
     -cpu max \
     -netdev bridge,id=en0,br=virbr0 -device virtio-net-pci,netdev=en0 \
     -append "elfloader_qemu-x86_64 netdev.ip=172.44.0.2/24:172.44.0.1::: vfs.fstab=[ \"initrd0:/:extract::ramfs=1:\" ] -- /c-server" \
-    -kernel out/elfloader_qemu-x86_64 \
+    -kernel workdir/build/elfloader_qemu-x86_64 \
     -initrd ./initrd.cpio
 ```
 
@@ -82,16 +65,21 @@ The resulting ELF will be packed in an initial ramdisk CPIO file and will be pas
 ## Set Up
 
 Set up the required repositories.
-Clone them in `../repos/` if not already cloned:
+For this, you have two options:
 
-```console
-test -d "../repos/unikraft" || git clone https://github.com/unikraft/unikraft ../repos/unikraft
-test -d ../repos/apps/elfloader || git clone https://github.com/unikraft/app-elfloader ../repos/apps/elfloader
-test -d "../repos/libs/libelf" || git clone https://github.com/unikraft/lib-libelf ../repos/libs/libelf
-test -d "../repos/libs/lwip" || git clone https://github.com/unikraft/lib-lwip ../repos/libs/lwip
-```
+1. Use the `setup.sh` script:
 
-If you want use a custom variant of a repository (e.g. apply your own patch, make modifications), update it accordingly in the `../repos/` directory.
+   ```console
+   ./setup.sh
+   ```
+
+   It will create symbolic links to the required repositories in `../repos/`.
+   Be sure to run the [top-level `setup.sh` script](../setup.sh).
+
+   If you want use a custom variant of repositories (e.g. apply your own patch, make modifications), update it accordingly in the `../repos/` directory.
+
+1. Have your custom setup of repositories in the `workdir/` directory.
+   Clone, update and customize repositories to your own needs.
 
 ## Clean
 
@@ -121,8 +109,8 @@ Build the application for the current configuration:
 make -j $(nproc)
 ```
 
-This results in the creation of the `out/` directory storing the build artifacts.
-The unikernel application image file is `out/elfloader_<plat>-x86_64`, where `<plat>` is the platform name (`qemu`, `fc`).
+This results in the creation of the `workdir/build/` directory storing the build artifacts.
+The unikernel application image file is `workdir/build/elfloader_<plat>-x86_64`, where `<plat>` is the platform name (`qemu`, `fc`).
 
 ### Use a Different Compiler
 
@@ -155,29 +143,7 @@ Use the command below for that:
 
 ```console
 rm -f initrd.cpio
-../repos/unikraft/support/scripts/mkcpio initrd.cpio ./rootfs/
-```
-
-## Clean Up
-
-Doing a new configuration, or a new build, may require cleaning up the configuration and build artifacts.
-
-In order to remove the build artifacts, use:
-
-```console
-make clean
-```
-
-In order to remove fetched files also, that is the removal of the `out/` directory, use:
-
-```console
-make properclean
-```
-
-In order to remove the generated `.config` file as well, use:
-
-```console
-make distclean
+./workdir/unikraft/support/scripts/mkcpio initrd.cpio ./rootfs/
 ```
 
 ## Run
@@ -228,7 +194,7 @@ sudo qemu-system-x86_64 \
     -cpu max \
     -netdev bridge,id=en0,br=virbr0 -device virtio-net-pci,netdev=en0 \
     -append "elfloader_qemu-x86_64 netdev.ip=172.44.0.2/24:172.44.0.1::: vfs.fstab=[ \"initrd0:/:extract::ramfs=1:\" ] -- /c-server" \
-    -kernel out/elfloader_qemu-x86_64 \
+    -kernel workdir/build/elfloader_qemu-x86_64 \
     -initrd ./initrd.cpio
 ```
 
@@ -291,6 +257,28 @@ To close the Firecracker virtual machine, open another console and use the comma
 sudo pkill -f firecracker
 ```
 
+## Clean Up
+
+Doing a new configuration, or a new build, may require cleaning up the configuration and build artifacts.
+
+In order to remove the build artifacts, use:
+
+```console
+make clean
+```
+
+In order to remove fetched files also, that is the removal of the `workdir/build/` directory, use:
+
+```console
+make properclean
+```
+
+In order to remove the generated `.config` file as well, use:
+
+```console
+make distclean
+```
+
 ## Customize
 
 ### Use Other ELFs
@@ -310,7 +298,7 @@ For other ELFs, you need to follow the steps:
        -cpu max \
        -netdev bridge,id=en0,br=virbr0 -device virtio-net-pci,netdev=en0 \
        -append "elfloader_qemu-x86_64 netdev.ip=172.44.0.2/24:172.44.0.1::: vfs.fstab=[ \"initrd0:/:extract::ramfs=1:\" ] -- /<new-command-here>" \
-       -kernel out/elfloader_qemu-x86_64 \
+       -kernel workdir/build/elfloader_qemu-x86_64 \
        -initrd ./initrd.cpio
    ```
 

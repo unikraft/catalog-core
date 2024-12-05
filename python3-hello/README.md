@@ -8,38 +8,24 @@ Make sure you installed the [requirements](../README.md#requirements).
 
 For a quick setup, run the commands below.
 Note that you still need to install the [requirements](../README.md#requirements).
+Before everything, make sure you run the [top-level `setup.sh` script](../setup.sh).
 
 To build and run the application for `x86_64`, use the commands below:
 
 ```console
-test -d ../repos/unikraft || git clone https://github.com/unikraft/unikraft ....//repos/unikraft
-test -d ../repos/libs/musl || git clone https://github.com/unikraft/lib-musl ../repos/libs/musl
-test -d ../repos/libs/lwip || git clone https://github.com/unikraft/lib-lwip ../repos/libs/lwip
-test -d ../repos/libs/python3 || git clone https://github.com/unikraft/lib-python3 ../repos/libs/python3
-test -d ../repos/libs/compiler-rt || git clone https://github.com/unikraft/lib-compiler-rt ../repos/libs/compiler-rt
+./setup.sh
 make distclean
-> /tmp/defconfig echo 'CONFIG_PLAT_KVM=y
-CONFIG_KVM_VMM_QEMU=y
-CONFIG_ARCH_X86_64=y
-CONFIG_LIBPYTHON3=y
-CONFIG_LIBPYTHON3_MAIN_FUNCTION=y
-CONFIG_LIBVFSCORE=y
-CONFIG_LIBVFSCORE_AUTOMOUNT_UP=y
-CONFIG_LIBRAMFS=y
-CONFIG_LIBUKCPIO=y
-CONFIG_STACK_SIZE_PAGE_ORDER=10
-CONFIG_LIBPOSIX_ENVIRON=y
-CONFIG_LIBPOSIX_ENVIRON_LIBPARAM=y'
+wget -O /tmp/defconfig https://github.com/unikraft/catalog-core/tree/scripts/python3-hello/scripts/defconfig/qemu.x86_64
 UK_DEFCONFIG=/tmp/defconfig make defconfig
 make -j $(nproc)
 test -d ./rootfs/ || docker build -o ./rootfs -f Dockerfile .
-test -f initrd.cpio || ../repos/unikraft/support/scripts/mkcpio initrd.cpio ./rootfs/
+test -f initrd.cpio || ./workdir/unikraft/support/scripts/mkcpio initrd.cpio ./rootfs/
 qemu-system-x86_64 \
     -nographic \
     -m 256 \
     -cpu max \
     -append "python3-hello_qemu-x86_64 vfs.fstab=[ \"initrd0:/:extract::ramfs=1:\" ] env.vars=[ PYTHONPATH=\"/usr/local/lib/python3.10:/usr/local/lib/python3.10/site-packages\" ] -- /app/hello.py" \
-    -kernel out/python3-hello_qemu-x86_64 \
+    -kernel workdir/build/python3-hello_qemu-x86_64 \
     -initrd ./initrd.cpio
 ```
 
@@ -50,38 +36,20 @@ To close the virtual machine, see the instructions in the ["Close QEMU" section]
 To do the same for `AArch64`, run the commands below:
 
 ```console
-test -d ../repos/unikraft || git clone https://github.com/unikraft/unikraft ....//repos/unikraft
-test -d ../repos/libs/musl || git clone https://github.com/unikraft/lib-musl ../repos/libs/musl
-test -d ../repos/libs/lwip || git clone https://github.com/unikraft/lib-lwip ../repos/libs/lwip
-test -d ../repos/libs/python3 || git clone https://github.com/unikraft/lib-python3 ../repos/libs/python3
-test -d ../repos/libs/compiler-rt || git clone https://github.com/unikraft/lib-compiler-rt ../repos/libs/compiler-rt
+./setup.sh
 make distclean
-> /tmp/defconfig echo 'CONFIG_PLAT_KVM=y
-CONFIG_KVM_VMM_QEMU=y
-CONFIG_ARCH_ARM_64=y
-CONFIG_LIBPYTHON3=y
-CONFIG_LIBPYTHON3_MAIN_FUNCTION=y
-CONFIG_LIBVFSCORE=y
-CONFIG_LIBVFSCORE_AUTOMOUNT_UP=y
-CONFIG_LIBRAMFS=y
-CONFIG_LIBUKCPIO=y
-CONFIG_STACK_SIZE_PAGE_ORDER=10
-CONFIG_LIBPOSIX_ENVIRON=y
-CONFIG_LIBPOSIX_ENVIRON_LIBPARAM=y
-CONFIG_ARM64_ERRATUM_858921=n
-CONFIG_ARM64_ERRATUM_835769=n
-CONFIG_ARM64_ERRATUM_843419=n'
+wget -O /tmp/defconfig https://github.com/unikraft/catalog-core/tree/scripts/python3-hello/scripts/defconfig/qemu.arm64
 UK_DEFCONFIG=/tmp/defconfig make defconfig
 make -j $(nproc)
 test -d ./rootfs/ || docker build -o ./rootfs -f Dockerfile .
-test -f initrd.cpio || ../repos/unikraft/support/scripts/mkcpio initrd.cpio ./rootfs/
+test -f initrd.cpio || ./workdir/unikraft/support/scripts/mkcpio initrd.cpio ./rootfs/
 qemu-system-aarch64 \
     -nographic \
     -machine virt \
     -m 256 \
     -cpu max \
     -append "python3-hello_qemu-arm64 vfs.fstab=[ \"initrd0:/:extract::ramfs=1:\" ] env.vars=[ PYTHONPATH=\"/usr/local/lib/python3.10:/usr/local/lib/python3.10/site-packages\" ] -- /app/hello.py" \
-    -kernel out/python3-hello_qemu-arm64 \
+    -kernel workdir/build/python3-hello_qemu-arm64 \
     -initrd ./initrd.cpio
 ```
 
@@ -92,17 +60,21 @@ Information about every step and about other types of builds is detailed below.
 ## Set Up
 
 Set up the required repositories.
-Clone them in `../repos/` if not already cloned:
+For this, you have two options:
 
-```console
-test -d ../repos/unikraft || git clone https://github.com/unikraft/unikraft ....//repos/unikraft
-test -d ../repos/libs/musl || git clone https://github.com/unikraft/lib-musl ../repos/libs/musl
-test -d ../repos/libs/lwip || git clone https://github.com/unikraft/lib-lwip ../repos/libs/lwip
-test -d ../repos/libs/python3 || git clone https://github.com/unikraft/lib-python3 ../repos/libs/python3
-test -d ../repos/libs/compiler-rt || git clone https://github.com/unikraft/lib-compiler-rt ../repos/libs/compiler-rt
-```
+1. Use the `setup.sh` script:
 
-If you want use a custom variant of a repository (e.g. apply your own patch, make modifications), update it accordingly in the `../repos/` directory.
+   ```console
+   ./setup.sh
+   ```
+
+   It will create symbolic links to the required repositories in `../repos/`.
+   Be sure to run the [top-level `setup.sh` script](../setup.sh).
+
+   If you want use a custom variant of repositories (e.g. apply your own patch, make modifications), update it accordingly in the `../repos/` directory.
+
+1. Have your custom setup of repositories in the `workdir/` directory.
+   Clone, update and customize repositories to your own needs.
 
 ## Clean
 
@@ -134,8 +106,8 @@ Build the application for the current configuration:
 make -j $(nproc)
 ```
 
-This results in the creation of the `out/` directory storing the build artifacts.
-The unikernel application image file is `out/python3-hello_<plat>-<arch>`, where `<plat>` is the platform name (`qemu`, `fc`, `xen`), and `<arch>` is the architecture (`x86_64` or `arm64`).
+This results in the creation of the `workdir/build/` directory storing the build artifacts.
+The unikernel application image file is `workdir/build/python3-hello_<plat>-<arch>`, where `<plat>` is the platform name (`qemu`, `fc`, `xen`), and `<arch>` is the architecture (`x86_64` or `arm64`).
 
 ### Use a Different Compiler
 
@@ -176,29 +148,7 @@ Then pack the `./rootfs/` directory in the `initrd.cpio` file:
 
 ```console
 rm -f initrd.cpio
-../repos/unikraft/support/scripts/mkcpio initrd.cpio ./rootfs/
-```
-
-## Clean Up
-
-Doing a new configuration, or a new build, may require cleaning up the configuration and build artifacts.
-
-In order to remove the build artifacts, use:
-
-```console
-make clean
-```
-
-In order to remove fetched files also, that is the removal of the `out/` directory, use:
-
-```console
-make properclean
-```
-
-In order to remove the generated `.config` file as well, use:
-
-```console
-make distclean
+./workdir/unikraft/support/scripts/mkcpio initrd.cpio ./rootfs/
 ```
 
 ## Run
@@ -233,7 +183,7 @@ qemu-system-x86_64 \
     -m 256 \
     -cpu max \
     -append "python3-hello_qemu-x86_64 vfs.fstab=[ \"initrd0:/:extract::ramfs=1:\" ] env.vars=[ PYTHONPATH=\"/usr/local/lib/python3.10:/usr/local/lib/python3.10/site-packages\" ] -- /app/hello.py" \
-    -kernel out/python3-hello_qemu-x86_64 \
+    -kernel workdir/build/python3-hello_qemu-x86_64 \
     -initrd ./initrd.cpio
 ```
 
@@ -246,7 +196,7 @@ qemu-system-aarch64 \
     -m 256 \
     -cpu max \
     -append "python3-hello_qemu-arm64 vfs.fstab=[ \"initrd0:/:extract::ramfs=1:\" ] env.vars=[ PYTHONPATH=\"/usr/local/lib/python3.10:/usr/local/lib/python3.10/site-packages\" ] -- /app/hello.py" \
-    -kernel out/python3-hello_qemu-arm64 \
+    -kernel workdir/build/python3-hello_qemu-arm64 \
     -initrd ./initrd.cpio
 ```
 
@@ -313,6 +263,28 @@ To close the Xen virtual machine, open another console and use the command:
 
 ```console
 sudo xl destroy python3-hello
+```
+
+## Clean Up
+
+Doing a new configuration, or a new build, may require cleaning up the configuration and build artifacts.
+
+In order to remove the build artifacts, use:
+
+```console
+make clean
+```
+
+In order to remove fetched files also, that is the removal of the `workdir/build/` directory, use:
+
+```console
+make properclean
+```
+
+In order to remove the generated `.config` file as well, use:
+
+```console
+make distclean
 ```
 
 ## Customize
@@ -401,7 +373,7 @@ qemu-system-x86_64 \
     -fsdev local,id=myid,path=$(pwd)/9pfs-rootfs/,security_model=none \
     -device virtio-9p-pci,fsdev=myid,mount_tag=fs0 \
     -append "python3-hello_qemu-x86_64 vfs.fstab=[ \"fs0:/:9pfs:::\" ] env.vars=[ PYTHONPATH=\"/usr/local/lib/python3.10:/usr/local/lib/python3.10/site-packages\" ] -- /app/hello.py" \
-    -kernel out/python3-hello_qemu-x86_64
+    -kernel workdir/build/python3-hello_qemu-x86_64
 ```
 
 You would use a similar command for QEMU/ARM64.
