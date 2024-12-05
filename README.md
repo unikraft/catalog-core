@@ -1,16 +1,18 @@
 # Catalog Core
 
-This is a catalog of applications that are set up, configured, built and run using first principles tools: Make, GCC, Clang, Kconfig, QEMU, Firecracker, Xen.
+This is a catalog of Unikraft applications that are set up, configured, built and run using first principles tools: Make, GCC, Clang, Kconfig, QEMU, Firecracker, Xen.
 Each directory belongs to a given application and it typically consists of source code, `Makefile`, `Makefile.uk`, filesystem and a `README.md` file with instructions.
 
-This catalog is targeted towards core developers (i.e. developers of [`unikraft` core repository](https://github.com/unikraft/unikraft) or [library repositories](https://github.com/search?q=topic%3Alibrary+org%3Aunikraft&type=Repositories)), maintainers, testers and those who want to learn about the [internals of Unikraft](https://unikraft.org/docs/internals).
+This catalog is targeted towards Unikraft core developers (i.e. developers of [`unikraft` core repository](https://github.com/unikraft/unikraft) or [library repositories](https://github.com/search?q=topic%3Alibrary+org%3Aunikraft&type=Repositories)), maintainers, testers and those who want to learn about the [internals of Unikraft](https://unikraft.org/docs/internals).
 Application and tooling developers and general users should use the [official `catalog` repository](https://github.com/unikraft/catalog).
 
-In order to use this catalog, clone this repository and enter the preferred application directory:
+In order to use this catalog, clone this repository, run the `setup.sh` script and enter the preferred application directory:
 
 ```console
 git clone https://github.com/unikraft/catalog-core
-cd catalog-core/<application-directory>
+cd catalog-core/
+./setup.sh
+cd <application-directory>
 ```
 
 Inside the directory, follow the instructions in the application `README.md`.
@@ -33,6 +35,7 @@ In order to set up, configure, build and run applications on Unikraft using firs
 * `qemu-kvm`
 * `sgabios`
 * `gcc-aarch64-linux-gnu`
+* `bsdcpio`
 
 GCC >= 8 is required to build Unikraft.
 
@@ -53,8 +56,35 @@ sudo apt install -y --no-install-recommends \
   qemu-kvm \
   qemu-system-x86 \
   qemu-system-arm \
-  sgabios
+  sgabios \
+  libarchive-tools
 ```
+
+### QEMU
+
+For running applications with QEMU bridged networking, use the command below:
+
+```console
+echo "allow all" | sudo tee /etc/qemu/bridge.conf
+```
+
+It enables QEMU bridged networking.
+
+### Docker
+
+Certain applications require [Docker]() to build the application and / or the application filesystem.
+
+To install Docker, follow the [official instructions]().
+Alo follow the [post-install instructions]().
+Instructions to install Docker are also part of the [Unikraft documentation]().
+
+Validate you have a correct Docker installation by running, as an ordinary user (i.e. not `root`):
+
+```console
+docker run hello-world
+```
+
+In case of a correct Docker installation, the above command will print out a longer "Hello, World!"-like message.
 
 ### Clang
 
@@ -104,3 +134,42 @@ On Ubuntu/Debian or other `apt`-based distributions, use the following command t
 ```console
 sudo apt install -y xen-utils
 ```
+
+## Scripted Runs and Testing
+
+To make it easy to quickly build, run and test Unikraft applications, you may use pre-created scripts.
+
+### Scripted Runs
+
+For scripted runs, switch to the `scripts` branch of the repository:
+
+```console
+git checkout -b scripts origin/scripts
+```
+
+Then use the scripts in the `scripts/` directory of each application.
+The build scripts are in the `scripts/build/` directory and the run scripts are in the `scripts/run/` directory.
+
+See instructions in the `scripts/README.md` file about running scripts.
+As noted in `scripts/README.md` file, scripts are run from the application directory.
+
+### Testing
+
+To test applications, switch to the `test` branch of the repository:
+
+```console
+git checkout -b test origin/test
+```
+
+Test all applications by running:
+
+```console
+./test.overall.sh
+```
+
+To test individual applications, navigate to each application directory and run the scripts in the `scripts/test/` directory.
+
+Build and run logs from running tests are stored in the `scripts/test/log/` directory.
+
+See instructions in the `scripts/test/README.md` file about running scripts.
+As noted in the `scripts/test/README.md` file, scripts are run from the application directory.

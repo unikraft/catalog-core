@@ -1,6 +1,6 @@
 {
   "boot-source": {
-    "kernel_image_path": "out/c-fs_fc-arm64",
+    "kernel_image_path": "workdir/build/c-fs_fc-arm64",
     "boot_args": "c-fs_qemu-x86_64 vfs.fstab=[ \"initrd0:/:extract::ramfs=1:\" ] -- /hello.txt",
     "initrd_path": "initrd.cpio"
   },

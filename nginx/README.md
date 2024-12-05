@@ -8,30 +8,21 @@ Make sure you installed the [requirements](../README.md#requirements).
 
 For a quick setup, run the commands below.
 Note that you still need to install the [requirements](../README.md#requirements).
+Before everything, make sure you run the [top-level `setup.sh` script](../setup.sh).
+
+**Note**: This is a network application.
+For using QEMU, enable bridged networking, as instructed in the [top-level `README.md`](../README.md#qemu):
+
+```console
+echo "allow all" | sudo tee /etc/qemu/bridge.conf
+```
 
 To build and run the application for `x86_64`, use the commands below:
 
 ```console
-test -d ../repos/unikraft || git clone https://github.com/unikraft/unikraft ../repos/unikraft
-test -d ../repos/libs/musl || git clone https://github.com/unikraft/lib-musl ../repos/libs/musl
-test -d ../repos/libs/lwip || git clone https://github.com/unikraft/lib-lwip ../repos/libs/lwip
-test -d ../repos/libs/nginx || git clone https://github.com/unikraft/lib-nginx ../repos/libs/nginx
+./setup.sh
 make distclean
-> /tmp/defconfig echo 'CONFIG_PLAT_KVM=y
-CONFIG_KVM_VMM_QEMU=y
-CONFIG_ARCH_X86_64=y
-CONFIG_LIBDEVFS=y
-CONFIG_LIBDEVFS_AUTOMOUNT=y
-CONFIG_LIBRAMFS=y
-CONFIG_LIBUK9P=y
-CONFIG_LIBUKCPIO=y
-CONFIG_LIBVFSCORE_AUTOMOUNT_UP=y
-CONFIG_LIBVFSCORE_AUTOMOUNT_FB=y
-CONFIG_LIBUKNETDEV_EINFO_LIBPARAM=y
-CONFIG_LWIP_LOOPIF=y
-CONFIG_LWIP_RAW=y
-CONFIG_LIBNGINX=y
-CONFIG_LIBNGINX_MAIN_FUNCTION=y'
+wget -O /tmp/defconfig https://github.com/unikraft/catalog-core/tree/scripts/nginx/scripts/defconfig/qemu.x86_64
 UK_DEFCONFIG=/tmp/defconfig make defconfig
 make -j $(nproc)
 sudo ip link set dev virbr0 down
@@ -39,14 +30,14 @@ sudo ip link del dev virbr0
 sudo ip link add dev virbr0 type bridge
 sudo ip address add 172.44.0.1/24 dev virbr0
 sudo ip link set dev virbr0 up
-test -f initrd.cpio || ../repos/unikraft/support/scripts/mkcpio initrd.cpio ./rootfs/
+test -f initrd.cpio || ./workdir/unikraft/support/scripts/mkcpio initrd.cpio ./rootfs/
 sudo qemu-system-x86_64 \
     -nographic \
     -m 8 \
     -cpu max \
     -netdev bridge,id=en0,br=virbr0 -device virtio-net-pci,netdev=en0 \
     -append "nginx netdev.ip=172.44.0.2/24:172.44.0.1::: vfs.fstab=[ \"initrd0:/:extract::ramfs=1:\" ] -- -c /nginx/conf/nginx.conf" \
-    -kernel out/nginx_qemu-x86_64 \
+    -kernel workdir/build/nginx_qemu-x86_64 \
     -initrd ./initrd.cpio
 ```
 
@@ -57,29 +48,9 @@ To close the virtual machine, see the instructions in the ["Close QEMU" section]
 To do the same for `AArch64`, run the commands below:
 
 ```console
-test -d ../repos/unikraft || git clone https://github.com/unikraft/unikraft ../repos/unikraft
-test -d ../repos/libs/musl || git clone https://github.com/unikraft/lib-musl ../repos/libs/musl
-test -d ../repos/libs/lwip || git clone https://github.com/unikraft/lib-lwip ../repos/libs/lwip
-test -d ../repos/libs/nginx || git clone https://github.com/unikraft/lib-nginx ../repos/libs/nginx
+./setup.sh
 make distclean
-> /tmp/defconfig echo 'CONFIG_PLAT_KVM=y
-CONFIG_KVM_VMM_QEMU=y
-CONFIG_ARCH_ARM_64=y
-CONFIG_LIBDEVFS=y
-CONFIG_LIBDEVFS_AUTOMOUNT=y
-CONFIG_LIBRAMFS=y
-CONFIG_LIBUK9P=y
-CONFIG_LIBUKCPIO=y
-CONFIG_LIBVFSCORE_AUTOMOUNT_UP=y
-CONFIG_LIBVFSCORE_AUTOMOUNT_FB=y
-CONFIG_LIBUKNETDEV_EINFO_LIBPARAM=y
-CONFIG_LWIP_LOOPIF=y
-CONFIG_LWIP_RAW=y
-CONFIG_LIBNGINX=y
-CONFIG_LIBNGINX_MAIN_FUNCTION=y
-CONFIG_ARM64_ERRATUM_858921=n
-CONFIG_ARM64_ERRATUM_835769=n
-CONFIG_ARM64_ERRATUM_843419=n'
+wget -O /tmp/defconfig https://github.com/unikraft/catalog-core/tree/scripts/nginx/scripts/defconfig/qemu.arm64
 UK_DEFCONFIG=/tmp/defconfig make defconfig
 make -j $(nproc)
 sudo ip link set dev virbr0 down
@@ -87,14 +58,14 @@ sudo ip link del dev virbr0
 sudo ip link add dev virbr0 type bridge
 sudo ip address add 172.44.0.1/24 dev virbr0
 sudo ip link set dev virbr0 up
-test -f initrd.cpio || ../repos/unikraft/support/scripts/mkcpio initrd.cpio ./rootfs/
+test -f initrd.cpio || ./workdir/unikraft/support/scripts/mkcpio initrd.cpio ./rootfs/
 sudo qemu-system-aarch64 \
     -nographic \
     -m 8 \
     -cpu max \
     -netdev bridge,id=en0,br=virbr0 -device virtio-net-pci,netdev=en0 \
     -append "nginx netdev.ip=172.44.0.2/24:172.44.0.1::: vfs.fstab=[ \"initrd0:/:extract::ramfs=1:\" ] -- -c /nginx/conf/nginx.conf" \
-    -kernel out/nginx_qemu-arm64 \
+    -kernel workdir/build/nginx_qemu-arm64 \
     -initrd ./initrd.cpio
 ```
 
@@ -105,16 +76,21 @@ Information about every step and about other types of builds is detailed below.
 ## Set Up
 
 Set up the required repositories.
-Clone them in `../repos/` if not already cloned:
+For this, you have two options:
 
-```console
-test -d "../repos/unikraft" || git clone https://github.com/unikraft/unikraft ../repos/unikraft
-test -d "../repos/libs/musl" || git clone https://github.com/unikraft/lib-musl ../repos/libs/musl
-test -d "../repos/libs/nginx" || git clone https://github.com/unikraft/lib-nginx ../repos/libs/nginx
-test -d "../repos/libs/lwip" || git clone https://github.com/unikraft/lib-lwip ../repos/libs/lwip
-```
+1. Use the `setup.sh` script:
 
-If you want use a custom variant of a repository (e.g. apply your own patch, make modifications), update it accordingly in the `../repos/` directory.
+   ```console
+   ./setup.sh
+   ```
+
+   It will create symbolic links to the required repositories in `../repos/`.
+   Be sure to run the [top-level `setup.sh` script](../setup.sh).
+
+   If you want use a custom variant of repositories (e.g. apply your own patch, make modifications), update it accordingly in the `../repos/` directory.
+
+1. Have your custom setup of repositories in the `workdir/` directory.
+   Clone, update and customize repositories to your own needs.
 
 ## Clean
 
@@ -144,8 +120,8 @@ Build the application for the current configuration:
 make -j $(nproc)
 ```
 
-This results in the creation of the `out/` directory storing the build artifacts.
-The unikernel application image file is `out/nginx_<plat>-<arch>`, where `<plat>` is the platform name (`qemu`, `fc`, `xen`), and `<arch>` is the architecture (`x86_64` or `arm64`).
+This results in the creation of the `workdir/build/` directory storing the build artifacts.
+The unikernel application image file is `workdir/build/nginx_<plat>-<arch>`, where `<plat>` is the platform name (`qemu`, `fc`, `xen`), and `<arch>` is the architecture (`x86_64` or `arm64`).
 
 ### Use a Different Compiler
 
@@ -178,29 +154,7 @@ Use the command below for that:
 
 ```console
 rm -f initrd.cpio
-../repos/unikraft/support/scripts/mkcpio initrd.cpio ./rootfs/
-```
-
-## Clean Up
-
-Doing a new configuration, or a new build, may require cleaning up the configuration and build artifacts.
-
-In order to remove the build artifacts, use:
-
-```console
-make clean
-```
-
-In order to remove fetched files also, that is the removal of the `out/` directory, use:
-
-```console
-make properclean
-```
-
-In order to remove the generated `.config` file as well, use:
-
-```console
-make distclean
+./workdir/unikraft/support/scripts/mkcpio initrd.cpio ./rootfs/
 ```
 
 ## Run
@@ -250,7 +204,7 @@ sudo qemu-system-x86_64 \
     -cpu max \
     -netdev bridge,id=en0,br=virbr0 -device virtio-net-pci,netdev=en0 \
     -append "nginx netdev.ip=172.44.0.2/24:172.44.0.1::: vfs.fstab=[ \"initrd0:/:extract::ramfs=1:\" ] -- -c /nginx/conf/nginx.conf" \
-    -kernel out/nginx_qemu-x86_64 \
+    -kernel workdir/build/nginx_qemu-x86_64 \
     -initrd ./initrd.cpio
 ```
 
@@ -282,7 +236,7 @@ sudo qemu-system-aarch64 \
     -cpu max \
     -netdev bridge,id=en0,br=virbr0 -device virtio-net-pci,netdev=en0 \
     -append "nginx netdev.ip=172.44.0.2/24:172.44.0.1::: vfs.fstab=[ \"initrd0:/:extract::ramfs=1:\" ] -- -c /nginx/conf/nginx.conf" \
-    -kernel out/nginx_qemu-arm64 \
+    -kernel workdir/build/nginx_qemu-arm64 \
     -initrd ./initrd.cpio
 ```
 
@@ -438,6 +392,28 @@ To close the Xen virtual machine, open another console and use the command:
 sudo xl destroy nginx
 ```
 
+## Clean Up
+
+Doing a new configuration, or a new build, may require cleaning up the configuration and build artifacts.
+
+In order to remove the build artifacts, use:
+
+```console
+make clean
+```
+
+In order to remove fetched files also, that is the removal of the `workdir/build/` directory, use:
+
+```console
+make properclean
+```
+
+In order to remove the generated `.config` file as well, use:
+
+```console
+make distclean
+```
+
 ## Customize
 
 ### Customize the Filesystem Contents
@@ -515,7 +491,7 @@ sudo qemu-system-x86_64 \
     -cpu max \
     -netdev bridge,id=en0,br=virbr0 -device virtio-net-pci,netdev=en0 \
     -append "nginx netdev.ip=172.44.0.2/24:172.44.0.1::: vfs.fstab=[ \"fs0:/:9pfs:::\" ] -- -c /nginx/conf/nginx.conf" \
-    -kernel out/nginx_qemu-x86_64 \
+    -kernel workdir/build/nginx_qemu-x86_64 \
     -fsdev local,id=myid,path=$(pwd)/9pfs-rootfs/,security_model=none \
     -device virtio-9p-pci,fsdev=myid,mount_tag=fs0
 ```

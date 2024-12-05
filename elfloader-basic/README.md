@@ -13,45 +13,24 @@ The Unikraft ELF Loader currently runs on x86_64 (ARM64 work is underway) and on
 
 For a quick setup, run the commands below.
 Note that you still need to install the [requirements](../README.md#requirements).
+Before everything, make sure you run the [top-level `setup.sh` script](../setup.sh).
 
 To build and run a Hello Linux ELF using the Unikraft ELF Loader, use the commands below:
 
 ```console
-test -d ../repos/unikraft || git clone https://github.com/unikraft/unikraft ../repos/unikraft
-test -d ../repos/apps/elfloader || git clone https://github.com/unikraft/app-elfloader ../repos/apps/elfloader
-test -d ../repos/libs/libelf || git clone https://github.com/unikraft/lib-libelf ../repos/libs/libelf
+./setup.sh
 make distclean
-> /tmp/defconfig echo 'CONFIG_PLAT_KVM=y
-CONFIG_KVM_VMM_QEMU=y
-CONFIG_ARCH_X86_64=y
-CONFIG_APPELFLOADER_DEPENDENCIES=y
-CONFIG_APPELFLOADER_ARCH_PRCTL=y
-CONFIG_APPELFLOADER_BRK=y
-CONFIG_APPELFLOADER_CUSTOMAPPNAME=y
-CONFIG_APPELFLOADER_STACK_NBPAGES=128
-CONFIG_APPELFLOADER_VFSEXEC_EXECBIT=n
-CONFIG_APPELFLOADER_VFSEXEC=y
-CONFIG_APPELFLOADER_HFS=y
-CONFIG_APPELFLOADER_HFS_ETCRESOLVCONF=y
-CONFIG_APPELFLOADER_HFS_ETCHOSTS=y
-CONFIG_APPELFLOADER_HFS_ETCHOSTNAME=y
-CONFIG_APPELFLOADER_HFS_REPLACEEXIST=y
-CONFIG_LIBVFSCORE=y
-CONFIG_LIBVFSCORE_AUTOMOUNT_UP=y
-CONFIG_LIBRAMFS=y
-CONFIG_LIBUKCPIO=y
-CONFIG_LIBDEVFS=y
-CONFIG_LIBDEVFS_AUTOMOUNT=y'
+wget -O /tmp/defconfig https://github.com/unikraft/catalog-core/tree/scripts/elfloader-basic/scripts/defconfig/qemu.x86_64
 UK_DEFCONFIG=/tmp/defconfig make defconfig
 make -j $(nproc)
 make -C rootfs/
-test -f initrd.cpio || ../repos/unikraft/support/scripts/mkcpio initrd.cpio ./rootfs/
+test -f initrd.cpio || ./workdir/unikraft/support/scripts/mkcpio initrd.cpio ./rootfs/
 qemu-system-x86_64 \
     -nographic \
     -m 64 \
     -cpu max \
     -append "elfloader_qemu-x86_64 vfs.fstab=[ \"initrd0:/:extract::ramfs=1:\" ] -- /hello-c" \
-    -kernel out/elfloader_qemu-x86_64 \
+    -kernel workdir/build/elfloader_qemu-x86_64 \
     -initrd ./initrd.cpio
 ```
 
@@ -73,15 +52,21 @@ The resulting ELF will be packed in an initial ramdisk CPIO file and will be pas
 ## Set Up
 
 Set up the required repositories.
-Clone them in `../repos/` if not already cloned:
+For this, you have two options:
 
-```console
-test -d "../repos/unikraft" || git clone https://github.com/unikraft/unikraft ../repos/unikraft
-test -d "../repos/apps/elfloader" || git clone https://github.com/unikraft/app-elfloader ../repos/apps/elfloader
-test -d "../repos/libs/libelf" || git clone https://github.com/unikraft/lib-libelf ../repos/libs/libelf
-```
+1. Use the `setup.sh` script:
 
-If you want use a custom variant of a repository (e.g. apply your own patch, make modifications), update it accordingly in the `../repos/` directory.
+   ```console
+   ./setup.sh
+   ```
+
+   It will create symbolic links to the required repositories in `../repos/`.
+   Be sure to run the [top-level `setup.sh` script](../setup.sh).
+
+   If you want use a custom variant of repositories (e.g. apply your own patch, make modifications), update it accordingly in the `../repos/` directory.
+
+1. Have your custom setup of repositories in the `workdir/` directory.
+   Clone, update and customize repositories to your own needs.
 
 ## Clean
 
@@ -111,8 +96,8 @@ Build the application for the current configuration:
 make -j $(nproc)
 ```
 
-This results in the creation of the `out/` directory storing the build artifacts.
-The unikernel application image file is `out/elfloader_<plat>-x86_64`, where `<plat>` is the platform name (`qemu`, `fc`).
+This results in the creation of the `workdir/build/` directory storing the build artifacts.
+The unikernel application image file is `workdir/build/elfloader_<plat>-x86_64`, where `<plat>` is the platform name (`qemu`, `fc`).
 
 ### Use a Different Compiler
 
@@ -145,29 +130,7 @@ Use the command below for that:
 
 ```console
 rm -f initrd.cpio
-../repos/unikraft/support/scripts/mkcpio initrd.cpio ./rootfs/
-```
-
-## Clean Up
-
-Doing a new configuration, or a new build, may require cleaning up the configuration and build artifacts.
-
-In order to remove the build artifacts, use:
-
-```console
-make clean
-```
-
-In order to remove fetched files also, that is the removal of the `out/` directory, use:
-
-```console
-make properclean
-```
-
-In order to remove the generated `.config` file as well, use:
-
-```console
-make distclean
+./workdir/unikraft/support/scripts/mkcpio initrd.cpio ./rootfs/
 ```
 
 ## Run
@@ -198,7 +161,7 @@ qemu-system-x86_64 \
     -m 64 \
     -cpu max \
     -append "elfloader_qemu-x86_64 vfs.fstab=[ \"initrd0:/:extract::ramfs=1:\" ] -- /hello-c" \
-    -kernel out/elfloader_qemu-x86_64 \
+    -kernel workdir/build/elfloader_qemu-x86_64 \
     -initrd ./initrd.cpio
 ```
 
@@ -231,6 +194,28 @@ To close the Firecracker virtual machine, open another console and use the comma
 sudo pkill -f firecracker
 ```
 
+## Clean Up
+
+Doing a new configuration, or a new build, may require cleaning up the configuration and build artifacts.
+
+In order to remove the build artifacts, use:
+
+```console
+make clean
+```
+
+In order to remove fetched files also, that is the removal of the `workdir/build/` directory, use:
+
+```console
+make properclean
+```
+
+In order to remove the generated `.config` file as well, use:
+
+```console
+make distclean
+```
+
 ## Customize
 
 ### Use Other ELFs
@@ -247,7 +232,7 @@ qemu-system-x86_64 \
     -m 64 \
     -cpu max \
     -append "elfloader_qemu-x86_64 vfs.fstab=[ \"initrd0:/:extract::ramfs=1:\" ] -- /hello-cpp" \
-    -kernel out/elfloader_qemu-x86_64 \
+    -kernel workdir/build/elfloader_qemu-x86_64 \
     -initrd ./initrd.cpio
 ```
 
