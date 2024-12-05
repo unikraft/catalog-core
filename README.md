@@ -42,6 +42,7 @@ GCC >= 8 is required to build Unikraft.
 On Ubuntu/Debian or other `apt`-based distributions, use the following command to install the requirements:
 
 ```console
+sudo apt -y update
 sudo apt install -y --no-install-recommends \
   build-essential \
   sudo \
