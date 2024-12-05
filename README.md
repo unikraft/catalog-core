@@ -35,6 +35,7 @@ In order to set up, configure, build and run applications on Unikraft using firs
 * `qemu-kvm`
 * `sgabios`
 * `gcc-aarch64-linux-gnu`
+* `bsdcpio`
 
 GCC >= 8 is required to build Unikraft.
 
@@ -55,7 +56,8 @@ sudo apt install -y --no-install-recommends \
   qemu-kvm \
   qemu-system-x86 \
   qemu-system-arm \
-  sgabios
+  sgabios \
+  libarchive-tools
 ```
 
 ### QEMU
