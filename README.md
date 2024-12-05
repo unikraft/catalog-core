@@ -66,6 +66,7 @@ sudo apt install -y --no-install-recommends \
 For running applications with QEMU bridged networking, use the command below:
 
 ```console
+test -d /etc/qemu || sudo mkdir /etc/qemu
 echo "allow all" | sudo tee /etc/qemu/bridge.conf
 ```
 
