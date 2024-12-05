@@ -8,16 +8,17 @@ Make sure you installed the [requirements](../README.md#requirements).
 
 For a quick setup, run the commands below.
 Note that you still need to install the [requirements](../README.md#requirements).
+Before everything, make sure you run the [top-level `setup.sh` script](../setup.sh).
 
 To build and run the application for `x86_64`, use the commands below:
 
 ```console
-test -d ../repos/unikraft || git clone https://github.com/unikraft/unikraft ../repos/unikraft
+./setup.sh
 make distclean
-echo -e 'CONFIG_PLAT_KVM=y\nCONFIG_PLAT_KVM_VMM_QEMU=y\nCONFIG_ARCH_X86_64=y' > /tmp/defconfig
+wget -O /tmp/defconfig https://github.com/unikraft/catalog-core/tree/scripts/c-hello/scripts/defconfig/qemu.x86_64
 UK_DEFCONFIG=/tmp/defconfig make defconfig
 make -j $(nproc)
-qemu-system-x86_64 -nographic -m 8 -cpu max -kernel out/c-hello_qemu-x86_64
+qemu-system-x86_64 -nographic -m 8 -cpu max -kernel workdir/build/c-hello_qemu-x86_64
 ```
 
 This will configure, build and run the application, resulting in a `Hello from Unikraft!` message being printed.
@@ -25,12 +26,12 @@ This will configure, build and run the application, resulting in a `Hello from U
 To do the same for `AArch64`, run the commands below:
 
 ```console
-test -d ../repos/unikraft || git clone https://github.com/unikraft/unikraft ../repos/unikraft
+./setup.sh
 make distclean
-echo -e 'CONFIG_PLAT_KVM=y\nCONFIG_PLAT_KVM_VMM_QEMU=y\nCONFIG_ARCH_ARM_64=y' > /tmp/defconfig
+wget -O /tmp/defconfig https://github.com/unikraft/catalog-core/tree/scripts/c-hello/scripts/defconfig/qemu.arm64
 UK_DEFCONFIG=/tmp/defconfig make defconfig
 make -j $(nproc)
-qemu-system-aarch64 -nographic -machine virt -m 8 -cpu max -kernel out/c-hello_qemu-arm64
+qemu-system-aarch64 -nographic -machine virt -m 8 -cpu max -kernel workdir/build/c-hello_qemu-arm64
 ```
 
 Similar to the `x86_64` build, this will result in a `Hello from Unikraft!` message being printed.
@@ -39,13 +40,22 @@ Information about every step and about other types of builds is detailed below.
 
 ## Set Up
 
-Set up the [`unikraft` repository](https://github.com/unikraft/unikraft).
-Clone it in `../repos/unikraft/` if not already cloned:
+Set up the required repositories.
+For this, you have two options:
 
-```console
-test -d ../repos/unikraft || git clone https://github.com/unikraft/unikraft ../repos/unikraft
-```
-If you want use a custom variant of the repository (e.g. apply your own patch, make modifications), update it accordingly in the `../repos/` directory.
+1. Use the `setup.sh` script:
+
+   ```console
+   ./setup.sh
+   ```
+
+   It will create symbolic links to the required repositories in `../repos/`.
+   Be sure to run the [top-level `setup.sh` script](../setup.sh).
+
+   If you want use a custom variant of repositories (e.g. apply your own patch, make modifications), update it accordingly in the `../repos/` directory.
+
+1. Have your custom setup of repositories in the `workdir/` directory.
+   Clone, update and customize repositories to your own needs.
 
 ## Clean
 
@@ -75,8 +85,8 @@ Build the application for the current configuration:
 make -j $(nproc)
 ```
 
-This results in the creation of the `out/` directory storing the build artifacts.
-The unikernel application image file is `out/c-hello_<plat>-<arch>`, where `<plat>` is the platform name (`qemu`, `fc`, `xen`), and `<arch>` is the architecture (`x86_64` or `arm64`).
+This results in the creation of the `workdir/build/` directory storing the build artifacts.
+The unikernel application image file is `workdir/build/c-hello_<plat>-<arch>`, where `<plat>` is the platform name (`qemu`, `fc`, `xen`), and `<arch>` is the architecture (`x86_64` or `arm64`).
 
 ### Use a Different Compiler
 
@@ -102,28 +112,6 @@ where `<version>` is the GCC version, such as `11`, `12`.
 
 Note that GCC >= 8 is required to build Unikraft.
 
-## Clean Up
-
-Doing a new configuration, or a new build may require cleaning up the configuration and build artifacts.
-
-In order to remove the build artifacts, use:
-
-```console
-make clean
-```
-
-In order to remove fetched files also, that is the removal of the `out/` directory, use:
-
-```console
-make properclean
-```
-
-In order to remove the generated `.config` file as well, use:
-
-```console
-make distclean
-```
-
 ## Run
 
 Run the resulting image using the corresponding platform tool.
@@ -146,13 +134,13 @@ Hello from Unikraft!
 ### Run on QEMU/x86_64
 
 ```console
-qemu-system-x86_64 -nographic -m 8 -cpu max -kernel out/c-hello_qemu-x86_64
+qemu-system-x86_64 -nographic -m 8 -cpu max -kernel workdir/build/c-hello_qemu-x86_64
 ```
 
 ### Run on QEMU/ARM64
 
 ```console
-qemu-system-aarch64 -nographic -machine virt -m 8 -cpu max -kernel out/c-hello_qemu-arm64
+qemu-system-aarch64 -nographic -machine virt -m 8 -cpu max -kernel workdir/build/c-hello_qemu-arm64
 ```
 
 ### Run on Firecracker/x86_64
@@ -193,6 +181,28 @@ sudo xl create -c xen.arm64.cfg
 
 You need use `sudo` or the `root` account to run Xen.
 
+## Clean Up
+
+Doing a new configuration, or a new build may require cleaning up the configuration and build artifacts.
+
+In order to remove the build artifacts, use:
+
+```console
+make clean
+```
+
+In order to remove fetched files also, that is the removal of the `workdir/build/` directory, use:
+
+```console
+make properclean
+```
+
+In order to remove the generated `.config` file as well, use:
+
+```console
+make distclean
+```
+
 ## Customize
 
 C Hello is the simplest application to be run with Unikraft.
@@ -200,7 +210,7 @@ This makes it ideal as a minimal testing ground for new features: it builds fast
 
 ### Update the Unikraft Core Code
 
-If updating the Unikraft core code in the `../repos/unikraft/` directory, you then go through the [configure](#configure), [build](#build) and [run](#run) steps.
+If updating the Unikraft core code in the `./workdir/unikraft/` directory, you then go through the [configure](#configure), [build](#build) and [run](#run) steps.
 
 ### Add Other Source Code Files
 
@@ -232,25 +242,28 @@ Then go through the [configure](#configure), [build](#build) and [run](#run) ste
 It may be the case that you want to add a library to the build, in order to test the library or a certain feature.
 If that is the case, update the `UK_LIBS` variable in the [`Makefile`](Makefile).
 
-For example, to add the Musl library to the build, clone the [`lib-musl` library repository](https://github.com/unikraft/lib-musl):
+For example, to add the Musl library to the build, you need to add the [corresponding `lib-musl` repository](https://github.com/unikraft/lib-musl) to `workdir/`.
+You can add a symbolic link to the `../repos/libs/musl` repository:
 
 ```console
-test -d ../repos/libs/musl || git clone https://github.com/unikraft/lib-musl ../repos/libs/musl
+test -d workdir/libs || mkdir workdir/libs
+ln -sfn ../../../repos/libs/musl workdir/libs/musl
 ```
 
-and update the `UK_LIBS` line the [`Makefile`](Makefile) to:
+Then update the `UK_LIBS` line in the [`Makefile`](Makefile) to:
 
 ```make
 UK_LIBS ?= $(LIBS_BASE)/musl
 ```
 
-To add another library, such as LWIP, clone the [corresponding `lib-lwip` repository](https://github.com/unikraft/lib-musl):
+To add another library, such as LWIP, add the [corresponding `lib-lwip` repository](https://github.com/unikraft/lib-lwip):
 
 ```console
-test -d ../repos/libs/lwip || git clone https://github.com/unikraft/lib-lwip ../repos/libs/lwip
+test -d workdir/libs || mkdir workdir/libs
+ln -sfn ../../../repos/libs/lwip workdir/libs/lwip
 ```
 
-and update the `UK_LIBS` line the [`Makefile`](Makefile) to:
+Then update the `UK_LIBS` line in the [`Makefile`](Makefile) to:
 
 ```make
 UK_LIBS ?= $(LIBS_BASE)/musl:$(LIBS_BASE)/lwip
