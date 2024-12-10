@@ -1,0 +1,3 @@
+$(eval $(call addlib, apphttpcpp))
+
+APPHTTPCPP_SRCS-y +=  $(APPHTTPCPP_BASE)/server.cpp
