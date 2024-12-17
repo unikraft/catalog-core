@@ -24,6 +24,7 @@ Before and while you are using this catalog, read about the [internals of Unikra
 In order to set up, configure, build and run applications on Unikraft using first principles, the following packages are required:
 
 * `build-essential` / `base-devel` / `@development-tools` (the meta-package that includes `make`, `gcc` and other development-related packages)
+* `g++`
 * `sudo`
 * `flex`
 * `bison`
@@ -35,6 +36,7 @@ In order to set up, configure, build and run applications on Unikraft using firs
 * `qemu-kvm`
 * `sgabios`
 * `gcc-aarch64-linux-gnu`
+* `g++-aarch64-linux-gnu`
 * `bsdcpio`
 
 GCC >= 8 is required to build Unikraft.
@@ -47,6 +49,7 @@ sudo apt install -y --no-install-recommends \
   build-essential \
   sudo \
   gcc-aarch64-linux-gnu \
+  g++-aarch64-linux-gnu \
   libncurses-dev \
   libyaml-dev \
   flex \
