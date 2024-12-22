@@ -30,6 +30,7 @@ In order to set up, configure, build and run applications on Unikraft using firs
 * `bison`
 * `git`
 * `wget`
+* `curl`
 * `uuid-runtime`
 * `qemu-system-x86`
 * `qemu-system-arm`
@@ -56,6 +57,7 @@ sudo apt install -y --no-install-recommends \
   bison \
   git \
   wget \
+  curl \
   uuid-runtime \
   qemu-kvm \
   qemu-system-x86 \
