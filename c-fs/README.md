@@ -16,7 +16,7 @@ To build and run the application for `x86_64`, use the commands below:
 ```console
 ./setup.sh
 make distclean
-wget -O /tmp/defconfig https://github.com/unikraft/catalog-core/tree/scripts/c-fs/scripts/defconfig/qemu.x86_64
+wget -O /tmp/defconfig https://raw.githubusercontent.com/unikraft/catalog-core/refs/heads/scripts/c-fs/scripts/defconfig/qemu.x86_64
 UK_DEFCONFIG=/tmp/defconfig make defconfig
 make -j $(nproc)
 rm -f initrd.cpio
@@ -37,13 +37,14 @@ To do the same for `AArch64`, run the commands below:
 ```console
 ./setup.sh
 make distclean
-wget -O /tmp/defconfig https://github.com/unikraft/catalog-core/tree/scripts/c-fs/scripts/defconfig/qemu.arm64
+wget -O /tmp/defconfig https://raw.githubusercontent.com/unikraft/catalog-core/refs/heads/scripts/c-fs/scripts/defconfig/qemu.arm64
 UK_DEFCONFIG=/tmp/defconfig make defconfig
 make -j $(nproc)
 rm -f initrd.cpio
 ./workdir/unikraft/support/scripts/mkcpio initrd.cpio ./rootfs/
 qemu-system-aarch64 \
     -nographic \
+    -machine virt \
     -m 8 \
     -cpu max \
     -kernel workdir/build/c-fs_qemu-arm64 \

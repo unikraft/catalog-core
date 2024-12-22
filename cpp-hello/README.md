@@ -15,7 +15,7 @@ To build and run the application for `x86_64`, use the commands below:
 ```console
 ./setup.sh
 make distclean
-wget -O /tmp/defconfig https://github.com/unikraft/catalog-core/tree/scripts/cpp-hello/scripts/defconfig/qemu.x86_64
+wget -O /tmp/defconfig https://raw.githubusercontent.com/unikraft/catalog-core/refs/heads/scripts/cpp-hello/scripts/defconfig/qemu.x86_64
 UK_DEFCONFIG=/tmp/defconfig make defconfig
 make -j $(nproc)
 qemu-system-x86_64 -nographic -m 8 -cpu max -kernel workdir/build/cpp-hello_qemu-x86_64
@@ -28,7 +28,7 @@ To do the same for `AArch64`, run the commands below:
 ```console
 ./setup.sh
 make distclean
-wget -O /tmp/defconfig https://github.com/unikraft/catalog-core/tree/scripts/cpp-hello/scripts/defconfig/qemu.arm64
+wget -O /tmp/defconfig https://raw.githubusercontent.com/unikraft/catalog-core/refs/heads/scripts/cpp-hello/scripts/defconfig/qemu.arm64
 UK_DEFCONFIG=/tmp/defconfig make defconfig
 make -j $(nproc)
 qemu-system-aarch64 -nographic -machine virt -m 8 -cpu max -kernel workdir/build/cpp-hello_qemu-arm64
