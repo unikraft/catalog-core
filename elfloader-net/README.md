@@ -27,7 +27,7 @@ To build and run a simple HTTP server Linux ELF using the Unikraft ELF Loader, u
 ```console
 ./setup.sh
 make distclean
-wget -O /tmp/defconfig https://github.com/unikraft/catalog-core/tree/scripts/elfloader-net/scripts/defconfig/qemu.x86_64
+wget -O /tmp/defconfig https://raw.githubusercontent.com/unikraft/catalog-core/refs/heads/scripts/elfloader-net/scripts/defconfig/qemu.x86_64
 UK_DEFCONFIG=/tmp/defconfig make defconfig
 make -j $(nproc)
 sudo ip link set dev virbr0 down

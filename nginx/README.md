@@ -22,7 +22,7 @@ To build and run the application for `x86_64`, use the commands below:
 ```console
 ./setup.sh
 make distclean
-wget -O /tmp/defconfig https://github.com/unikraft/catalog-core/tree/scripts/nginx/scripts/defconfig/qemu.x86_64
+wget -O /tmp/defconfig https://raw.githubusercontent.com/unikraft/catalog-core/refs/heads/scripts/nginx/scripts/defconfig/qemu.x86_64
 UK_DEFCONFIG=/tmp/defconfig make defconfig
 make -j $(nproc)
 sudo ip link set dev virbr0 down
@@ -50,7 +50,7 @@ To do the same for `AArch64`, run the commands below:
 ```console
 ./setup.sh
 make distclean
-wget -O /tmp/defconfig https://github.com/unikraft/catalog-core/tree/scripts/nginx/scripts/defconfig/qemu.arm64
+wget -O /tmp/defconfig https://raw.githubusercontent.com/unikraft/catalog-core/refs/heads/scripts/nginx/scripts/defconfig/qemu.arm64
 UK_DEFCONFIG=/tmp/defconfig make defconfig
 make -j $(nproc)
 sudo ip link set dev virbr0 down
@@ -62,6 +62,7 @@ test -f initrd.cpio || ./workdir/unikraft/support/scripts/mkcpio initrd.cpio ./r
 sudo qemu-system-aarch64 \
     -nographic \
     -m 8 \
+    -machine virt \
     -cpu max \
     -netdev bridge,id=en0,br=virbr0 -device virtio-net-pci,netdev=en0 \
     -append "nginx netdev.ip=172.44.0.2/24:172.44.0.1::: vfs.fstab=[ \"initrd0:/:extract::ramfs=1:\" ] -- -c /nginx/conf/nginx.conf" \
