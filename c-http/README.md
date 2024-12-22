@@ -58,6 +58,7 @@ sudo ip address add 172.44.0.1/24 dev virbr0
 sudo ip link set dev virbr0 up
 sudo qemu-system-aarch64 \
     -nographic \
+    -machine virt \
     -m 8 \
     -cpu max \
     -netdev bridge,id=en0,br=virbr0 -device virtio-net-pci,netdev=en0 \
