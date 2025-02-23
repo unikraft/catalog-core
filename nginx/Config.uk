@@ -24,6 +24,9 @@ default y
 	select LIBDEVFS_AUTOMOUNT
 	select LIBDEVFS_DEVSTDOUT
 
+	# Enable standard input/output communication.
+	select LIBPOSIX_TTY_STDIO
+
 	# Use extended information (einfo) for configuring network parameters.
 	# This component parses the configuration string in the command line:
 	#    netdev.ip=172.44.0.2/24:172.44.0.1:::

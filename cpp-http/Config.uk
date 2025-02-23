@@ -12,6 +12,9 @@ default y
 	select LIBUNWIND
 	select LIBMUSL
 
+	# Enable standard input/output communication.
+	select LIBPOSIX_TTY_STDIO
+
 	# Select LWIP networking stack library
 	select LIBLWIP
 

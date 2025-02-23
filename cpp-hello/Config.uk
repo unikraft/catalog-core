@@ -10,3 +10,6 @@ default y
 	select LIBCXXABI
 	select LIBUNWIND
 	select LIBMUSL
+
+	# Enable standard input/output communication.
+	select LIBPOSIX_TTY_STDIO

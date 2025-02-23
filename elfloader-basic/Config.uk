@@ -28,3 +28,6 @@ default y
 	select LIBUKCPIO
 	select LIBDEVFS
 	select LIBDEVFS_AUTOMOUNT
+
+	# Enable standard input/output communication.
+	select LIBPOSIX_TTY_STDIO

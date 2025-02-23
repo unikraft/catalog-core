@@ -29,6 +29,9 @@ default y
 	select LIBDEVFS
 	select LIBDEVFS_AUTOMOUNT
 
+	# Enable standard input/output communication.
+	select LIBPOSIX_TTY_STDIO
+
 	# Select LWIP networking stack library.
 	select LIBLWIP
 

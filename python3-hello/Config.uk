@@ -28,3 +28,6 @@ config APPPYTHON3
 	# Add randomness support.
 	select LIBUKRANDOM
 	select LIBUKRANDOM_GETRANDOM
+
+	# Enable standard input/output communication.
+	select LIBPOSIX_TTY_STDIO
