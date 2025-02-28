@@ -1,0 +1,40 @@
+# Configure Redis application for a build that uses initrd to pass the root
+# filesystem.
+# Enable initrd / CPIO-related core components and configurations.
+
+config APPELFLOADER_REDIS
+	bool "Configure Redis application with initrd as rootfs"
+	default y
+
+	# Select app-elfloader component.
+	select APPELFLOADER_DEPENDENCIES
+
+	# Configurations options for app-elfloader
+	# (they can't be part of the template atm)
+	select APPELFLOADER_ARCH_PRCTL
+	select APPELFLOADER_BRK
+	select APPELFLOADER_CUSTOMAPPNAME
+	select APPELFLOADER_STACK_NBPAGES
+	select APPELFLOADER_VFSEXEC_EXECBIT
+	select APPELFLOADER_VFSEXEC
+	select APPELFLOADER_HFS
+	select APPELFLOADER_HFS_ETCRESOLVCONF
+	select APPELFLOADER_HFS_ETCHOSTS
+	select APPELFLOADER_HFS_ETCHOSTNAME
+	select APPELFLOADER_HFS_REPLACEEXIST
+
+	# Select filesystem implementation: cpio, ramfs, devfs.
+	select LIBVFSCORE
+	select LIBVFSCORE_AUTOMOUNT_UP
+	select LIBRAMFS
+	select LIBUKCPIO
+	select LIBDEVFS
+	select LIBDEVFS_AUTOMOUNT
+
+	# Select LWIP networking stack library.
+	select LIBLWIP
+
+	# Use extended information (einfo) for configuring network parameters.
+	# This component parses the configuration string in the command line:
+	#    netdev.ip=172.44.0.2/24:172.44.0.1:::
+	select LIBUKNETDEV_EINFO_LIBPARAM
