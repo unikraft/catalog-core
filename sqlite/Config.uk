@@ -1,0 +1,23 @@
+# Configure SQLite application for a build that uses initrd to pass the root
+# filesystem.
+
+config SQLITE
+bool "Configure SQLite application with initrd as rootfs"
+default y
+	# Select lib-musl dependency.
+	select LIBMUSL
+
+	# Select application library (sqlite). Use main function in application
+	# library. Other libraries, such as Musl as dependencies of SQLite.
+	select LIBSQLITE
+	select LIBSQLITE_MAIN_FUNCTION
+
+	# Select filesystem core components: vfscore.
+	select LIBVFSCORE
+	select LIBVFSCORE_AUTOMOUNT_UP
+	select LIBRAMFS
+	select LIBUKCPIO
+
+	# Add support for environment variables. They are given as parameters
+	# and used to tell SQLite where to look for the rc file.
+	select LIBPOSIX_ENVIRON_LIBPARAM
