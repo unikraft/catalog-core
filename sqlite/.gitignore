@@ -1,0 +1,4 @@
+workdir/
+firecracker.socket
+initrd.cpio
+.config
