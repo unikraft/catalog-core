@@ -9,5 +9,6 @@ test -d repos/libs/libunwind || git clone https://github.com/unikraft/lib-libunw
 test -d repos/libs/compiler-rt || git clone https://github.com/unikraft/lib-compiler-rt repos/libs/compiler-rt
 test -d repos/libs/nginx || git clone https://github.com/unikraft/lib-nginx repos/libs/nginx
 test -d repos/libs/python3 || git clone https://github.com/unikraft/lib-python3 repos/libs/python3
+test -d repos/libs/sqlite || git clone https://github.com/unikraft/lib-sqlite repos/libs/sqlite
 test -d repos/libs/libelf || git clone https://github.com/unikraft/lib-libelf repos/libs/libelf
 test -d repos/apps/elfloader || git clone https://github.com/unikraft/app-elfloader repos/apps/elfloader
