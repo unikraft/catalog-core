@@ -9,7 +9,7 @@ extern "C" {
 
 #[no_mangle]
 pub extern "C" fn main() -> () {
-    let msg = "Hello, World!\n";
+    let msg = "Hello from Unikraft!\n";
     unsafe {
         uk_console_out(msg.as_ptr(), msg.len());
     }
