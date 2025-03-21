@@ -2,12 +2,12 @@
 
 Build and run a Rust Hello program on Unikraft.
 Follow the instructions below to set up, configure, build and run Rust Hello.
-Make sure you installed the [requirements](../README.md#requirements) and [the `stable` Rust toolchain channel through Rustup](https://www.rust-lang.org/tools/install).
+Make sure you installed the [requirements](../README.md#requirements) and the [Rust toolchain channel through Rustup](https://www.rust-lang.org/tools/install).
 
 ## Quick Setup (aka TLDR)
 
 For a quick setup, run the commands below.
-Note that you still need to install the [requirements](../README.md#requirements) and [the Rust toolchain](https://www.rust-lang.org/tools/install).
+Note that you still need to install the [requirements](../README.md#requirements) and the [Rust toolchain](https://www.rust-lang.org/tools/install).
 Before everything, make sure you run the [top-level `setup.sh` script](../setup.sh).
 
 To build and run the application for `x86_64`, use the commands below:
