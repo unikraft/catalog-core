@@ -1,0 +1,3 @@
+$(eval $(call addlib,apprshello))
+
+APPRSHELLO_OBJS-y += $(APPRSHELLO_BASE)/target/x86_64-unknown-none/debug/deps/rs_hello-822b00486649cf34.o
