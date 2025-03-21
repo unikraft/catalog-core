@@ -15,7 +15,8 @@ To build and run the application for `x86_64`, use the commands below:
 ```console
 ./setup.sh
 make distclean
-cargo rustc -- --emit=obj
+rustup target add x86_64-unknown-none
+cargo +stable rustc -- --emit=obj
 wget -O /tmp/defconfig https://raw.githubusercontent.com/unikraft/catalog-core/refs/heads/scripts/rs-hello/scripts/defconfig/qemu.x86_64
 UK_DEFCONFIG=/tmp/defconfig make defconfig
 make -j $(nproc)
@@ -53,13 +54,16 @@ While not strictly required, it is safest to clean the previous build artifacts:
 make distclean
 ```
 
-## Configure
+## Compile Rust source file
 
 To generate the object file of the Rust source file, use:
 
 ```
-cargo rustc -- --emit=obj
+rustup target add x86_64-unknown-none
+cargo +stable rustc -- --emit=obj
 ```
+
+## Configure
 
 To configure the kernel, use:
 
