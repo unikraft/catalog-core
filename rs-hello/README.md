@@ -1,6 +1,6 @@
 # Rust Hello on Unikraft
 
-Build and run a Rust Hello program on Unikraft.
+Build and run a `std` independent Rust Hello program on Unikraft.
 Follow the instructions below to set up, configure, build and run Rust Hello.
 Make sure you installed the [requirements](../README.md#requirements) and the [Rust toolchain channel through Rustup](https://www.rust-lang.org/tools/install).
 
@@ -160,3 +160,36 @@ In order to remove the generated files by Cargo in the `target` directory, use:
 ```console
 cargo clean
 ```
+## Customize
+
+Rust Hello is the simplest application to be run with Unikraft.
+This makes it ideal as a minimal testing ground for new features: it builds fast, it doesn't have dependencies.
+
+### Update the Unikraft Core Code
+
+If updating the Unikraft core code in the `./workdir/unikraft/` directory, you then go through the [configure](#configure), [build](#build) and [run](#run) steps.
+
+### Add Other Object Files
+
+The current configuration use a object file.
+If looking to add another file to the build, update the [`Makefile.uk`](Makefile.uk) file.
+
+For example, to add a new object file `support.o` to the build, update the [`Makefile.uk`](Makefile.uk) file to:
+
+```make
+$(eval $(call addlib,apprshello))
+
+APPRSHELLO_OBJS-y += $(APPRSHELLO_BASE)/target/x86_64-unknown-none/debug/deps/rs_hello-*.o
+APPRSHELLO_OBJS-y += $(APPRSHELLO_BASE)/support.o
+```
+
+To include a Rust library, such as `librs_hello.rlib`, update the [`Makefile.uk`](Makefile.uk) file to:
+
+```make
+$(eval $(call addlib,apprshello))
+
+APPRSHELLO_OBJS-y += $(APPRSHELLO_BASE)/target/x86_64-unknown-none/debug/deps/rs_hello-*.o
+APPRSHELLO_ALIBS-y += $(APPRSHELLO_BASE)/librs_hello.rlib
+```
+
+Then go through the [configure](#configure), [build](#build) and [run](#run) steps.
