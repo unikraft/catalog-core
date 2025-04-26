@@ -1,7 +1,7 @@
 #!/bin/sh
 
 make distclean
-UK_DEFCONFIG=$(pwd)/scripts/defconfig/fc.x86_64.cpio make defconfig
+UK_DEFCONFIG=$(pwd)/scripts/defconfig/qemu.arm64.9pfs make defconfig
 touch Makefile.uk
 make prepare
 if test -z "$CC"; then
