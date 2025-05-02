@@ -1,0 +1,32 @@
+# Configure Redis server application for a build with bridged networking and
+# using initrd to pass the root filesystem.
+# Enable initrd / CPIO-related core components and configurations.
+# Enable extendeded information for configuring network parameters.
+
+config APPREDIS
+bool "Configure Redis server application with initrd as rootfs"
+default y
+
+	# Select application library (Redis). Use the server main function the
+	# application library. Other libraries, such as Musl or LWIP, are selected
+	# as dependencies of Redis.
+	select LIBREDIS
+	select LIBREDIS_SERVER
+	select LIBREDIS_SERVER_MAIN_FUNCTION
+	select LIBREDIS_LUA
+
+	# Select filesystem core components: vfscore, cpio, ramfs, devfs. For
+	# each select corresponding features. The other core components are
+	# selected as dependencies of Redis.
+	select LIBVFSCORE
+	select LIBVFSCORE_AUTOMOUNT_UP
+	select LIBRAMFS
+	select LIBUKCPIO
+	select LIBDEVFS
+	select LIBDEVFS_AUTOMOUNT
+	select LIBDEVFS_DEVSTDOUT
+
+	# Use extended information (einfo) for configuring network parameters.
+	# This component parses the configuration string in the command line:
+	#    netdev.ip=172.44.0.2/24:172.44.0.1:::
+	select LIBUKNETDEV_EINFO_LIBPARAM

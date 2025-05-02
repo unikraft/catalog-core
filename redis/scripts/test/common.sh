@@ -35,18 +35,6 @@ start_instance()
     fi
 }
 
-start_instance_timeout()
-{
-    # Start instance.
-    setsid --fork timeout -k 2 30 "$start_command" 1>&2 &
-    if test $? -ne 0; then
-        echo "Cannot start instance" 1>&2
-        echo "FAILED"
-        clean_up
-        exit 1
-    fi
-}
-
 test_ping()
 {
     host="$1"
