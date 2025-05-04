@@ -1,0 +1,17 @@
+#!/bin/sh
+
+if test ! -f "workdir/build/sqlite_fc-arm64"; then
+  echo "No kernel file workdir/build/sqlite_fc-arm64." 1>&2
+  echo "Did you run ./scripts/build/fc.arm64 ?" 1>&2
+  exit 1
+fi
+
+# Pack filesystem as an initial ramdisk CPIO file.
+rm -f initrd.cpio
+../repos/unikraft/support/scripts/mkcpio initrd.cpio ./rootfs/
+
+rm -f firecracker.socket
+
+firecracker-aarch64 \
+  --api-sock firecracker.socket \
+  --config-file fc.arm64.json
