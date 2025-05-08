@@ -1,4 +1,4 @@
-name: catalog-core/test-proto
+name: catalog-core/test-all
 
 on:
   schedule:
