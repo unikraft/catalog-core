@@ -1,0 +1,105 @@
+name: catalog-core/test-all
+
+on:
+  schedule:
+    - cron: '0 1 * * *'   # 1 AM UTC daily
+  workflow_dispatch:      # Manual trigger
+
+jobs:
+  test-all:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout test branch
+        uses: actions/checkout@v4
+        with:
+          ref: test
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: Enable Docker BuildKit
+        run: echo "DOCKER_BUILDKIT=1" >> $GITHUB_ENV
+
+      - name: Install base dependencies
+        run: |
+          sudo apt -y update
+          sudo apt install -y --no-install-recommends \
+            build-essential \
+            sudo \
+            gcc-aarch64-linux-gnu \
+            g++-aarch64-linux-gnu \
+            libncurses-dev \
+            libyaml-dev \
+            flex \
+            bison \
+            git \
+            wget \
+            curl \
+            uuid-runtime \
+            qemu-kvm \
+            qemu-system-x86 \
+            qemu-system-arm \
+            sgabios \
+            libarchive-tools \
+            clang \
+            xen-utils \
+            redis-tools
+
+      - name: Setup QEMU networking
+        run: |
+          test -d /etc/qemu || sudo mkdir -p /etc/qemu
+          echo "allow all" | sudo tee /etc/qemu/bridge.conf
+
+      - name: Install Firecracker
+        run: |
+          release_url="https://github.com/firecracker-microvm/firecracker/releases"
+          latest=v1.7.0
+          curl -L ${release_url}/download/${latest}/firecracker-${latest}-$(uname -m).tgz | tar -xz
+          sudo cp release-${latest}-$(uname -m)/firecracker-${latest}-$(uname -m) /usr/local/bin/firecracker-${latest}-$(uname -m)
+          sudo ln -sfn /usr/local/bin/firecracker-${latest}-$(uname -m) /usr/local/bin/firecracker-$(uname -m)
+          sudo usermod -a -G kvm $USER
+
+      - name: Run tests
+        id: run-tests
+        run: |
+          sudo -E ./test.overall.sh 2>&1 | tee -a output.log
+          echo "result=$(grep -q 'FAILED' output.log && echo 'failed' || echo 'passed')" >> $GITHUB_OUTPUT
+
+      - name: Generate test report
+        if: always()
+        run: |
+          echo "## Unikraft Catalog Core Test Results" >> $GITHUB_STEP_SUMMARY
+          echo "### $(date -u)" >> $GITHUB_STEP_SUMMARY
+
+          # Application test results
+
+          grep -E '\[.*\]|PASSED|FAILED' output.log | awk '
+            BEGIN {
+              print "| Test Suite | Test Name | Status |"
+              print "|------------|-----------|--------|"
+            }
+            /\[.*\]/ {
+              app=$0
+              gsub(/\[|\]/, "", app)
+              next
+            }
+            /PASSED|FAILED/ {
+              split($0, parts, /\.\.\. /)
+              test_name = $1
+              status = ($NF == "PASSED") ? "✅ PASSED" : "❌ FAILED"
+              printf "| %s | %s | %s |\n", app, test_name, status
+            }' >> $GITHUB_STEP_SUMMARY
+
+          echo "### System Configuration" >> $GITHUB_STEP_SUMMARY
+          echo "- QEMU Version: $(qemu-system-x86_64 --version | head -n1)" >> $GITHUB_STEP_SUMMARY
+          echo "- Firecracker Version: $(firecracker-$(uname -m) --version 2>&1 | head -n1)" >> $GITHUB_STEP_SUMMARY
+          echo "- Docker Version: $(docker --version)" >> $GITHUB_STEP_SUMMARY
+
+      - name: Archive test artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: catalog-core-test-logs-${{ github.run_id }}
+          path: |
+            output.log
+            */scripts/test/log/*
+          retention-days: 7
