@@ -98,7 +98,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: catalog-core-test-logs
+          name: catalog-core-test-logs-${{ github.run_id }}
           path: |
             output.log
             */scripts/test/log/*
