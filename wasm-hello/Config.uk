@@ -1,0 +1,10 @@
+# Configure WASM Hello application
+config APPWASMHELLO
+    bool "WASM Hello World Application"
+    default y
+    select LIBWAMR
+    select CONFIG_LIBWAMR_MAIN_FUNCTION
+    select LIBUKDEBUG
+    select LIBUKLIBPARAM
+    select LIBMUSL
+    select LIBLWIP
