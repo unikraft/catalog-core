@@ -9,5 +9,5 @@ default y
 	# Select filesystem core components: vfscore, cpio, ramfs.
 	select LIBVFSCORE
 	select LIBVFSCORE_AUTOMOUNT_UP
-	select LIBRAMFS
-	select LIBUKCPIO
+        select LIBUK9P
+        select LIB9PFS
