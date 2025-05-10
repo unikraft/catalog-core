@@ -1,0 +1,4 @@
+# Auto generated file. DO NOT EDIT
+source "/home/ionut/Desktop/Personal/OpenSourceContribution/catalog-core/repos/unikraft/drivers/ukconsole/ns16550/Config.uk"
+source "/home/ionut/Desktop/Personal/OpenSourceContribution/catalog-core/repos/unikraft/drivers/ukconsole/pl011/Config.uk"
+source "/home/ionut/Desktop/Personal/OpenSourceContribution/catalog-core/repos/unikraft/drivers/ukconsole/vgacons/Config.uk"

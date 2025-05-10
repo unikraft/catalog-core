@@ -1,0 +1,32 @@
+qemu-system-x86_64 \
+  -machine accel=tcg -cpu max \
+  -m 256 \
+  -nographic \
+  -netdev user,id=net0,hostfwd=tcp:127.0.0.1:18080-:8080 \
+  -device virtio-net-pci,netdev=net0 \
+  -kernel workdir/build/python3.12-http-server_qemu-x86_64 \
+  -initrd ./initrd.cpio \
+  -append "python3.12-http-server_qemu-x86_64 \
+    rootfstype=ramfs console=ttyS0 \
+    vfs.fstab=[\"initrd0:/:extract::ramfs=1:\"] \
+    env.vars=[PYTHONHOME=\"/lib/python3.10\" PYTHONPATH=\"/lib/python3.10\"] \
+    -- /app/http-server.py"
+    aici pentru x86_64
+-----------------------------------------------------------------------------------------------------------
+qemu-system-aarch64 \
+  -machine virt -cpu max -m 256 -nographic \
+  -netdev user,id=net0,hostfwd=tcp:127.0.0.1:18080-:8080 \
+  -device virtio-net-device,netdev=net0 \
+  -kernel workdir/build/python3.12-http-server_qemu-arm64 \
+  -initrd ./initrd.cpio \
+  -append "python3.12-http-server_qemu-arm64 \
+    rootfstype=ramfs console=ttyAMA0 \
+    vfs.fstab=[\"initrd0:/:extract::ramfs=1:\"] \
+    env.vars=[PYTHONHOME=\"/lib/python3.10\" PYTHONPATH=\"/lib/python3.10\"] \
+    -- /app/http-server.py"
+aici pentru arm64
+
+
+test:
+ss -ltnp | grep 18080
+curl http://127.0.0.1:18080

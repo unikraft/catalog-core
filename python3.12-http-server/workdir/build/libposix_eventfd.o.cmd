@@ -1,0 +1,1 @@
+aarch64-linux-gnu-objcopy         /home/ionut/Desktop/Personal/OpenSourceContribution/catalog-core/python3.12-http-server/workdir/build/libposix_eventfd.ld.o /home/ionut/Desktop/Personal/OpenSourceContribution/catalog-core/python3.12-http-server/workdir/build/libposix_eventfd.o

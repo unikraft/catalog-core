@@ -1,0 +1,27 @@
+# Makefile.uk
+UK_ROOT   ?= $(PWD)/repos/unikraft
+UK_BUILD  ?= $(PWD)/workdir/build
+UK_APP    ?= $(PWD)
+LIBS_BASE = $(PWD)/repos/libs
+
+UK_LIBS   ?= \
+  $(LIBS_BASE)/musl:\
+  $(LIBS_BASE)/lwip:\
+  $(LIBS_BASE)/compiler-rt:\
+  $(LIBS_BASE)/python3
+
+.PHONY: all clean
+
+all:
+	$(MAKE) -C $(UK_ROOT) \
+		L=$(UK_LIBS) \
+		A=$(UK_APP) \
+		O=$(UK_BUILD)/python3.12-http-server_qemu-x86_64 \
+		all
+
+clean:
+	$(MAKE) -C $(UK_ROOT) \
+		L=$(UK_LIBS) \
+		A=$(UK_APP) \
+		O=$(UK_BUILD)/python3.12-http-server_qemu-x86_64 \
+		clean

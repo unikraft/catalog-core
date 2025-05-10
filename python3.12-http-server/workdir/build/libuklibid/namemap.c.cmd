@@ -1,0 +1,1 @@
+gawk --lint -f /home/ionut/Desktop/Personal/OpenSourceContribution/catalog-core/repos/unikraft/lib/uklibid/namemap.awk        /home/ionut/Desktop/Personal/OpenSourceContribution/catalog-core/python3.12-http-server/workdir/build/libuklibid/libraries.in > /home/ionut/Desktop/Personal/OpenSourceContribution/catalog-core/python3.12-http-server/workdir/build/libuklibid/namemap.c
