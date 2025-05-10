@@ -1,1 +1,0 @@
-""strip -s /home/dana/Unikraft/personal/catalog-core/lua/workdir/build/lua_qemu-x86_64.dbg -o /home/dana/Unikraft/personal/catalog-core/lua/workdir/build/lua_qemu-x86_64 2>&1 | { grep -Ev "Empty loadable segment detected|section.*lma.*adjusted to.*" || true; }

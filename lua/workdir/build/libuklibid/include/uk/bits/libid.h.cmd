@@ -1,1 +1,0 @@
-gawk --lint -f /home/dana/Unikraft/personal/catalog-core/repos/unikraft/lib/uklibid/libid.awk        /home/dana/Unikraft/personal/catalog-core/lua/workdir/build/libuklibid/libraries.in > /home/dana/Unikraft/personal/catalog-core/lua/workdir/build/libuklibid/include/uk/bits/libid.h

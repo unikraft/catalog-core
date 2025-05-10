@@ -1,1 +1,0 @@
-""gcc -nostdlib -Wl,-r -Wl,-d -Wl,--build-id=none -no-pie -nostdinc    /home/dana/Unikraft/personal/catalog-core/lua/workdir/build/libns16550/com.isr.o /home/dana/Unikraft/personal/catalog-core/lua/workdir/build/libns16550/libinfo.libuklibid.o   -Wl,--start-group     -Wl,--end-group -o /home/dana/Unikraft/personal/catalog-core/lua/workdir/build/libns16550.ld.o

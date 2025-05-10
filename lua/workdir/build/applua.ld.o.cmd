@@ -1,1 +1,0 @@
-""gcc -nostdlib -Wl,-r -Wl,-d -Wl,--build-id=none -no-pie -nostdinc    /home/dana/Unikraft/personal/catalog-core/lua/workdir/build/applua/libinfo.libuklibid.o   -Wl,--start-group     -Wl,--end-group -o /home/dana/Unikraft/personal/catalog-core/lua/workdir/build/applua.ld.o
