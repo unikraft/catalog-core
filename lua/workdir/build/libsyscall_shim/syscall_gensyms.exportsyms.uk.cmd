@@ -1,0 +1,1 @@
+gawk --lint -f /home/dana/Unikraft/personal/catalog-core/repos/unikraft/lib/syscall_shim/syscall_gensyms.awk    -F '-'    /home/dana/Unikraft/personal/catalog-core/lua/workdir/build/libsyscall_shim/provided_syscalls.in > /home/dana/Unikraft/personal/catalog-core/lua/workdir/build/libsyscall_shim/syscall_gensyms.exportsyms.uk

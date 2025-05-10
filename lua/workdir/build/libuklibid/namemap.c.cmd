@@ -1,0 +1,1 @@
+gawk --lint -f /home/dana/Unikraft/personal/catalog-core/repos/unikraft/lib/uklibid/namemap.awk        /home/dana/Unikraft/personal/catalog-core/lua/workdir/build/libuklibid/libraries.in > /home/dana/Unikraft/personal/catalog-core/lua/workdir/build/libuklibid/namemap.c

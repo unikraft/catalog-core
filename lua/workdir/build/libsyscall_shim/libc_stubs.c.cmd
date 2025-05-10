@@ -1,0 +1,1 @@
+gawk --lint -f /home/dana/Unikraft/personal/catalog-core/repos/unikraft/lib/syscall_shim/libc_stubs.awk        /home/dana/Unikraft/personal/catalog-core/repos/unikraft/lib/syscall_shim/arch/x86_64/syscall.h.in > /home/dana/Unikraft/personal/catalog-core/lua/workdir/build/libsyscall_shim/libc_stubs.c

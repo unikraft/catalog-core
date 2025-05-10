@@ -1,0 +1,1 @@
+""gcc -nostdlib -Wl,-r -Wl,-d -Wl,--build-id=none -no-pie -nostdinc    /home/dana/Unikraft/personal/catalog-core/lua/workdir/build/libukboot_main/weak_main.o /home/dana/Unikraft/personal/catalog-core/lua/workdir/build/libukboot_main/libinfo.libuklibid.o   -Wl,--start-group     -Wl,--end-group -o /home/dana/Unikraft/personal/catalog-core/lua/workdir/build/libukboot_main.ld.o

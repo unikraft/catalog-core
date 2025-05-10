@@ -1,0 +1,1 @@
+""gcc -nostdlib -Wl,-r -Wl,-d -Wl,--build-id=none -no-pie -nostdinc    /home/dana/Unikraft/personal/catalog-core/lua/workdir/build/libposix_futex/futex.o /home/dana/Unikraft/personal/catalog-core/lua/workdir/build/libposix_futex/libinfo.libuklibid.o   -Wl,--start-group     -Wl,--end-group -o /home/dana/Unikraft/personal/catalog-core/lua/workdir/build/libposix_futex.ld.o

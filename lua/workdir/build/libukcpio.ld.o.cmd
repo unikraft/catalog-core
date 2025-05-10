@@ -1,0 +1,1 @@
+""gcc -nostdlib -Wl,-r -Wl,-d -Wl,--build-id=none -no-pie -nostdinc    /home/dana/Unikraft/personal/catalog-core/lua/workdir/build/libukcpio/cpio.o /home/dana/Unikraft/personal/catalog-core/lua/workdir/build/libukcpio/libinfo.libuklibid.o   -Wl,--start-group     -Wl,--end-group -o /home/dana/Unikraft/personal/catalog-core/lua/workdir/build/libukcpio.ld.o

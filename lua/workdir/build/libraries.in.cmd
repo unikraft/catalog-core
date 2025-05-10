@@ -1,0 +1,1 @@
+cmp -s /home/dana/Unikraft/personal/catalog-core/lua/workdir/build/libuklibid/libraries.in.new /home/dana/Unikraft/personal/catalog-core/lua/workdir/build/libuklibid/libraries.in; if [ $? -ne 0 ]; then cp /home/dana/Unikraft/personal/catalog-core/lua/workdir/build/libuklibid/libraries.in.new /home/dana/Unikraft/personal/catalog-core/lua/workdir/build/libuklibid/libraries.in; fi

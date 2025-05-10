@@ -1,0 +1,4 @@
+# Auto generated file. DO NOT EDIT
+source "/home/dana/Unikraft/personal/catalog-core/repos/unikraft/drivers/ukconsole/ns16550/Config.uk"
+source "/home/dana/Unikraft/personal/catalog-core/repos/unikraft/drivers/ukconsole/pl011/Config.uk"
+source "/home/dana/Unikraft/personal/catalog-core/repos/unikraft/drivers/ukconsole/vgacons/Config.uk"

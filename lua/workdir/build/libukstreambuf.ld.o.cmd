@@ -1,0 +1,1 @@
+""gcc -nostdlib -Wl,-r -Wl,-d -Wl,--build-id=none -no-pie -nostdinc    /home/dana/Unikraft/personal/catalog-core/lua/workdir/build/libukstreambuf/streambuf.o /home/dana/Unikraft/personal/catalog-core/lua/workdir/build/libukstreambuf/libinfo.libuklibid.o   -Wl,--start-group     -Wl,--end-group -o /home/dana/Unikraft/personal/catalog-core/lua/workdir/build/libukstreambuf.ld.o

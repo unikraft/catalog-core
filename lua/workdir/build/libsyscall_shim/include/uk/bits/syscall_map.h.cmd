@@ -1,0 +1,1 @@
+gawk --lint -f /home/dana/Unikraft/personal/catalog-core/repos/unikraft/lib/syscall_shim/syscall_map.awk        /home/dana/Unikraft/personal/catalog-core/repos/unikraft/lib/syscall_shim/arch/x86_64/syscall.h.in > /home/dana/Unikraft/personal/catalog-core/lua/workdir/build/libsyscall_shim/include/uk/bits/syscall_map.h
