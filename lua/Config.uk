@@ -1,0 +1,15 @@
+config APPLUA
+bool "Lua Hello example"
+default y
+
+    select LIBLUA
+    select LIBLUA_MAIN_FUNCTION
+    select LIBVFSCORE
+    select LIBVFSCORE_AUTOMOUNT_UP
+    select LIBUKCPIO
+    select LIBPOSIX_ENVIRON
+    select LIBPOSIX_ENVIRON_LIBPARAM
+    select LIBRAMFS
+    select LIBDEVFS
+    select LIBDEVFS_AUTOMOUNT
+    select LIBDEVFS_DEVSTDOUT
