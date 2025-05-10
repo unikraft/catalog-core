@@ -1,5 +1,0 @@
-# Auto generated file. DO NOT EDIT
-source "/home/ionut/Desktop/Personal/OpenSourceContribution/catalog-core/repos/unikraft/drivers/ukps2/Config.uk"
-source "/home/ionut/Desktop/Personal/OpenSourceContribution/catalog-core/repos/unikraft/drivers/ukrtc/Config.uk"
-source "/home/ionut/Desktop/Personal/OpenSourceContribution/catalog-core/repos/unikraft/drivers/virtio/Config.uk"
-source "/home/ionut/Desktop/Personal/OpenSourceContribution/catalog-core/repos/unikraft/drivers/Config.uk"

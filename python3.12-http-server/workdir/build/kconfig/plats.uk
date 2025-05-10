@@ -1,4 +1,0 @@
-# Auto generated file. DO NOT EDIT
-source "/home/ionut/Desktop/Personal/OpenSourceContribution/catalog-core/repos/unikraft/plat/kvm/Config.uk"
-source "/home/ionut/Desktop/Personal/OpenSourceContribution/catalog-core/repos/unikraft/plat/xen/Config.uk"
-source "/home/ionut/Desktop/Personal/OpenSourceContribution/catalog-core/repos/unikraft/plat/Config.uk"
