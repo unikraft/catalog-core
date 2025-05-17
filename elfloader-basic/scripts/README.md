@@ -34,3 +34,15 @@ CC=/usr/bin/clang ./scripts/build/fc.x86_64
 ./scripts/run/qemu.x86_64
 ./scripts/run/fc.x86_64
 ```
+
+## Build and Run for <plat> / <arch> using a different file system 
+
+```console
+./scripts/run/<plat>.<arch>.<file_system>
+```
+
+e.g.
+
+```console
+./scripts/run/qemu.x86_64.9pfs
+```
