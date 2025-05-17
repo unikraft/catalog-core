@@ -29,3 +29,4 @@ test_build_run()
 test -d ./scripts/test/log || mkdir ./scripts/test/log
 test_build_run qemu.x86_64
 test_build_run fc.x86_64
+test_build_run qemu.x86_64.9pfs
