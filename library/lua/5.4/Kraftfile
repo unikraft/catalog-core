@@ -1,0 +1,40 @@
+spec: v0.6
+
+name: lua
+
+rootfs: ./rootfs
+
+cmd: ["/helloworld.lua"]
+
+unikraft:
+  version: staging
+  kconfig:
+    CONFIG_LIBRAMFS: 'y'
+    CONFIG_LIBUK9P: 'y'
+    CONFIG_LIBUKBUS: 'y'
+    CONFIG_LIBUKCPIO: 'y'
+    CONFIG_LIBUKDEBUG_ANSI_COLOR: 'y'
+    CONFIG_LIBUKLIBPARAM: 'y'
+    CONFIG_LIBVFSCORE_AUTOMOUNT_CI_EINITRD: 'y'
+    CONFIG_LIBVFSCORE_AUTOMOUNT_CI: 'y'
+    CONFIG_LIBVFSCORE_AUTOMOUNT_FB: 'y'
+    CONFIG_LIBVFSCORE_AUTOMOUNT_FB0_DEV: "embedded"
+    CONFIG_LIBVFSCORE_AUTOMOUNT_FB0_DRIVER: "extract"
+    CONFIG_LIBVFSCORE_AUTOMOUNT_FB0_MP: "/"
+    CONFIG_LIBVFSCORE_AUTOMOUNT_UP: 'y'
+    CONFIG_LIBVFSCORE_AUTOMOUNT: 'y'
+    CONFIG_LIBVFSCORE: 'y'
+    CONFIG_LIBUK9P: 'y'
+
+targets:
+- qemu/x86_64
+- qemu/arm64
+- fc/x86_64
+- fc/arm64
+
+libraries:
+  musl: stable
+  lua:
+    version: stable
+    kconfig:
+      CONFIG_LUA_MAIN_FUNCTION: 'y'
