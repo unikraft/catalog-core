@@ -317,3 +317,57 @@ Then go through the [configure](#configure), [build](#build) and [run](#run) ste
 You can customize the ELF Loader build debug messages.
 For that, use the ["Configure" step](#configure) to add debug printing option from the [`ukdebug` library](https://github.com/unikraft/unikraft/tree/staging/lib/ukdebug).
 Then, build and run again.
+
+### Use a Different Filesystem Type for QEMU
+
+You can use [`9pfs`](https://github.com/unikraft/unikraft/tree/staging/lib/9pfs) as an alternate filesystem to initrd.
+Note that 9pfs does not work with Firecracker.
+And it requires re-building Xen to add 9pfs support.
+Below you can find instructions on running the C filesystem-using program on QEMU with 9pfs support.
+
+You need to use these contents for the [`Config.uk`](Config.uk) configuration file:
+
+```text
+config APPCFS
+bool "Configure C filesystem application with initrd as rootfs"
+default y
+        # Select filesystem core components: vfscore, cpio, ramfs.
+        select LIBVFSCORE
+        select LIBVFSCORE_AUTOMOUNT_UP
+        select LIBUK9P
+        select LIB9PFS
+```
+
+This means you replace these two lines in [`Config.uk`](Config.uk):
+
+```text
+        select LIBRAMFS
+        select LIBUKCPIO
+```
+
+with these lines:
+
+```text
+        select LIBUK9P
+        select LIB9PFS
+```
+
+Now go through the [clean up](#clean-up), [configure](#configure), and [build](#build) steps — but skip the [build the filesystem step](#build-the-filesystem-step).
+
+#### Run on QEMU/x86_64
+
+```console
+# Create a copy of the filesystem to be mounted as 9pfs.
+rm -fr 9pfs-rootfs
+cp -r rootfs 9pfs-rootfs
+qemu-system-x86_64 \
+    -nographic \
+    -m 8 \
+    -cpu max \
+    -kernel workdir/build/c-fs_qemu-x86_64 \
+    -append "c-fs vfs.fstab=[ \"fs0:/:9pfs:::\" ] -- /hello.txt" \
+    -fsdev local,id=myid,path=$(pwd)/9pfs-rootfs/,security_model=none \
+    -device virtio-9p-pci,fsdev=myid,mount_tag=fs0
+```
+
+You would use a similar command for QEMU/ARM64.
