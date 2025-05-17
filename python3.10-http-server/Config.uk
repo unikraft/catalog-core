@@ -1,0 +1,32 @@
+# Configure Python3 HTTP Server application to use Plan 9 filesystem (9PFS) as rootfs.
+# Eliminate initrd/CPIO and ramfs configuration; use Virtio-9p instead.
+
+config APPPYTHON3_HTTP_SERVER
+	bool "Configure Python3 HTTP Server application with 9PFS as rootfs"
+	default y
+
+	# Select application library (Python3).
+	select LIBPYTHON3
+	select LIBPYTHON3_MAIN_FUNCTION
+
+	# Virtual Filesystem core components: use Virtio-9p client + Plan 9 FS.
+	select LIBVFSCORE
+	select LIBVFSCORE_AUTOMOUNT_UP
+	select LIBUK9P
+	select LIB9PFS
+
+	# Pass environment variables (e.g. PYTHONPATH).
+	select LIBPOSIX_ENVIRON
+	select LIBPOSIX_ENVIRON_LIBPARAM
+
+	# Randomness support.
+	select LIBUKRANDOM
+	select LIBUKRANDOM_GETRANDOM
+
+# Alege 9PFS ca root filesystem implicit:
+choice LIBVFSCORE_ROOTFS
+	bool "Default root filesystem type"
+	default LIBVFSCORE_ROOTFS_9PFS
+	help
+	  Select Plan 9 filesystem (9PFS via Virtio-9p) as the default root filesystem.
+endchoice
