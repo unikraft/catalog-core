@@ -1,0 +1,30 @@
+# Configure Lua Hello example
+# A minimal Unikraft unikernel that runs a Lua script.
+# Enable core Lua runtime, filesystem and POSIX environment support.
+
+config APPLUA
+bool "Lua Hello example"
+default y
+
+	# Select the core Lua runtime library.
+	select LIBLUA
+
+	# Select the application’s main function entrypoint (Lua interpreter)
+	select LIBLUA_MAIN_FUNCTION
+
+	# Select filesystem core components:
+	# vfscore + automount, CPIO support, ramfs, devfs.
+	# These provide an in-memory filesystem and device nodes.
+	select LIBVFSCORE
+	select LIBVFSCORE_AUTOMOUNT_UP
+	select LIBUKCPIO
+	select LIBRAMFS
+	select LIBDEVFS
+	select LIBDEVFS_AUTOMOUNT
+	select LIBDEVFS_DEVSTDOUT
+
+	# Select POSIX environment support for getenv/putenv.
+	select LIBPOSIX_ENVIRON
+
+	# Use library-parameter parsing for environment variables.
+	select LIBPOSIX_ENVIRON_LIBPARAM
