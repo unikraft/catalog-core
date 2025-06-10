@@ -1,0 +1,4 @@
+#!/bin/sh
+
+./scripts/build/rootfs.x86_64
+./scripts/build/kernel.qemu.x86_64
