@@ -1,6 +1,6 @@
 #!/bin/sh
 
-to_test="c-fs c-hello c-http cpp-hello cpp-http elfloader-basic elfloader-net nginx python3-hello redis"
+to_test="c-fs c-hello c-http cpp-hello cpp-http elfloader-basic elfloader-net nginx python3-hello redis bincompat-c-hello"
 
 if test $# -eq 1; then
     to_test="$1"
