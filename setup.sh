@@ -12,3 +12,5 @@ test -d repos/libs/python3 || git clone https://github.com/unikraft/lib-python3 
 test -d repos/libs/libelf || git clone https://github.com/unikraft/lib-libelf repos/libs/libelf
 test -d repos/apps/elfloader || git clone https://github.com/unikraft/app-elfloader repos/apps/elfloader
 test -d repos/apps/redis || git clone https://github.com/unikraft/lib-redis repos/libs/redis
+test -d repos/libs/openarena || git clone https://github.com/unikraft/lib-openarena repos/libs/openarena
+test -d repos/libs/zlib || git clone https://github.com/unikraft/lib-zlib repos/libs/zlib

@@ -1,0 +1,472 @@
+  0:00 ------------------------------------------------------------
+  0:00 InitGame: \g_lms_mode\0\elimination_roundtime\120\g_voteMinFraglimit\0\g_voteMaxFraglimit\0\g_voteMinTimelimit\0\g_voteMaxTimelimit\1000\g_voteGametypes\/0/1/3/4/5/6/7/8/9/10/11/12/\g_allowVote\1\capturelimit\0\videoflags\7\g_maxGameClients\0\g_doWarmup\0\g_delagHitscan\1\sv_hostname\noname\sv_minRate\0\sv_maxRate\0\sv_dlRate\100\sv_minPing\0\sv_maxPing\0\sv_floodProtect\1\g_redTeam\Stroggs\g_blueTeam\Pagans\dmflags\0\fraglimit\20\timelimit\0\sv_maxclients\7\version\ioq3+oa 3.0.0a_GIT_74046d7a-2023-11-07 linux-x86_64 Mar  6 2025\com_gamename\Quake3Arena\com_protocol\71\g_gametype\0\mapname\pul1duel-oa\sv_privateClients\0\sv_allowDownload\0\g_instantgib\0\g_rockets\0\gamename\baseoa\elimflags\0\voteflags\0\g_needpass\0\g_obeliskRespawnDelay\10\g_enableDust\0\g_enableBreath\0\g_altExcellent\0\g_timestamp\2025-03-06 18:00:30
+  0:00 Info: ServerInfo length: 823 of 1024
+  0:00 ClientUserinfoChanged: 0 n\UnnamedPlayer\t\0\model\sarge\hmodel\sarge\g_redteam\\g_blueteam\\c1\4\c2\5\hc\100\w\0\l\0\tt\0\tl\0\id\CABE39B30E630CAD528B260578932B3B
+  0:00 ClientConnect: 0
+  0:00 ClientUserinfoChanged: 1 n\Ayumi\t\0\model\ayumi\hmodel\ayumi\c1\4\c2\5\hc\70\w\0\l\0\skill\ 2.00\tt\0\tl\0\id\
+  0:00 ClientConnect: 1
+  0:00 Info: There has been at least 1 bot now
+  0:00 Playerstore: Failed to restore player. Invalid guid: 
+  0:00 ClientBegin: 1
+  0:00 ClientUserinfoChanged: 2 n\Jenna\t\0\model\ayumi/blue\hmodel\ayumi/blue\c1\4\c2\5\hc\70\w\0\l\0\skill\ 2.00\tt\0\tl\0\id\
+  0:00 ClientConnect: 2
+  0:00 Playerstore: Failed to restore player. Invalid guid: 
+  0:00 ClientBegin: 2
+  0:00 ClientUserinfoChanged: 3 n\Tony\t\0\model\tony\hmodel\tony\c1\4\c2\5\hc\70\w\0\l\0\skill\ 2.00\tt\0\tl\0\id\
+  0:00 ClientConnect: 3
+  0:00 Playerstore: Failed to restore player. Invalid guid: 
+  0:00 ClientBegin: 3
+  0:00 ClientUserinfoChanged: 4 n\Kyonshi\t\0\model\kyonshi\hmodel\kyonshi\c1\4\c2\5\hc\70\w\0\l\0\skill\ 2.00\tt\0\tl\0\id\
+  0:00 ClientConnect: 4
+  0:00 Playerstore: Failed to restore player. Invalid guid: 
+  0:00 ClientBegin: 4
+  0:00 ClientUserinfoChanged: 0 n\UnnamedPlayer\t\0\model\sarge\hmodel\sarge\g_redteam\\g_blueteam\\c1\4\c2\5\hc\100\w\0\l\0\tt\0\tl\0\id\CABE39B30E630CAD528B260578932B3B
+  0:00 ClientUserinfoChanged: 0 n\UnnamedPlayer\t\0\model\sarge\hmodel\sarge\g_redteam\\g_blueteam\\c1\4\c2\5\hc\100\w\0\l\0\tt\0\tl\0\id\CABE39B30E630CAD528B260578932B3B
+  0:00 Playerstore: Nothing to restore. Guid: CABE39B30E630CAD528B260578932B3B
+  0:00 ClientBegin: 0
+  0:01 Item: 2 item_armor_shard
+  0:01 Item: 4 weapon_rocketlauncher
+  0:01 Item: 3 item_armor_shard
+  0:01 Item: 3 item_armor_shard
+  0:02 Item: 3 item_armor_shard
+  0:04 Item: 0 ammo_bullets
+  0:04 Item: 0 ammo_slugs
+  0:04 Item: 1 ammo_grenades
+  0:05 Item: 0 item_armor_combat
+  0:05 Item: 2 ammo_bullets
+  0:05 Item: 1 weapon_shotgun
+  0:05 Item: 2 ammo_lightning
+  0:06 Item: 1 ammo_lightning
+  0:06 Item: 2 weapon_rocketlauncher
+  0:08 Item: 0 weapon_shotgun
+  0:08 Item: 4 ammo_shells
+  0:09 Item: 2 item_health_small
+  0:09 Item: 2 item_health_small
+  0:09 Item: 4 ammo_rockets
+  0:10 Item: 1 item_armor_shard
+  0:10 Item: 1 item_armor_shard
+  0:10 Item: 1 item_armor_shard
+  0:11 ShutdownGame:
+  0:11 ------------------------------------------------------------
+  0:00 ------------------------------------------------------------
+  0:00 InitGame: \g_lms_mode\0\elimination_roundtime\120\g_voteMinFraglimit\0\g_voteMaxFraglimit\0\g_voteMinTimelimit\0\g_voteMaxTimelimit\1000\g_voteGametypes\/0/1/3/4/5/6/7/8/9/10/11/12/\g_allowVote\1\capturelimit\0\videoflags\7\g_maxGameClients\0\g_doWarmup\0\g_delagHitscan\1\sv_hostname\noname\sv_minRate\0\sv_maxRate\0\sv_dlRate\100\sv_minPing\0\sv_maxPing\0\sv_floodProtect\1\g_redTeam\Stroggs\g_blueTeam\Pagans\dmflags\0\fraglimit\20\timelimit\0\sv_maxclients\8\version\ioq3+oa 3.0.0a_GIT_74046d7a-2023-11-07 linux-x86_64 Mar  6 2025\com_gamename\Quake3Arena\com_protocol\71\g_gametype\0\mapname\sleekgrinder\sv_privateClients\0\sv_allowDownload\0\bot_minplayers\0\g_instantgib\0\g_rockets\0\gamename\baseoa\elimflags\0\voteflags\767\g_needpass\0\g_obeliskRespawnDelay\10\g_enableDust\0\g_enableBreath\0\g_altExcellent\0\g_timestamp\2025-03-06 18:01:29
+  0:00 Info: ServerInfo length: 843 of 1024
+  0:00 ClientUserinfoChanged: 0 n\UnnamedPlayer\t\0\model\sarge\hmodel\sarge\g_redteam\\g_blueteam\\c1\4\c2\5\hc\100\w\0\l\0\tt\0\tl\0\id\CABE39B30E630CAD528B260578932B3B
+  0:00 ClientConnect: 0
+  0:00 ClientUserinfoChanged: 0 n\UnnamedPlayer\t\0\model\sarge\hmodel\sarge\g_redteam\\g_blueteam\\c1\4\c2\5\hc\100\w\0\l\0\tt\0\tl\0\id\CABE39B30E630CAD528B260578932B3B
+  0:00 ClientUserinfoChanged: 0 n\UnnamedPlayer\t\0\model\sarge\hmodel\sarge\g_redteam\\g_blueteam\\c1\4\c2\5\hc\100\w\0\l\0\tt\0\tl\0\id\CABE39B30E630CAD528B260578932B3B
+  0:00 Playerstore: Nothing to restore. Guid: CABE39B30E630CAD528B260578932B3B
+  0:00 ClientBegin: 0
+  0:07 Item: 0 ammo_cells
+  0:11 Item: 0 weapon_rocketlauncher
+  0:14 Item: 0 item_armor_shard
+  0:14 Item: 0 item_armor_shard
+  0:16 Item: 0 item_health_small
+  0:16 Item: 0 item_health_small
+  0:30 Item: 0 item_armor_shard
+  0:31 Item: 0 item_armor_shard
+  0:36 Item: 0 ammo_lightning
+  0:40 Item: 0 weapon_plasmagun
+  0:44 Item: 0 ammo_shells
+  0:46 Item: 0 weapon_lightning
+  0:48 Item: 0 ammo_grenades
+  0:49 ShutdownGame:
+  0:49 ------------------------------------------------------------
+  0:00 ------------------------------------------------------------
+  0:00 InitGame: \g_lms_mode\0\elimination_roundtime\120\g_voteMinFraglimit\0\g_voteMaxFraglimit\0\g_voteMinTimelimit\0\g_voteMaxTimelimit\1000\g_voteGametypes\/0/1/3/4/5/6/7/8/9/10/11/12/\g_allowVote\1\capturelimit\500\videoflags\7\g_maxGameClients\0\g_doWarmup\0\g_delagHitscan\1\sv_hostname\noname\sv_minRate\0\sv_maxRate\0\sv_dlRate\100\sv_minPing\0\sv_maxPing\0\sv_floodProtect\1\g_redTeam\Stroggs\g_blueTeam\Pagans\dmflags\0\fraglimit\0\timelimit\30\sv_maxclients\12\version\ioq3+oa 3.0.0a_GIT_74046d7a-2023-11-07 linux-x86_64 Mar  6 2025\com_gamename\Quake3Arena\com_protocol\71\g_gametype\12\mapname\am_lavaarena\sv_privateClients\0\sv_allowDownload\0\bot_minplayers\0\g_instantgib\1\g_rockets\0\gamename\baseoa\elimflags\0\voteflags\767\g_needpass\0\g_obeliskRespawnDelay\10\g_enableDust\0\g_enableBreath\0\g_altExcellent\0\g_timestamp\2025-03-06 18:10:39
+  0:00 Info: ServerInfo length: 847 of 1024
+  0:00 ClientUserinfoChanged: 0 n\UnnamedPlayer\t\3\model\james\hmodel\*james\g_redteam\\g_blueteam\\c1\ag harvester overload elimination ctfelimination dd"
+}
+{
+map		"ctf_compromise"
+longname	"Foul Compromise"
+type		"ctf oneflag elimination ctfelimination dd dom"
+}
+{
+map		"ctf_gate1"
+longname	"Outer Gates"
+type		"ctf elimination ctfelimination dd dom"
+}
+{
+map		"ctf_inyard"
+longname	"Inner Yard"
+type		"ctf oneflag elimination ctfelimination dd dom"
+}
+{
+map		"czest2ctf"
+longname	"The Bridge of Despair"
+type		"ctf oneflag harvester overload elimn\c2\
+type		"ctf oneflag harvester overload elimination ctfelimination dd"
+}
+{
+map		"oa_bases3plus3"
+longname	"Some Bases (Improved)"
+type		"ctf oneflag harvester overload elimination ctfelimination dd dom"
+}
+{
+map		"oa_bases3p3ta"
+longname	"Some Bases (Improved TA)"
+type		"ctf oneflag harvester overload elimination ctfelimination dd dom"
+}
+{
+map		"oa_bases7"
+longname	"Some Awful Bases"
+type		"ctf oneflag harvester overload elimination  0:00 ClientConnect: 0
+  0:00 ClientUserinfoChanged: 0 n\UnnamedPlayer\t\3\model\james\hmodel\*james\g_redteam\\g_blueteam\\c1\llide"
+type		"ctf oneflag harvester overload elimination ctfelimination dd"
+}
+{
+map		"oa_thor"
+longname	"Thor's Valhalla"
+type		"ctf oneflag harvester overload elimination ctfelimination dd dom"
+}
+{
+map		"ps37ctf2"
+longname	"Obey 37 2.0"
+type		"ctf oneflag harvester overload elimination ctfelimination dd"
+}
+{
+map		"ps9ctf"
+longname	"Obey 9"
+type		"ctf oneflag harvester overloadh\c2\\hc\100\w\0\l\0\tt\0\tl\0\id\CABE39B30E630CAD528B260578932B3B
+  0:00 ClientUserinfoChanged: 0 n\UnnamedPlayer\t\1\model\james\hmodel\*james\g_redteam\\g_blueteam\\c1\4\c2\4\hc\100\w\0\l\0\tt\0\tl\1\id\CABE39B30E630CAD528B260578932B3B
+  0:00 ClientUserinfoChanged: 0 n\UnnamedPlayer\t\1\model\james\hmodel\*james\g_redteam\\g_blueteam\\c1\4\c2\4\hc\100\w\0\l\0\tt\0\tl\1\id\CABE39B30E630CAD528B260578932B3B
+  0:00 Playerstore: Nothing to restore. Guid: CABE39B30E630CAD528B260578932B3B
+  0:00 ClientBegin: 0
+  0:00 ClientUserinfoChanged: 0 n\UnnamedPlayer\t\1\model\james\hmodel\*james\g_redteam\\g_blueteam\\c1\4\c2\4\hc\100\w\0\l\0\tt\0\tl\1\id\CABE39B30E630CAD528B260578932B3B
+  0:00 Playerstore: Nothing to restore. Guid: CABE39B30E630CAD528B260578932B3B
+  0:00 ClientBegin: 0
+  0:00 DOM: -1 0 1 3: SPECTATOR holds point Outer pool for 1 point!
+  0:00 DOM: -1 1 1 3: SPECTATOR holds point Inner pool for 1 point!
+  0:00 DOM: -1 2 1 3: SPECTATOR holds point Hallways Crossing for 1 point!
+  0:02 DOM: -1 0 1 3: SPECTATOR holds point Outer pool for 1 point!
+  0:02 DOM: -1 1 1 3: SPECTATOR holds point Inner pool for 1 point!
+  0:02 DOM: -1 2 1 3: SPECTATOR holds point Hallways Crossing for 1 point!
+  0:03 say: UnnamedPlayer: clear
+  0:04 DOM: -1 0 1 3: SPECTATOR holds point Outer pool for 1 point!
+  0:04 DOM: -1 1 1 3: SPECTATOR holds point Inner pool for 1 point!
+  0:04 DOM: -1 2 1 3: SPECTATOR holds point Hallways Crossing for 1 point!
+  0:04 say: UnnamedPlayer: ls
+  0:06 DOM: -1 0 1 3: SPECTATOR holds point Outer pool for 1 point!
+  0:06 DOM: -1 1 1 3: SPECTATOR holds point Inner pool for 1 point!
+  0:06 DOM: -1 2 1 3: SPECTATOR holds point Hallways Crossing for 1 point!
+  0:07 say: UnnamedPlayer: clear
+  0:08 DOM: -1 0 1 3: SPECTATOR holds point Outer pool for 1 point!
+  0:08 DOM: -1 1 1 3: SPECTATOR holds point Inner pool for 1 point!
+  0:08 DOM: -1 2 1 3: SPECTATOR holds point Hallways Crossing for 1 point!
+  0:10 DOM: -1 0 1 3: SPECTATOR holds point Outer pool for 1 point!
+  0:10 DOM: -1 1 1 3: SPECTATOR holds point Inner pool for 1 point!
+  0:10 DOM: -1 2 1 3: SPECTATOR holds point Hallways Crossing for 1 point!
+  0:12 DOM: -1 0 1 3: SPECTATOR holds point Outer pool for 1 point!
+  0:12 DOM: -1 1 1 3: SPECTATOR holds point Inner pool for 1 point!
+  0:12 DOM: -1 2 1 3: SPECTATOR holds point Hallways Crossing for 1 point!
+  0:14 DOM: -1 0 1 3: SPECTATOR holds point Outer pool for 1 point!
+  0:14 DOM: -1 1 1 3: SPECTATOR holds point Inner pool for 1 point!
+  0:14 DOM: -1 2 1 3: SPECTATOR holds point Hallways Crossing for 1 point!
+  0:16 DOM: -1 0 1 3: SPECTATOR holds point Outer pool for 1 point!
+  0:16 DOM: -1 1 1 3: SPECTATOR holds point Inner pool for 1 point!
+  0:16 DOM: -1 2 1 3: SPECTATOR holds point Hallways Crossing for 1 point!
+  0:18 DOM: -1 0 1 3: SPECTATOR holds point Outer pool for 1 point!
+  0:18 DOM: -1 1 1 3: SPECTATOR holds point Inner pool for 1 point!
+  0:18 DOM: -1 2 1 3: SPECTATOR holds point Hallways Crossing for 1 point!
+  0:20 DOM: -1 0 1 3: SPECTATOR holds point Outer pool for 1 point!
+  0:20 DOM: -1 1 1 3: SPECTATOR holds point Inner pool for 1 point!
+  0:20 DOM: -1 2 1 3: SPECTATOR holds point Hallways Crossing for 1 point!
+  0:22 DOM: -1 0 1 3: SPECTATOR holds point Outer pool for 1 point!
+  0:22 DOM: -1 1 1 3: SPECTATOR holds point Inner pool for 1 point!
+  0:22 DOM: -1 2 1 3: SPECTATOR holds point Hallways Crossing for 1 point!
+  0:24 DOM: -1 0 1 3: SPECTATOR holds point Outer pool for 1 point!
+  0:24 DOM: -1 1 1 3: SPECTATOR holds point Inner pool for 1 point!
+  0:24 DOM: -1 2 1 3: SPECTATOR holds point Hallways Crossing for 1 point!
+  0:26 DOM: -1 0 1 3: SPECTATOR holds point Outer pool for 1 point!
+  0:26 DOM: -1 1 1 3: SPECTATOR holds point Inner pool for 1 point!
+  0:26 DOM: -1 2 1 3: SPECTATOR holds point Hallways Crossing for 1 point!
+  0:28 DOM: -1 0 1 3: SPECTATOR holds point Outer pool for 1 point!
+  0:28 DOM: -1 1 1 3: SPECTATOR holds point Inner pool for 1 point!
+  0:28 DOM: -1 2 1 3: SPECTATOR holds point Hallways Crossing for 1 point!
+  0:30 DOM: -1 0 1 3: SPECTATOR holds point Outer pool for 1 point!
+  0:30 DOM: -1 1 1 3: SPECTATOR holds point Inner pool for 1 point!
+  0:30 DOM: -1 2 1 3: SPECTATOR holds point Hallways Crossing for 1 point!
+  0:32 DOM: -1 0 1 3: SPECTATOR holds point Outer pool for 1 point!
+  0:32 DOM: -1 1 1 3: SPECTATOR holds point Inner pool for 1 point!
+  0:32 DOM: -1 2 1 3: SPECTATOR holds point Hallways Crossing for 1 point!
+  0:33 ShutdownGame:
+  0:33 ------------------------------------------------------------
+  0:00 ------------------------------------------------------------
+  0:00 InitGame: \g_delagHitscan\1\g_doWarmup\0\g_maxGameClients\0\videoflags\7\capturelimit\0\g_allowVote\1\g_voteGametypes\/0/1/3/4/5/6/7/8/9/10/11/12/\g_voteMaxTimelimit\1000\g_voteMinTimelimit\0\g_voteMaxFraglimit\0\g_voteMinFraglimit\0\elimination_roundtime\120\g_lms_mode\0\sv_hostname\serverTati####\sv_minRate\0\sv_maxRate\0\sv_dlRate\100\sv_minPing\0\sv_maxPing\0\sv_floodProtect\1\g_redTeam\Stroggs\g_blueTeam\Pagans\dmflags\0\fraglimit\0\timelimit\30\sv_maxclients\9\version\ioq3+oa 3.0.0a_GIT_74046d7a-2023-11-07 linux-x86_64 Mar  6 2025\com_gamename\Quake3Arena\com_protocol\71\g_gametype\0\mapname\oa_rpg3dm2\sv_privateClients\0\sv_allowDownload\0\g_instantgib\0\g_rockets\0\gamename\baseoa\elimflags\0\voteflags\0\g_needpass\0\g_obeliskRespawnDelay\10\g_enableDust\0\g_enableBreath\0\g_altExcellent\0\g_timestamp\2025-03-06 18:19:42
+  0:00 Info: ServerInfo length: 830 of 1024
+  0:00 ClientUserinfoChanged: 0 n\UnnamedPlayer\t\0\model\sarge\hmodel\sarge\g_redteam\\g_blueteam\\c1\4\c2\5\hc\100\w\0\l\0\tt\0\tl\0\id\CABE39B30E630CAD528B260578932B3B
+  0:00 ClientConnect: 0
+  0:00 ClientUserinfoChanged: 0 n\UnnamedPlayer\t\0\model\sarge\hmodel\sarge\g_redteam\\g_blueteam\\c1\4\c2\5\hc\100\w\0\l\0\tt\0\tl\0\id\CABE39B30E630CAD528B260578932B3B
+  0:00 ClientUserinfoChanged: 0 n\UnnamedPlayer\t\0\model\sarge\hmodel\sarge\g_redteam\\g_blueteam\\c1\4\c2\5\hc\100\w\0\l\0\tt\0\tl\0\id\CABE39B30E630CAD528B260578932B3B
+  0:00 Playerstore: Nothing to restore. Guid: CABE39B30E630CAD528B260578932B3B
+  0:00 ClientBegin: 0
+  0:42 ClientUserinfoChanged: 1 n\UnnamedPlayer\t\0\model\sarge\hmodel\sarge\g_redteam\\g_blueteam\\c1\4\c2\5\hc\100\w\0\l\0\tt\0\tl\0\id\54E6070CADB7D438095D5BB845A2C291
+  0:42 ClientConnect: 1
+  0:43 ClientUserinfoChanged: 1 n\UnnamedPlayer\t\0\model\sarge\hmodel\sarge\g_redteam\\g_blueteam\\c1\4\c2\5\hc\100\w\0\l\0\tt\0\tl\0\id\54E6070CADB7D438095D5BB845A2C291
+  0:43 Playerstore: Nothing to restore. Guid: 54E6070CADB7D438095D5BB845A2C291
+  0:43 ClientBegin: 1
+  0:57 Item: 1 weapon_shotgun
+  1:08 Item: 0 item_health_mega
+  1:47 Kill: 0 1 3: UnnamedPlayer killed UnnamedPlayer by MOD_MACHINEGUN
+  1:47 PlayerScore: 0 1: UnnamedPlayer now has 1 points
+  1:47 Challenge: 0 202 1: Client 0 got award 202
+  1:47 Challenge: 0 1 1: Client 0 got award 1
+  1:47 Challenge: 1 2 1: Client 1 got award 2
+  1:50 Item: 0 weapon_shotgun
+  2:59 Item: 1 item_health_small
+  2:59 Item: 1 item_health_small
+  3:03 Kill: 1022 1 20: <world> killed UnnamedPlayer by MOD_SUICIDE
+  3:03 PlayerScore: 1 0: UnnamedPlayer now has 0 points
+  3:03 Playerstore: Stored player with guid: 54E6070CADB7D438095D5BB845A2C291 in 0
+  3:03 ClientDisconnect: 1
+ 20:50 ShutdownGame:
+ 20:50 ------------------------------------------------------------
+  0:00 ------------------------------------------------------------
+  0:00 InitGame: \sv_maxclients\8\timelimit\30\fraglimit\0\dmflags\0\sv_floodProtect\1\sv_maxPing\0\sv_minPing\0\sv_dlRate\100\sv_maxRate\0\sv_minRate\0\sv_hostname\noname\g_lms_mode\0\elimination_roundtime\120\g_voteMinFraglimit\0\g_voteMaxFraglimit\0\g_voteMinTimelimit\0\g_voteMaxTimelimit\1000\g_voteGametypes\/0/1/3/4/5/6/7/8/9/10/11/12/\g_allowVote\1\capturelimit\0\videoflags\7\g_maxGameClients\0\g_doWarmup\0\g_delagHitscan\1\version\ioq3+oa 3.0.0a_GIT_74046d7a-2023-11-07 linux-x86_64 Mar  6 2025\com_gamename\Quake3Arena\com_protocol\71\g_gametype\0\mapname\oa_minia\sv_privateClients\0\sv_allowDownload\0\g_enableDust\0\g_enableBreath\0\g_obeliskRespawnDelay\10\g_instantgib\0\g_rockets\0\gamename\baseoa\elimflags\0\voteflags\0\g_needpass\0\g_altExcellent\0\g_timestamp\2025-03-06 18:41:10
+  0:00 Info: ServerInfo length: 784 of 1024
+  0:00 ClientUserinfoChanged: 0 n\UnnamedPlayer\t\0\model\sarge\hmodel\sarge\g_redteam\\g_blueteam\\c1\4\c2\5\hc\100\w\0\l\0\tt\0\tl\0\id\CABE39B30E630CAD528B260578932B3B
+  0:00 ClientConnect: 0
+  0:00 ClientUserinfoChanged: 0 n\UnnamedPlayer\t\0\model\sarge\hmodel\sarge\g_redteam\\g_blueteam\\c1\4\c2\5\hc\100\w\0\l\0\tt\0\tl\0\id\CABE39B30E630CAD528B260578932B3B
+  0:00 ClientUserinfoChanged: 0 n\UnnamedPlayer\t\0\model\sarge\hmodel\sarge\g_redteam\\g_blueteam\\c1\4\c2\5\hc\100\w\0\l\0\tt\0\tl\0\id\CABE39B30E630CAD528B260578932B3B
+  0:00 Playerstore: Nothing to restore. Guid: CABE39B30E630CAD528B260578932B3B
+  0:00 ClientBegin: 0
+  1:15 ShutdownGame:
+  1:15 ------------------------------------------------------------
+  0:00 ------------------------------------------------------------
+  0:00 InitGame: \g_delagHitscan\1\g_doWarmup\0\g_maxGameClients\0\videoflags\7\capturelimit\0\g_allowVote\1\g_voteGametypes\/0/1/3/4/5/6/7/8/9/10/11/12/\g_voteMaxTimelimit\1000\g_voteMinTimelimit\0\g_voteMaxFraglimit\0\g_voteMinFraglimit\0\elimination_roundtime\120\g_lms_mode\0\sv_hostname\noname\sv_minRate\0\sv_maxRate\0\sv_dlRate\100\sv_minPing\0\sv_maxPing\0\sv_floodProtect\1\dmflags\0\fraglimit\0\timelimit\30\sv_maxclients\8\version\ioq3+oa 3.0.0a_GIT_74046d7a-2023-11-07 linux-x86_64 Mar  6 2025\com_gamename\Quake3Arena\com_protocol\71\g_gametype\0\mapname\oa_rpg3dm2\sv_privateClients\0\sv_allowDownload\0\g_instantgib\0\g_rockets\0\gamename\baseoa\elimflags\0\voteflags\0\g_needpass\0\g_obeliskRespawnDelay\10\g_enableDust\0\g_enableBreath\0\g_altExcellent\0\g_timestamp\2025-03-06 18:56:54
+  0:00 Info: ServerInfo length: 786 of 1024
+  0:00 ClientUserinfoChanged: 0 n\razwee\t\0\model\sarge\hmodel\sarge\g_redteam\\g_blueteam\\c1\4\c2\5\hc\100\w\0\l\0\tt\0\tl\0\id\CABE39B30E630CAD528B260578932B3B
+  0:00 ClientConnect: 0
+  0:00 ClientUserinfoChanged: 0 n\razwee\t\0\model\sarge\hmodel\sarge\g_redteam\\g_blueteam\\c1\4\c2\5\hc\100\w\0\l\0\tt\0\tl\0\id\CABE39B30E630CAD528B260578932B3B
+  0:00 ClientUserinfoChanged: 0 n\razwee\t\0\model\sarge\hmodel\sarge\g_redteam\\g_blueteam\\c1\4\c2\5\hc\100\w\0\l\0\tt\0\tl\0\id\CABE39B30E630CAD528B260578932B3B
+  0:00 Playerstore: Nothing to restore. Guid: CABE39B30E630CAD528B260578932B3B
+  0:00 ClientBegin: 0
+  0:03 Item: 0 weapon_shotgun
+  0:28 say: razwee: qstat
+  0:34 say: razwee: w
+  0:36 Item: 0 item_health_small
+  0:36 Item: 0 item_health_small
+  0:38 say: razwee: we
+  6:15 Item: 0 item_armor_shard
+  6:40 Item: 0 item_armor_shard
+  7:05 Item: 0 item_armor_shard
+  7:30 Item: 0 item_armor_shard
+  7:35 ShutdownGame:
+  7:35 ------------------------------------------------------------
+  0:00 ------------------------------------------------------------
+  0:00 InitGame: \g_delagHitscan\1\g_doWarmup\0\g_maxGameClients\0\videoflags\7\capturelimit\0\g_allowVote\1\g_voteGametypes\/0/1/3/4/5/6/7/8/9/10/11/12/\g_voteMaxTimelimit\1000\g_voteMinTimelimit\0\g_voteMaxFraglimit\0\g_voteMinFraglimit\0\elimination_roundtime\120\g_lms_mode\0\sv_hostname\noname\sv_minRate\0\sv_maxRate\0\sv_dlRate\100\sv_minPing\0\sv_maxPing\0\sv_floodProtect\1\dmflags\0\fraglimit\0\timelimit\30\sv_maxclients\8\version\ioq3+oa 3.0.0a_GIT_74046d7a-2023-11-07 linux-x86_64 Mar  6 2025\com_gamename\Quake3Arena\com_protocol\71\g_gametype\0\mapname\oa_rpg3dm2\sv_privateClients\0\sv_allowDownload\0\bot_minplayers\0\g_instantgib\1\g_rockets\0\gamename\baseoa\elimflags\0\voteflags\767\g_needpass\0\g_obeliskRespawnDelay\10\g_enableDust\0\g_enableBreath\0\g_altExcellent\0\g_timestamp\2025-03-06 19:04:49
+  0:00 Info: ServerInfo length: 805 of 1024
+  0:00 ClientUserinfoChanged: 0 n\razwee\t\0\model\sarge\hmodel\sarge\g_redteam\\g_blueteam\\c1\4\c2\5\hc\100\w\0\l\0\tt\0\tl\0\id\CABE39B30E630CAD528B260578932B3B
+  0:00 ClientConnect: 0
+  0:00 ClientUserinfoChanged: 0 n\razwee\t\0\model\sarge\hmodel\sarge\g_redteam\\g_blueteam\\c1\4\c2\5\hc\100\w\0\l\0\tt\0\tl\0\id\CABE39B30E630CAD528B260578932B3B
+  0:00 ClientUserinfoChanged: 0 n\razwee\t\0\model\sarge\hmodel\sarge\g_redteam\\g_blueteam\\c1\4\c2\5\hc\100\w\0\l\0\tt\0\tl\0\id\CABE39B30E630CAD528B260578932B3B
+  0:00 Playerstore: Nothing to restore. Guid: CABE39B30E630CAD528B260578932B3B
+  0:00 ClientBegin: 0
+  0:11 ShutdownGame:
+  0:11 ------------------------------------------------------------
+  0:00 ------------------------------------------------------------
+  0:00 InitGame: \g_delagHitscan\1\g_doWarmup\0\g_maxGameClients\0\videoflags\7\capturelimit\0\g_allowVote\1\g_voteGametypes\/0/1/3/4/5/6/7/8/9/10/11/12/\g_voteMaxTimelimit\1000\g_voteMinTimelimit\0\g_voteMaxFraglimit\0\g_voteMinFraglimit\0\elimination_roundtime\120\g_lms_mode\0\sv_hostname\noname\sv_minRate\0\sv_maxRate\0\sv_dlRate\100\sv_minPing\0\sv_maxPing\0\sv_floodProtect\1\dmflags\0\fraglimit\0\timelimit\30\sv_maxclients\8\version\ioq3+oa 3.0.0a_GIT_74046d7a-2023-11-07 linux-x86_64 Mar  6 2025\com_gamename\Quake3Arena\com_protocol\71\g_gametype\0\mapname\oa_rpg3dm2\sv_privateClients\0\sv_allowDownload\0\bot_minplayers\0\g_instantgib\1\g_rockets\0\gamename\baseoa\elimflags\0\voteflags\767\g_needpass\0\g_obeliskRespawnDelay\10\g_enableDust\0\g_enableBreath\0\g_altExcellent\0\g_timestamp\2025-03-06 19:05:14
+  0:00 Info: ServerInfo length: 805 of 1024
+  0:00 ClientUserinfoChanged: 0 n\razwee\t\0\model\sarge\hmodel\sarge\g_redteam\\g_blueteam\\c1\4\c2\5\hc\100\w\0\l\0\tt\0\tl\0\id\CABE39B30E630CAD528B260578932B3B
+  0:00 ClientConnect: 0
+  0:00 ClientUserinfoChanged: 0 n\razwee\t\0\model\sarge\hmodel\sarge\g_redteam\\g_blueteam\\c1\4\c2\5\hc\100\w\0\l\0\tt\0\tl\0\id\CABE39B30E630CAD528B260578932B3B
+  0:00 ClientUserinfoChanged: 0 n\razwee\t\0\model\sarge\hmodel\sarge\g_redteam\\g_blueteam\\c1\4\c2\5\hc\100\w\0\l\0\tt\0\tl\0\id\CABE39B30E630CAD528B260578932B3B
+  0:00 Playerstore: Nothing to restore. Guid: CABE39B30E630CAD528B260578932B3B
+  0:00 ClientBegin: 0
+  0:01 ShutdownGame:
+  0:01 ------------------------------------------------------------
+  0:00 ------------------------------------------------------------
+  0:00 InitGame: \g_delagHitscan\1\g_doWarmup\0\g_maxGameClients\0\videoflags\7\capturelimit\0\g_allowVote\1\g_voteGametypes\/0/1/3/4/5/6/7/8/9/10/11/12/\g_voteMaxTimelimit\1000\g_voteMinTimelimit\0\g_voteMaxFraglimit\0\g_voteMinFraglimit\0\elimination_roundtime\120\g_lms_mode\0\sv_hostname\noname\sv_minRate\0\sv_maxRate\0\sv_dlRate\100\sv_minPing\0\sv_maxPing\0\sv_floodProtect\1\dmflags\0\fraglimit\0\timelimit\30\sv_maxclients\8\version\ioq3+oa 3.0.0a_GIT_74046d7a-2023-11-07 linux-x86_64 Mar  6 2025\com_gamename\Quake3Arena\com_protocol\71\g_gametype\0\mapname\kaos2\sv_privateClients\0\sv_allowDownload\0\bot_minplayers\0\g_instantgib\1\g_rockets\0\gamename\baseoa\elimflags\0\voteflags\767\g_needpass\0\g_obeliskRespawnDelay\10\g_enableDust\0\g_enableBreath\0\g_altExcellent\0\g_timestamp\2025-03-06 19:05:28
+  0:00 Info: ServerInfo length: 800 of 1024
+  0:00 ClientUserinfoChanged: 0 n\razwee\t\0\model\sarge\hmodel\sarge\g_redteam\\g_blueteam\\c1\4\c2\5\hc\100\w\0\l\0\tt\0\tl\0\id\CABE39B30E630CAD528B260578932B3B
+  0:00 ClientConnect: 0
+  0:00 ClientUserinfoChanged: 0 n\razwee\t\0\model\sarge\hmodel\sarge\g_redteam\\g_blueteam\\c1\4\c2\5\hc\100\w\0\l\0\tt\0\tl\0\id\CABE39B30E630CAD528B260578932B3B
+  0:00 ClientUserinfoChanged: 0 n\razwee\t\0\model\sarge\hmodel\sarge\g_redteam\\g_blueteam\\c1\4\c2\5\hc\100\w\0\l\0\tt\0\tl\0\id\CABE39B30E630CAD528B260578932B3B
+  0:00 Playerstore: Nothing to restore. Guid: CABE39B30E630CAD528B260578932B3B
+  0:00 ClientBegin: 0
+  2:13 ShutdownGame:
+  2:13 ------------------------------------------------------------
+  0:00 ------------------------------------------------------------
+  0:00 InitGame: \sv_maxclients\8\timelimit\30\fraglimit\0\dmflags\0\sv_floodProtect\1\sv_maxPing\0\sv_minPing\0\sv_dlRate\100\sv_maxRate\0\sv_minRate\0\sv_hostname\noname\g_lms_mode\0\elimination_roundtime\120\g_voteMinFraglimit\0\g_voteMaxFraglimit\0\g_voteMinTimelimit\0\g_voteMaxTimelimit\1000\g_voteGametypes\/0/1/3/4/5/6/7/8/9/10/11/12/\g_allowVote\1\capturelimit\0\videoflags\7\g_maxGameClients\0\g_doWarmup\0\g_delagHitscan\1\version\ioq3+oa 3.0.0a_GIT_74046d7a-2023-11-07 linux-x86_64 Mar  7 2025\com_gamename\Quake3Arena\com_protocol\71\g_gametype\0\mapname\slimefac\sv_privateClients\0\sv_allowDownload\0\g_instantgib\0\g_rockets\0\gamename\baseoa\elimflags\0\voteflags\0\g_needpass\0\g_obeliskRespawnDelay\10\g_enableDust\0\g_enableBreath\0\g_altExcellent\0\g_timestamp\2025-03-07 14:14:23
+  0:00 Info: ServerInfo length: 784 of 1024
+  0:00 ClientUserinfoChanged: 0 n\razwee\t\0\model\sarge\hmodel\sarge\g_redteam\\g_blueteam\\c1\4\c2\5\hc\100\w\0\l\0\tt\0\tl\0\id\CABE39B30E630CAD528B260578932B3B
+  0:00 ClientConnect: 0
+  0:00 ClientUserinfoChanged: 0 n\razwee\t\0\model\sarge\hmodel\sarge\g_redteam\\g_blueteam\\c1\4\c2\5\hc\100\w\0\l\0\tt\0\tl\0\id\CABE39B30E630CAD528B260578932B3B
+  0:00 ClientUserinfoChanged: 0 n\razwee\t\0\model\sarge\hmodel\sarge\g_redteam\\g_blueteam\\c1\4\c2\5\hc\100\w\0\l\0\tt\0\tl\0\id\CABE39B30E630CAD528B260578932B3B
+  0:00 Playerstore: Nothing to restore. Guid: CABE39B30E630CAD528B260578932B3B
+  0:00 ClientBegin: 0
+  0:19 ClientUserinfoChanged: 1 n\UnnamedPlayer\t\0\model\sarge\hmodel\sarge\g_redteam\\g_blueteam\\c1\4\c2\5\hc\100\w\0\l\0\tt\0\tl\0\id\54E6070CADB7D438095D5BB845A2C291
+  0:19 ClientConnect: 1
+  0:21 ClientUserinfoChanged: 1 n\UnnamedPlayer\t\0\model\sarge\hmodel\sarge\g_redteam\\g_blueteam\\c1\4\c2\5\hc\100\w\0\l\0\tt\0\tl\0\id\54E6070CADB7D438095D5BB845A2C291
+  0:21 Playerstore: Nothing to restore. Guid: 54E6070CADB7D438095D5BB845A2C291
+  0:21 ClientBegin: 1
+  0:24 Item: 1 ammo_cells
+  0:37 Kill: 1022 1 20: <world> killed UnnamedPlayer by MOD_SUICIDE
+  0:37 PlayerScore: 1 0: UnnamedPlayer now has 0 points
+  0:37 Playerstore: Stored player with guid: 54E6070CADB7D438095D5BB845A2C291 in 0
+  0:37 ClientDisconnect: 1
+  0:38 ShutdownGame:
+  0:38 ------------------------------------------------------------
+  0:00 ------------------------------------------------------------
+  0:00 InitGame: \sv_maxclients\8\timelimit\30\fraglimit\0\dmflags\0\sv_floodProtect\1\sv_maxPing\0\sv_minPing\0\sv_dlRate\100\sv_maxRate\0\sv_minRate\0\sv_hostname\noname\g_lms_mode\0\elimination_roundtime\120\g_voteMinFraglimit\0\g_voteMaxFraglimit\0\g_voteMinTimelimit\0\g_voteMaxTimelimit\1000\g_voteGametypes\/0/1/3/4/5/6/7/8/9/10/11/12/\g_allowVote\1\capturelimit\0\videoflags\7\g_maxGameClients\0\g_doWarmup\0\g_delagHitscan\1\version\ioq3+oa 3.0.0a_GIT_74046d7a-2023-11-07 linux-x86_64 Mar  7 2025\com_gamename\Quake3Arena\com_protocol\71\g_gametype\0\mapname\oa_rpg3dm2\sv_privateClients\0\sv_allowDownload\0\g_instantgib\0\g_rockets\0\gamename\baseoa\elimflags\0\voteflags\0\g_needpass\0\g_obeliskRespawnDelay\10\g_enableDust\0\g_enableBreath\0\g_altExcellent\0\g_timestamp\2025-03-07 14:40:52
+  0:00 Info: ServerInfo length: 786 of 1024
+  0:00 ClientUserinfoChanged: 0 n\razwee\t\0\model\sarge\hmodel\sarge\g_redteam\\g_blueteam\\c1\4\c2\5\hc\100\w\0\l\0\tt\0\tl\0\id\CABE39B30E630CAD528B260578932B3B
+  0:00 ClientConnect: 0
+  0:00 ClientUserinfoChanged: 0 n\razwee\t\0\model\sarge\hmodel\sarge\g_redteam\\g_blueteam\\c1\4\c2\5\hc\100\w\0\l\0\tt\0\tl\0\id\CABE39B30E630CAD528B260578932B3B
+  0:00 ClientUserinfoChanged: 0 n\razwee\t\0\model\sarge\hmodel\sarge\g_redteam\\g_blueteam\\c1\4\c2\5\hc\100\w\0\l\0\tt\0\tl\0\id\CABE39B30E630CAD528B260578932B3B
+  0:00 Playerstore: Nothing to restore. Guid: CABE39B30E630CAD528B260578932B3B
+  0:00 ClientBegin: 0
+  0:23 say: razwee: sv_getuserinfo
+  0:31 say: razwee: getuserinfo
+  1:11 say: razwee: sv_boundmaxclients
+  1:14 Item: 0 weapon_shotgun
+  1:19 Item: 0 weapon_shotgun
+  1:24 Item: 0 weapon_shotgun
+  1:29 Item: 0 weapon_shotgun
+  1:34 Item: 0 weapon_shotgun
+  1:39 Item: 0 weapon_shotgun
+  1:44 Item: 0 weapon_shotgun
+  1:49 Item: 0 weapon_shotgun
+  1:54 Item: 0 weapon_shotgun
+  1:59 Item: 0 weapon_shotgun
+  2:04 Item: 0 weapon_shotgun
+  2:09 Item: 0 weapon_shotgun
+  2:14 Item: 0 weapon_shotgun
+  2:19 Item: 0 weapon_shotgun
+  2:24 Item: 0 weapon_shotgun
+  2:29 Item: 0 weapon_shotgun
+  2:34 Item: 0 weapon_shotgun
+  2:39 Item: 0 weapon_shotgun
+  2:44 Item: 0 weapon_shotgun
+  2:49 Item: 0 weapon_shotgun
+  2:54 Item: 0 weapon_shotgun
+  2:59 Item: 0 weapon_shotgun
+  3:04 Item: 0 weapon_shotgun
+  3:09 Item: 0 weapon_shotgun
+  3:14 Item: 0 weapon_shotgun
+  3:19 Item: 0 weapon_shotgun
+  3:24 Item: 0 weapon_shotgun
+  3:29 Item: 0 weapon_shotgun
+  3:34 Item: 0 weapon_shotgun
+  3:39 Item: 0 weapon_shotgun
+  3:44 Item: 0 weapon_shotgun
+  3:49 Item: 0 weapon_shotgun
+  3:54 Item: 0 weapon_shotgun
+  3:59 Item: 0 weapon_shotgun
+  4:04 Item: 0 weapon_shotgun
+  4:09 Item: 0 weapon_shotgun
+  4:14 Item: 0 weapon_shotgun
+  4:19 Item: 0 weapon_shotgun
+  4:24 Item: 0 weapon_shotgun
+  4:29 Item: 0 weapon_shotgun
+  4:34 Item: 0 weapon_shotgun
+  4:39 Item: 0 weapon_shotgun
+  4:44 Item: 0 weapon_shotgun
+  4:49 Item: 0 weapon_shotgun
+  4:54 Item: 0 weapon_shotgun
+  4:59 Item: 0 weapon_shotgun
+  5:04 Item: 0 weapon_shotgun
+  5:09 Item: 0 weapon_shotgun
+  5:14 Item: 0 weapon_shotgun
+  5:19 Item: 0 weapon_shotgun
+  5:24 Item: 0 weapon_shotgun
+  5:29 Item: 0 weapon_shotgun
+  5:34 Item: 0 weapon_shotgun
+  5:39 Item: 0 weapon_shotgun
+  5:44 Item: 0 weapon_shotgun
+  5:47 ShutdownGame:
+  5:47 ------------------------------------------------------------
+  0:00 ------------------------------------------------------------
+  0:00 InitGame: \g_delagHitscan\1\g_doWarmup\0\g_maxGameClients\0\videoflags\7\capturelimit\0\g_allowVote\1\g_voteGametypes\/0/1/3/4/5/6/7/8/9/10/11/12/\g_voteMaxTimelimit\1000\g_voteMinTimelimit\0\g_voteMaxFraglimit\0\g_voteMinFraglimit\0\elimination_roundtime\120\g_lms_mode\0\sv_hostname\noname\sv_minRate\0\sv_maxRate\0\sv_dlRate\100\sv_minPing\0\sv_maxPing\0\sv_floodProtect\1\dmflags\0\fraglimit\0\timelimit\30\sv_maxclients\8\version\ioq3+oa 3.0.0a_GIT_74046d7a-2023-11-07 linux-x86_64 Mar  7 2025\com_gamename\Quake3Arena\com_protocol\71\g_gametype\0\mapname\oa_rpg3dm2\sv_privateClients\0\sv_allowDownload\0\g_instantgib\0\g_rockets\0\gamename\baseoa\elimflags\0\voteflags\0\g_needpass\0\g_obeliskRespawnDelay\10\g_enableDust\0\g_enableBreath\0\g_altExcellent\0\g_timestamp\2025-03-07 14:47:15
+  0:00 Info: ServerInfo length: 786 of 1024
+  0:00 ClientUserinfoChanged: 0 n\razwee\t\0\model\sarge\hmodel\sarge\g_redteam\\g_blueteam\\c1\4\c2\5\hc\100\w\0\l\0\tt\0\tl\0\id\CABE39B30E630CAD528B260578932B3B
+  0:00 ClientConnect: 0
+  0:00 ClientUserinfoChanged: 0 n\razwee\t\0\model\sarge\hmodel\sarge\g_redteam\\g_blueteam\\c1\4\c2\5\hc\100\w\0\l\0\tt\0\tl\0\id\CABE39B30E630CAD528B260578932B3B
+  0:00 ClientUserinfoChanged: 0 n\razwee\t\0\model\sarge\hmodel\sarge\g_redteam\\g_blueteam\\c1\4\c2\5\hc\100\w\0\l\0\tt\0\tl\0\id\CABE39B30E630CAD528B260578932B3B
+  0:00 Playerstore: Nothing to restore. Guid: CABE39B30E630CAD528B260578932B3B
+  0:00 ClientBegin: 0
+  1:29 ShutdownGame:
+  1:29 ------------------------------------------------------------
+  0:00 ------------------------------------------------------------
+  0:00 InitGame: \g_delagHitscan\1\g_doWarmup\0\g_maxGameClients\0\videoflags\7\capturelimit\0\g_allowVote\1\g_voteGametypes\/0/1/3/4/5/6/7/8/9/10/11/12/\g_voteMaxTimelimit\1000\g_voteMinTimelimit\0\g_voteMaxFraglimit\0\g_voteMinFraglimit\0\elimination_roundtime\120\g_lms_mode\0\sv_hostname\noname\sv_minRate\0\sv_maxRate\0\sv_dlRate\100\sv_minPing\0\sv_maxPing\0\sv_floodProtect\1\dmflags\0\fraglimit\0\timelimit\30\sv_maxclients\8\version\ioq3+oa 3.0.0a_GIT_74046d7a-2023-11-07 linux-x86_64 Mar  7 2025\com_gamename\Quake3Arena\com_protocol\71\g_gametype\0\mapname\oa_rpg3dm2\sv_privateClients\0\sv_allowDownload\0\bot_minplayers\0\g_instantgib\0\g_rockets\0\gamename\baseoa\elimflags\0\voteflags\767\g_needpass\0\g_obeliskRespawnDelay\10\g_enableDust\0\g_enableBreath\0\g_altExcellent\0\g_timestamp\2025-03-07 14:53:01
+  0:00 Info: ServerInfo length: 805 of 1024
+  0:00 ClientUserinfoChanged: 0 n\razwee\t\0\model\sarge\hmodel\sarge\g_redteam\\g_blueteam\\c1\4\c2\5\hc\100\w\0\l\0\tt\0\tl\0\id\CABE39B30E630CAD528B260578932B3B
+  0:00 ClientConnect: 0
+  0:00 ClientUserinfoChanged: 0 n\razwee\t\0\model\sarge\hmodel\sarge\g_redteam\\g_blueteam\\c1\4\c2\5\hc\100\w\0\l\0\tt\0\tl\0\id\CABE39B30E630CAD528B260578932B3B
+  0:00 ClientUserinfoChanged: 0 n\razwee\t\0\model\sarge\hmodel\sarge\g_redteam\\g_blueteam\\c1\4\c2\5\hc\100\w\0\l\0\tt\0\tl\0\id\CABE39B30E630CAD528B260578932B3B
+  0:00 Playerstore: Nothing to restore. Guid: CABE39B30E630CAD528B260578932B3B
+  0:00 ClientBegin: 0
+  1:09 ShutdownGame:
+  1:09 ------------------------------------------------------------
+  0:00 ------------------------------------------------------------
+  0:00 InitGame: \sv_floodProtect\1\sv_maxPing\0\sv_minPing\0\sv_dlRate\100\sv_maxRate\0\sv_minRate\0\sv_hostname\noname\version\ioq3+oa 3.0.0a_GIT_74046d7a-2023-11-07 linux-x86_64 Mar  7 2025\com_gamename\Quake3Arena\com_protocol\71\dmflags\0\fraglimit\20\timelimit\0\g_gametype\0\mapname\oa_dm5\sv_privateClients\0\sv_maxclients\8\sv_allowDownload\0\gamename\baseoa\g_maxGameClients\0\videoflags\7\elimflags\0\voteflags\0\capturelimit\8\g_doWarmup\0\g_needpass\0\g_allowVote\1\g_voteGametypes\/0/1/3/4/5/6/7/8/9/10/11/12/\g_voteMaxTimelimit\1000\g_voteMinTimelimit\0\g_voteMaxFraglimit\0\g_voteMinFraglimit\0\g_obeliskRespawnDelay\10\g_enableDust\0\g_enableBreath\0\g_delagHitscan\0\elimination_roundtime\120\g_rockets\0\g_instantgib\0\g_lms_mode\0\g_altExcellent\0\g_timestamp\2025-03-13 11:52:38
+  0:00 Info: ServerInfo length: 782 of 1024
+  0:16 ClientUserinfoChanged: 0 n\razwee\t\0\model\sarge\hmodel\sarge\g_redteam\\g_blueteam\\c1\4\c2\5\hc\100\w\0\l\0\tt\0\tl\0\id\54E6070CADB7D438095D5BB845A2C291
+  0:16 ClientConnect: 0
+  0:17 ClientUserinfoChanged: 0 n\razwee\t\0\model\sarge\hmodel\sarge\g_redteam\\g_blueteam\\c1\4\c2\5\hc\100\w\0\l\0\tt\0\tl\0\id\54E6070CADB7D438095D5BB845A2C291
+  0:17 Playerstore: Nothing to restore. Guid: 54E6070CADB7D438095D5BB845A2C291
+  0:17 ClientBegin: 0
+  0:18 Item: 0 weapon_grenadelauncher
+  0:32 Kill: 1022 0 20: <world> killed razwee by MOD_SUICIDE
+  0:32 PlayerScore: 0 0: razwee now has 0 points
+  0:32 Playerstore: Stored player with guid: 54E6070CADB7D438095D5BB845A2C291 in 0
+  0:32 ClientDisconnect: 0
+ 14:19 ShutdownGame:
+ 14:19 ------------------------------------------------------------
+  0:00 ------------------------------------------------------------
+  0:00 InitGame: \sv_floodProtect\1\sv_maxPing\0\sv_minPing\0\sv_dlRate\100\sv_maxRate\0\sv_minRate\0\sv_hostname\noname\dmflags\0\fraglimit\20\timelimit\0\sv_maxclients\8\g_maxGameClients\0\videoflags\7\capturelimit\8\g_doWarmup\0\g_allowVote\1\g_voteGametypes\/0/1/3/4/5/6/7/8/9/10/11/12/\g_voteMaxTimelimit\1000\g_voteMinTimelimit\0\g_voteMaxFraglimit\0\g_voteMinFraglimit\0\g_delagHitscan\0\elimination_roundtime\120\g_lms_mode\0\version\ioq3+oa 3.0.0a_GIT_74046d7a-2023-11-07 linux-x86_64 Mar 13 2025\com_gamename\Quake3Arena\com_protocol\71\g_gametype\0\mapname\oa_dm5\sv_privateClients\0\sv_allowDownload\0\gamename\baseoa\elimflags\0\voteflags\0\g_needpass\0\g_obeliskRespawnDelay\10\g_enableDust\0\g_enableBreath\0\g_rockets\0\g_instantgib\0\g_altExcellent\0\g_timestamp\2025-03-13 12:24:55
+  0:00 Info: ServerInfo length: 782 of 1024
+  0:33 ClientUserinfoChanged: 0 n\razwee\t\0\model\sarge\hmodel\sarge\g_redteam\\g_blueteam\\c1\4\c2\5\hc\100\w\0\l\0\tt\0\tl\0\id\54E6070CADB7D438095D5BB845A2C291
+  0:33 ClientConnect: 0
+  0:34 ClientUserinfoChanged: 0 n\razwee\t\0\model\sarge\hmodel\sarge\g_redteam\\g_blueteam\\c1\4\c2\5\hc\100\w\0\l\0\tt\0\tl\0\id\54E6070CADB7D438095D5BB845A2C291
+  0:34 Playerstore: Nothing to restore. Guid: 54E6070CADB7D438095D5BB845A2C291
+  0:34 ClientBegin: 0
+  0:37 Kill: 1022 0 20: <world> killed razwee by MOD_SUICIDE
+  0:37 PlayerScore: 0 0: razwee now has 0 points
+  0:37 Playerstore: Stored player with guid: 54E6070CADB7D438095D5BB845A2C291 in 0
+  0:37 ClientDisconnect: 0
+453:30 ShutdownGame:
+453:30 ------------------------------------------------------------
+  0:00 ------------------------------------------------------------
+  0:00 InitGame: \g_lms_mode\0\elimination_roundtime\120\g_delagHitscan\0\g_voteMinFraglimit\0\g_voteMaxFraglimit\0\g_voteMinTimelimit\0\g_voteMaxTimelimit\1000\g_voteGametypes\/0/1/3/4/5/6/7/8/9/10/11/12/\g_allowVote\1\g_doWarmup\0\capturelimit\8\videoflags\7\g_maxGameClients\0\sv_maxclients\8\timelimit\0\fraglimit\20\dmflags\0\sv_hostname\noname\sv_minRate\0\sv_maxRate\0\sv_dlRate\100\sv_minPing\0\sv_maxPing\0\sv_floodProtect\1\version\ioq3+oa 3.0.0a_GIT_74046d7a-2023-11-07 linux-x86_64 Mar 13 2025\com_gamename\Quake3Arena\com_protocol\71\g_gametype\0\mapname\oa_dm5\sv_privateClients\0\sv_allowDownload\0\gamename\baseoa\elimflags\0\voteflags\0\g_needpass\0\g_obeliskRespawnDelay\10\g_enableDust\0\g_enableBreath\0\g_rockets\0\g_instantgib\0\g_altExcellent\0\g_timestamp\2025-03-13 21:05:00
+  0:00 Info: ServerInfo length: 782 of 1024
+  0:06 ShutdownGame:
+  0:06 ------------------------------------------------------------
+  0:00 ------------------------------------------------------------
+  0:00 InitGame: \sv_floodProtect\1\sv_maxPing\0\sv_minPing\0\sv_dlRate\100\sv_maxRate\0\sv_minRate\0\sv_hostname\noname\dmflags\0\fraglimit\20\timelimit\0\sv_maxclients\8\g_maxGameClients\0\videoflags\7\capturelimit\8\g_doWarmup\0\g_allowVote\1\g_voteGametypes\/0/1/3/4/5/6/7/8/9/10/11/12/\g_voteMaxTimelimit\1000\g_voteMinTimelimit\0\g_voteMaxFraglimit\0\g_voteMinFraglimit\0\g_delagHitscan\0\elimination_roundtime\120\g_lms_mode\0\version\ioq3+oa 3.0.0a_GIT_74046d7a-2023-11-07 linux-x86_64 Mar 13 2025\com_gamename\Quake3Arena\com_protocol\71\g_gametype\0\mapname\oa_dm5\sv_privateClients\0\sv_allowDownload\0\gamename\baseoa\elimflags\0\voteflags\0\g_needpass\0\g_obeliskRespawnDelay\10\g_enableDust\0\g_enableBreath\0\g_rockets\0\g_instantgib\0\g_altExcellent\0\g_timestamp\2025-03-13 21:05:09
+  0:00 Info: ServerInfo length: 782 of 1024
+  0:03 ShutdownGame:
+  0:03 ------------------------------------------------------------
+  0:00 ------------------------------------------------------------
+  0:00 InitGame: \g_lms_mode\0\elimination_roundtime\120\g_delagHitscan\0\g_voteMinFraglimit\0\g_voteMaxFraglimit\0\g_voteMinTimelimit\0\g_voteMaxTimelimit\1000\g_voteGametypes\/0/1/3/4/5/6/7/8/9/10/11/12/\g_allowVote\1\g_doWarmup\0\capturelimit\8\videoflags\7\g_maxGameClients\0\sv_maxclients\8\timelimit\0\fraglimit\20\dmflags\0\sv_hostname\noname\sv_minRate\0\sv_maxRate\0\sv_dlRate\100\sv_minPing\0\sv_maxPing\0\sv_floodProtect\1\version\ioq3+oa 3.0.0a_GIT_74046d7a-2023-11-07 linux-x86_64 Mar 13 2025\com_gamename\Quake3Arena\com_protocol\71\g_gametype\0\mapname\oa_dm5\sv_privateClients\0\sv_allowDownload\0\gamename\baseoa\elimflags\0\voteflags\0\g_needpass\0\g_obeliskRespawnDelay\10\g_enableDust\0\g_enableBreath\0\g_rockets\0\g_instantgib\0\g_altExcellent\0\g_timestamp\2025-03-13 21:07:00
+  0:00 Info: ServerInfo length: 782 of 1024
+  0:02 ShutdownGame:
+  0:02 ------------------------------------------------------------
+  0:00 ------------------------------------------------------------
+  0:00 InitGame: \sv_floodProtect\1\sv_maxPing\0\sv_minPing\0\sv_dlRate\100\sv_maxRate\0\sv_minRate\0\sv_hostname\noname\dmflags\0\fraglimit\20\timelimit\0\sv_maxclients\8\g_maxGameClients\0\videoflags\7\capturelimit\8\g_doWarmup\0\g_allowVote\1\g_voteGametypes\/0/1/3/4/5/6/7/8/9/10/11/12/\g_voteMaxTimelimit\1000\g_voteMinTimelimit\0\g_voteMaxFraglimit\0\g_voteMinFraglimit\0\g_delagHitscan\0\elimination_roundtime\120\g_lms_mode\0\version\ioq3+oa 3.0.0a_GIT_1bffb027-2025-03-13 linux-x86_64 Mar 13 2025\com_gamename\Quake3Arena\com_protocol\71\g_gametype\0\mapname\oa_dm5\sv_privateClients\0\sv_allowDownload\0\gamename\baseoa\elimflags\0\voteflags\0\g_needpass\0\g_obeliskRespawnDelay\10\g_enableDust\0\g_enableBreath\0\g_rockets\0\g_instantgib\0\g_altExcellent\0\g_timestamp\2025-03-13 21:40:20
+  0:00 Info: ServerInfo length: 782 of 1024
+  0:43 ShutdownGame:
+  0:43 ------------------------------------------------------------
+  0:00 ------------------------------------------------------------
+  0:00 InitGame: \sv_floodProtect\1\sv_maxPing\0\sv_minPing\0\sv_dlRate\100\sv_maxRate\0\sv_minRate\0\sv_hostname\noname\dmflags\0\fraglimit\20\timelimit\0\sv_maxclients\8\g_maxGameClients\0\videoflags\7\capturelimit\8\g_doWarmup\0\g_allowVote\1\g_voteGametypes\/0/1/3/4/5/6/7/8/9/10/11/12/\g_voteMaxTimelimit\1000\g_voteMinTimelimit\0\g_voteMaxFraglimit\0\g_voteMinFraglimit\0\g_delagHitscan\0\elimination_roundtime\120\g_lms_mode\0\version\ioq3+oa 3.0.0a_GIT_4e7ee348-2025-03-28 linux-x86_64 Mar 28 2025\com_gamename\Quake3Arena\com_protocol\71\g_gametype\0\mapname\oa_dm5\sv_privateClients\0\sv_allowDownload\0\gamename\baseoa\elimflags\0\voteflags\0\g_needpass\0\g_obeliskRespawnDelay\10\g_enableDust\0\g_enableBreath\0\g_rockets\0\g_instantgib\0\g_altExcellent\0\g_timestamp\2025-03-28 09:49:01
+  0:00 Info: ServerInfo length: 782 of 1024
+  0:43 ClientUserinfoChanged: 0 n\razwee\t\0\model\sarge\hmodel\sarge\g_redteam\\g_blueteam\\c1\4\c2\5\hc\100\w\0\l\0\tt\0\tl\0\id\54E6070CADB7D438095D5BB845A2C291
+  0:43 ClientConnect: 0
+  0:46 ClientUserinfoChanged: 0 n\razwee\t\0\model\sarge\hmodel\sarge\g_redteam\\g_blueteam\\c1\4\c2\5\hc\100\w\0\l\0\tt\0\tl\0\id\54E6070CADB7D438095D5BB845A2C291
+  0:46 Playerstore: Nothing to restore. Guid: 54E6070CADB7D438095D5BB845A2C291
+  0:46 ClientBegin: 0
+  0:47 Item: 0 weapon_grenadelauncher
+  0:49 Item: 0 ammo_lightning
+  0:50 Item: 0 ammo_lightning
+  0:51 Kill: 1022 0 20: <world> killed razwee by MOD_SUICIDE
+  0:51 PlayerScore: 0 0: razwee now has 0 points
+  0:51 Playerstore: Stored player with guid: 54E6070CADB7D438095D5BB845A2C291 in 0
+  0:51 ClientDisconnect: 0
+  0:56 ShutdownGame:
+  0:56 ------------------------------------------------------------
+  0:00 ------------------------------------------------------------
+  0:00 InitGame: \sv_floodProtect\1\sv_maxPing\0\sv_minPing\0\sv_dlRate\100\sv_maxRate\0\sv_minRate\0\sv_hostname\noname\dmflags\0\fraglimit\20\timelimit\0\sv_maxclients\8\g_maxGameClients\0\videoflags\7\capturelimit\8\g_doWarmup\0\g_allowVote\1\g_voteGametypes\/0/1/3/4/5/6/7/8/9/10/11/12/\g_voteMaxTimelimit\1000\g_voteMinTimelimit\0\g_voteMaxFraglimit\0\g_voteMinFraglimit\0\g_delagHitscan\0\elimination_roundtime\120\g_lms_mode\0\version\ioq3+oa 3.0.0a_GIT_4e7ee348-2025-03-28 linux-x86_64 Mar 28 2025\com_gamename\Quake3Arena\com_protocol\71\g_gametype\0\mapname\oa_dm5\sv_privateClients\0\sv_allowDownload\0\gamename\baseoa\elimflags\0\voteflags\0\g_needpass\0\g_obeliskRespawnDelay\10\g_enableDust\0\g_enableBreath\0\g_rockets\0\g_instantgib\0\g_altExcellent\0\g_timestamp\2025-04-02 17:16:17
+  0:00 Info: ServerInfo length: 782 of 1024
+  0:02 ShutdownGame:
+  0:02 ------------------------------------------------------------
