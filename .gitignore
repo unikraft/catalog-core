@@ -32,9 +32,7 @@ out/
 
 # Archive files
 *.cpio
-*.tar
 *.bz2
-*.gz
 *.zip
 *.Z
 *.7z
