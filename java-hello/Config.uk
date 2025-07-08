@@ -1,0 +1,31 @@
+# Configure base ELF loader application, without networking support.
+
+config APPBASEELFLOADER
+bool "Configure base ELF loader application (for binary compatibility)"
+default y
+
+	# Select app-elfloader component.
+	select APPELFLOADER_DEPENDENCIES
+
+	# Configurations options for app-elfloader
+	# (they can't be part of the template atm)
+	select APPELFLOADER_ARCH_PRCTL
+	select APPELFLOADER_BRK
+	select APPELFLOADER_CUSTOMAPPNAME
+	select APPELFLOADER_STACK_NBPAGES
+	select APPELFLOADER_VFSEXEC_EXECBIT
+	select APPELFLOADER_VFSEXEC
+	select APPELFLOADER_HFS
+	select APPELFLOADER_HFS_ETCRESOLVCONF
+	select APPELFLOADER_HFS_ETCHOSTS
+	select APPELFLOADER_HFS_ETCHOSTNAME
+	select APPELFLOADER_HFS_REPLACEEXIST
+
+	# Select filesystem implementation: cpio, ramfs, devfs.
+	select LIBVFSCORE
+	select LIBVFSCORE_AUTOMOUNT_UP
+	select LIBRAMFS
+	select LIBUKCPIO
+	select LIBDEVFS
+	select LIBDEVFS_AUTOMOUNT
+	
