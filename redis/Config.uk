@@ -8,12 +8,14 @@ bool "Configure Redis server application with initrd as rootfs"
 default y
 
 	# Select application library (Redis). Use the server main function the
+
 	# application library. Other libraries, such as Musl or LWIP, are selected
 	# as dependencies of Redis.
 	select LIBREDIS
 	select LIBREDIS_SERVER
 	select LIBREDIS_SERVER_MAIN_FUNCTION
 	select LIBREDIS_LUA
+
 
 	# Select filesystem core components: vfscore, cpio, ramfs, devfs. For
 	# each select corresponding features. The other core components are

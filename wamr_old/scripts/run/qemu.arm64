@@ -1,0 +1,34 @@
+#!/bin/sh
+
+kernel="workdir/build/wamr_qemu-arm64"
+cmd="/main.wasm"
+
+if test $# -eq 1; then
+    kernel="$1"
+fi
+
+rootfs="rootfs"
+test -d "$rootfs" || mkdir "$rootfs"
+
+# Clean up any previous instances.
+sudo pkill -f qemu-system
+sudo pkill -f firecracker
+sudo kraft stop --all
+sudo kraft rm --all
+
+# Create CPIO archive to be used as the initrd.
+old="$PWD"
+cd "$rootfs"
+find -depth -print | tac | bsdcpio -o --format newc > "$old"/rootfs.cpio
+cd "$old"
+
+
+
+sudo qemu-system-aarch64 \
+    -nographic \
+    -machine virt \
+    -m 32 \
+    -cpu max \
+    -append "vfs.fstab=[\"initrd0:/:extract::ramfs=1:\"] -- /main.wasm"\
+    -kernel "$kernel" \
+    -initrd "$PWD"/rootfs.cpio
