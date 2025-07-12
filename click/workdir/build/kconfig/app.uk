@@ -1,4 +1,0 @@
-# Auto generated file. DO NOT EDIT
-menu "Application Options"
-source "/home/stefan/unikraft_project/catalog-core/click/Config.uk"
-endmenu

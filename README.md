@@ -1,182 +1,269 @@
-# Catalog Core
+# Click on Unikraft
 
-This is a catalog of Unikraft applications that are set up, configured, built and run using first principles tools: Make, GCC, Clang, Kconfig, QEMU, Firecracker, Xen.
-Each directory belongs to a given application and it typically consists of source code, `Makefile`, `Makefile.uk`, filesystem and a `README.md` file with instructions.
+This application starts a [Click](https://github.com/sysml/clickos) program with Unikraft.
+Follow the instructions below to set up, configure, build and run Click.
 
-This catalog is targeted towards Unikraft core developers (i.e. developers of [`unikraft` core repository](https://github.com/unikraft/unikraft) or [library repositories](https://github.com/search?q=topic%3Alibrary+org%3Aunikraft&type=Repositories)), maintainers, testers and those who want to learn about the [internals of Unikraft](https://unikraft.org/docs/internals).
-Application and tooling developers and general users should use the [official `catalog` repository](https://github.com/unikraft/catalog).
+## Quick Setup (aka TLDR)
 
-In order to use this catalog, clone this repository, run the `setup.sh` script and enter the preferred application directory:
+For a quick setup, run the commands below.
+Note that you still need to install the [requirements](#requirements).
+
+For building and running everything for Qemu in `x86_64`, follow the steps below:
 
 ```console
-git clone https://github.com/unikraft/catalog-core
-cd catalog-core/
 ./setup.sh
-cd <application-directory>
+UK_DEFCONFIG=$(pwd)/.config.click-qemu-x86_64 make defconfig
+make -j $(nproc)
+sudo ip link set dev virbr0 down 2> /dev/null
+sudo ip link del dev virbr0 2> /dev/null
+sudo ip link add dev virbr0 type bridge
+sudo ip address add 172.44.0.1/24 dev virbr0
+sudo ip link set dev virbr0 up
+
+sudo qemu-system-x86_64 \
+    -netdev bridge,id=en0,br=virbr0 -device virtio-net-pci,netdev=en0 \
+    -append "netdev.ipv4_addr=172.44.0.2 netdev.ipv4_gw_addr=172.44.0.1 netdev.ipv4_subnet_mask=255.255.255.0 --" \
+    -kernel workdir/build/click_qemu-x86_64 \
+    -initrd helloworld.click \
+    -nographic
 ```
 
-Inside the directory, follow the instructions in the application `README.md`.
+This will configure, build and run the `click` application.
 
-Before and while you are using this catalog, read about the [internals of Unikraft](https://unikraft.org/docs/internals).
+The same can be done for Qemu in `AArch64`, by running the commands below:
+
+```console
+./setup.sh
+make properclean
+UK_DEFCONFIG=$(pwd)/.config.click-qemu-aarch64 make defconfig
+make -j $(nproc)
+sudo ip link set dev virbr0 down 2> /dev/null
+sudo ip link del dev virbr0 2> /dev/null
+sudo ip link add dev virbr0 type bridge
+sudo ip address add 172.44.0.1/24 dev virbr0
+sudo ip link set dev virbr0 up
+
+sudo qemu-system-aarch64 \
+    -netdev bridge,id=en0,br=virbr0 -device virtio-net-pci,netdev=en0 \
+    -append "netdev.ipv4_addr=172.44.0.2 netdev.ipv4_gw_addr=172.44.0.1 netdev.ipv4_subnet_mask=255.255.255.0 --" \
+    -kernel workdir/build/click_qemu-arm64 \
+    -initrd helloworld.click \
+    -machine virt -cpu max \
+    -nographic
+```
+
+Similar to the `x86_64` build, this will start the `click` application.
+Information about every step is detailed below.
 
 ## Requirements
 
-In order to set up, configure, build and run applications on Unikraft using first principles, the following packages are required:
+In order to set up, configure, build and run Click on Unikraft, the following packages are required:
 
 * `build-essential` / `base-devel` / `@development-tools` (the meta-package that includes `make`, `gcc` and other development-related packages)
-* `g++`
 * `sudo`
 * `flex`
 * `bison`
 * `git`
 * `wget`
-* `curl`
 * `uuid-runtime`
 * `qemu-system-x86`
 * `qemu-system-arm`
 * `qemu-kvm`
 * `sgabios`
 * `gcc-aarch64-linux-gnu`
-* `g++-aarch64-linux-gnu`
-* `bsdcpio`
 
-GCC >= 8 is required to build Unikraft.
-
-On Ubuntu/Debian or other `apt`-based distributions, use the following command to install the requirements:
+On Ubuntu/Debian or other `apt`-based distributions, run the following command to install the requirements:
 
 ```console
-sudo apt -y update
 sudo apt install -y --no-install-recommends \
   build-essential \
   sudo \
   gcc-aarch64-linux-gnu \
-  g++-aarch64-linux-gnu \
   libncurses-dev \
   libyaml-dev \
   flex \
   bison \
   git \
   wget \
-  curl \
   uuid-runtime \
   qemu-kvm \
   qemu-system-x86 \
   qemu-system-arm \
-  sgabios \
-  libarchive-tools
+  sgabios
 ```
 
-### QEMU
-
-For running applications with QEMU bridged networking, use the command below:
+Running Click Unikraft with QEMU requires networking support.
+For this to work properly a specific configuration must be enabled for QEMU.
+Run the commands below to enable that configuration (for the network bridge to work):
 
 ```console
-test -d /etc/qemu || sudo mkdir /etc/qemu
+sudo mkdir /etc/qemu/
 echo "allow all" | sudo tee /etc/qemu/bridge.conf
 ```
 
-It enables QEMU bridged networking.
+## Set Up
 
-### Docker
+The following repositories are required for Click:
 
-Certain applications require [Docker](https://www.docker.com/) to build the application and / or the application filesystem.
+* The Unikraft core repository: [`unikraft`](https://github.com/unikraft/unikraft)
+* Library repositories:
+  * The networking stack library: [`lib-lwip`](https://github.com/unikraft/lib-lwip)
+  * The Musl libc library: [`lib-musl`](https://github.com/unikraft/lib-musl)
+  * The Click library: [`lib-click`](https://github.com/unikraft/lib-click)
 
-To install Docker, follow the [official instructions](https://docs.docker.com/engine/install/).
-Also follow the [post-install instructions](https://docs.docker.com/engine/install/linux-postinstall/).
-The post-install instructions are required to run Docker as a non-root user.
+For the setup, while inside the `click/` directory, run the `setup.sh` script to create the necessary folders and link them to the downloaded libraries:
 
-Validate you have a correct Docker installation by running, as an ordinary user (i.e. not `root`):
+     ```console
+      ./setup.sh
+     ```
+
+
+## Configure
+
+Configuring, building and running a Unikraft application depends on our choice of platform and architecture.
+Currently, supported platforms are QEMU (KVM), Xen and linuxu.
+QEMU (KVM) is known to be working, so we focus on that.
+
+Supported architectures are x86_64 and AArch64.
+
+To configure the kernel, use:
+```console
+make menuconfig
+```
+
+In the console menu interface, choose the target architecture (`x86_64`, `ARMv8` or `ARMv7`) and platform (Xen or KVM/QEMU or KVM/Firecracker). After choosing the target architecture and the platform, go into `Library Configuration` and select musl library, inside lwip library deselect `Automatically attach netifs` and inside Click library select `Enable Click main function`. Then save the configuration.
+
+This results in the creation of the `.config` file:
 
 ```console
-docker run hello-world
+ls .config
+.config
 ```
 
-In case of a correct Docker installation, the above command will print out a longer "Hello, World!"-like message.
+The `.config` file will be used in the build step.
 
-### Clang
+## Build
 
-Unikraft supports Clang.
-If you plan to use it, install the `clang` package.
+Build the application for the current configuration:
+```console
+make -j $(nproc)
+```
 
-On Ubuntu/Debian or other `apt`-based distributions, use the following command to install it:
+For x86_64:
+
+```text
+[...]
+  LD      click_qemu-x86_64.dbg
+  UKBI    click_qemu-x86_64.dbg.bootinfo
+  SCSTRIP click_qemu-x86_64
+  GZ      click_qemu-x86_64.gz
+make[1]: Leaving directory '[...]/click/.unikraft/unikraft'
+```
+
+For AArch64:
+```text
+[...]
+  LD      click_qemu-arm64.dbg
+  UKBI    click_qemu-arm64.dbg.bootinfo
+  SCSTRIP click_qemu-arm64
+  GZ      click_qemu-arm64.gz
+make[1]: Leaving directory '[...]/click/.unikraft/unikraft'
+```
+
+
+At the end of the build command, the `click-x86_64` unikernel image is generated.
+This image is to be used in the run step.
+
+Building uses as input the `.config` file from above, and results in a unikernel image as output.
+The unikernel output image, together with intermediary build files, are stored in the `workdir/build/` directory.
+
+This will print a list of files that are generated by the build system.
+
+
+## Clean Up
+
+Before starting a build on a different platform or architecture, you must clean up the build output.
+This may also be required in case of a new configuration.
+
+Cleaning up is done with 3 possible commands:
+
+* `make clean`: cleans all actual build output files (binary files, including the unikernel image)
+* `make properclean`: removes the entire `workdir/build/` directory
+* `make distclean`: removes the entire `workdir/build/` directory **and** the `.config` file
+
+Typically, you would use `make properclean` to remove all build artifacts, but keep the configuration file.
+
+## Run
+
+The resulting image can be run with the `qemu-system-*` commands.
+In order to run the `click` helloworld application, you need to first set up a network bridge.
+To do this, you need the following commands:
+```console
+sudo ip link set dev virbr0 down 2> /dev/null
+sudo ip link del dev virbr0 2> /dev/null
+sudo ip link add dev virbr0 type bridge
+sudo ip address add 172.44.0.1/24 dev virbr0
+sudo ip link set dev virbr0 up
+```
+
+## QEMU x86_64
+
+To run the QEMU x86_64 build, use the commands below:
 
 ```console
-sudo apt install -y clang
+sudo qemu-system-x86_64 \
+    -netdev bridge,id=en0,br=virbr0 -device virtio-net-pci,netdev=en0 \
+    -append "netdev.ipv4_addr=172.44.0.2 netdev.ipv4_gw_addr=172.44.0.1 netdev.ipv4_subnet_mask=255.255.255.0 --" \
+    -kernel workdir/build/click_qemu-x86_64 \
+    -initrd helloworld.click \
+    -nographic
 ```
 
-Note that Clang >= 14 is required for building Unikraft.
+This will start the `click` helloworld application:
 
-### Firecracker
+```text
+SeaBIOS (version 1.16.0-debian-1.16.0-5)
 
-Unikraft support [Firecracker](https://firecracker-microvm.github.io/).
-To install Firecracker, use the commands below in a downloads or packages directory that will store the package archive:
+iPXE (https://ipxe.org) 00:03.0 CA00 PCI2.10 PnP PMM+06FCAFC0+06F0AFC0 CA00
+                                                    
+Powered by
+o.   .o       _ _               __ _
+Oo   Oo  ___ (_) | __ __  __ _ ' _) :_
+oO   oO ' _ `| | |/ /  _)' _` | |_|  _)
+oOo oOO| | | | |   (| | | (_) |  _) :_
+ OoOoO ._, ._:_:_,\_._,  .__,_:_, \___)
+      Prometheus 0.14.0~c66cdc68-custom
+Received config (length 144):
+define($MAC0 52:54:00:12:34:56);
+/* End unikraft-provided MAC preamble */
+FromDevice
+  -> Print('Hello, World!')
+  -> EtherMirror
+  -> ToDevice;
+Hello, World!:   90 | 33330000 0016fe93 a0e40183 86dd6000 00000024 00010000
+Hello, World!:  130 | 33330000 00160af9 d92a3d5f 86dd6000 0000004c 0001fe80
+[router_thread:200] Starting driver...
+
+Hello, World!:   86 | 3333ffe4 0183fe93 a0e40183 86dd6000 00000020 3aff0000
+Hello, World!:   90 | 33330000 0016fe93 a0e40183 86dd6000 00000024 00010000
+```
+
+To close the QEMU `click` application, use the `Ctrl+a x` keyboard shortcut;
+that is press the `Ctrl` and `a` keys at the same time and then, separately, press the `x` key.
+
+## QEMU AArch64
+
+To run the AArch64 build, use the commands below:
 
 ```console
-release_url="https://github.com/firecracker-microvm/firecracker/releases"
-latest=v1.7.0
-curl -L ${release_url}/download/${latest}/firecracker-${latest}-$(uname -m).tgz | tar -xz
-sudo cp release-${latest}-$(uname -m)/firecracker-${latest}-$(uname -m) /usr/local/bin/firecracker-${latest}-$(uname -m)
-sudo ln -sfn /usr/local/bin/firecracker-${latest}-$(uname -m) /usr/local/bin/firecracker-$(uname -m)
+sudo qemu-system-aarch64 \
+    -netdev bridge,id=en0,br=virbr0 -device virtio-net-pci,netdev=en0 \
+    -append "netdev.ipv4_addr=172.44.0.2 netdev.ipv4_gw_addr=172.44.0.1 netdev.ipv4_subnet_mask=255.255.255.0 --" \
+    -kernel workdir/build/click_qemu-arm64 \
+    -initrd helloworld.click \
+    -machine virt -cpu max \
+    -nographic
 ```
 
-Note that Firecracker requires KVM support.
-The system must have KVM enabled and the user must be able to use KVM.
-Typically, that means the user needs to be part of the `kvm` group.
-This can be done using:
-
-```
-sudo usermod -a -G kvm $USER
-```
-
-It may be that you are required to log out and log back in, for the change to take effect.
-
-### Xen
-
-Unikraft supports Xen.
-If you plan to run the application on Xen, you need a system with Xen installed.
-Then install the Xen toolstack.
-
-On Ubuntu/Debian or other `apt`-based distributions, use the following command to install the Xen toolstack:
-
-```console
-sudo apt install -y xen-utils
-```
-
-## Scripted Runs and Testing
-
-To make it easy to quickly build, run and test Unikraft applications, you may use pre-created scripts.
-
-### Scripted Runs
-
-For scripted runs, switch to the `scripts` branch of the repository:
-
-```console
-git checkout -b scripts origin/scripts
-```
-
-Then use the scripts in the `scripts/` directory of each application.
-The build scripts are in the `scripts/build/` directory and the run scripts are in the `scripts/run/` directory.
-
-See instructions in the `scripts/README.md` file about running scripts.
-As noted in `scripts/README.md` file, scripts are run from the application directory.
-
-### Testing
-
-To test applications, switch to the `test` branch of the repository:
-
-```console
-git checkout -b test origin/test
-```
-
-Test all applications by running:
-
-```console
-./test.overall.sh
-```
-
-To test individual applications, navigate to each application directory and run the scripts in the `scripts/test/` directory.
-
-Build and run logs from running tests are stored in the `scripts/test/log/` directory.
-
-See instructions in the `scripts/test/README.md` file about running scripts.
-As noted in the `scripts/test/README.md` file, scripts are run from the application directory.
+Similar to running for x86_64, this will start the `click` helloworld application.
+Similarly, to close the QEMU Click instance, use the `Ctrl+a x` keyboard shortcut.

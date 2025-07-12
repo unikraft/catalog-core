@@ -1,1 +1,0 @@
-""gcc -nostdlib -Wl,-r -Wl,-d -Wl,--build-id=none -no-pie -nostdinc    /home/stefan/unikraft_project/catalog-core/click/workdir/build/libvgacons/vga.o /home/stefan/unikraft_project/catalog-core/click/workdir/build/libvgacons/libinfo.libuklibid.o   -Wl,--start-group     -Wl,--end-group -o /home/stefan/unikraft_project/catalog-core/click/workdir/build/libvgacons.ld.o

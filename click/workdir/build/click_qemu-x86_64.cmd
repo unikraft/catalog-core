@@ -1,1 +1,0 @@
-""strip -s /home/stefan/unikraft_project/catalog-core/click/workdir/build/click_qemu-x86_64.dbg -o /home/stefan/unikraft_project/catalog-core/click/workdir/build/click_qemu-x86_64 2>&1 | { grep -Ev "Empty loadable segment detected|section.*lma.*adjusted to.*" || true; }

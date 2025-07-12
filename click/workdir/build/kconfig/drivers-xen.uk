@@ -1,9 +1,0 @@
-# Auto generated file. DO NOT EDIT
-source "/home/stefan/unikraft_project/catalog-core/repos/unikraft/drivers/xen/9pfront/Config.uk"
-source "/home/stefan/unikraft_project/catalog-core/repos/unikraft/drivers/xen/blkfront/Config.uk"
-source "/home/stefan/unikraft_project/catalog-core/repos/unikraft/drivers/xen/netfront/Config.uk"
-source "/home/stefan/unikraft_project/catalog-core/repos/unikraft/drivers/xen/xenbus/Config.uk"
-source "/home/stefan/unikraft_project/catalog-core/repos/unikraft/drivers/xen/xencons/Config.uk"
-source "/home/stefan/unikraft_project/catalog-core/repos/unikraft/drivers/xen/xenemgcons/Config.uk"
-source "/home/stefan/unikraft_project/catalog-core/repos/unikraft/drivers/xen/xengnttab/Config.uk"
-source "/home/stefan/unikraft_project/catalog-core/repos/unikraft/drivers/xen/xenheaders/Config.uk"

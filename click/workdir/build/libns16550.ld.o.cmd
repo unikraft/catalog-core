@@ -1,1 +1,0 @@
-""gcc -nostdlib -Wl,-r -Wl,-d -Wl,--build-id=none -no-pie -nostdinc    /home/stefan/unikraft_project/catalog-core/click/workdir/build/libns16550/com.isr.o /home/stefan/unikraft_project/catalog-core/click/workdir/build/libns16550/libinfo.libuklibid.o   -Wl,--start-group     -Wl,--end-group -o /home/stefan/unikraft_project/catalog-core/click/workdir/build/libns16550.ld.o

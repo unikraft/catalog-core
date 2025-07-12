@@ -1,1 +1,0 @@
-gawk --lint -f /home/stefan/unikraft_project/catalog-core/repos/unikraft/lib/uklibid/selfids.awk        /home/stefan/unikraft_project/catalog-core/click/workdir/build/libuklibid/libraries.in > /home/stefan/unikraft_project/catalog-core/click/workdir/build/libuklibid/selfids.c
