@@ -1,0 +1,9 @@
+# Auto generated file. DO NOT EDIT
+source "/home/stefan/unikraft_project/click/.unikraft/unikraft/drivers/virtio/9p/Config.uk"
+source "/home/stefan/unikraft_project/click/.unikraft/unikraft/drivers/virtio/blk/Config.uk"
+source "/home/stefan/unikraft_project/click/.unikraft/unikraft/drivers/virtio/bus/Config.uk"
+source "/home/stefan/unikraft_project/click/.unikraft/unikraft/drivers/virtio/mmio/Config.uk"
+source "/home/stefan/unikraft_project/click/.unikraft/unikraft/drivers/virtio/net/Config.uk"
+source "/home/stefan/unikraft_project/click/.unikraft/unikraft/drivers/virtio/pci/Config.uk"
+source "/home/stefan/unikraft_project/click/.unikraft/unikraft/drivers/virtio/ring/Config.uk"
+source "/home/stefan/unikraft_project/click/.unikraft/unikraft/drivers/virtio/Config.uk"

@@ -1,0 +1,5 @@
+# Auto generated file. DO NOT EDIT
+source "/home/stefan/unikraft_project/click/.unikraft/unikraft/drivers/ukps2/Config.uk"
+source "/home/stefan/unikraft_project/click/.unikraft/unikraft/drivers/ukrtc/Config.uk"
+source "/home/stefan/unikraft_project/click/.unikraft/unikraft/drivers/virtio/Config.uk"
+source "/home/stefan/unikraft_project/click/.unikraft/unikraft/drivers/Config.uk"

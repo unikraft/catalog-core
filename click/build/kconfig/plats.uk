@@ -1,0 +1,4 @@
+# Auto generated file. DO NOT EDIT
+source "/home/stefan/unikraft_project/click/.unikraft/unikraft/plat/kvm/Config.uk"
+source "/home/stefan/unikraft_project/click/.unikraft/unikraft/plat/xen/Config.uk"
+source "/home/stefan/unikraft_project/click/.unikraft/unikraft/plat/Config.uk"

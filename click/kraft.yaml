@@ -1,0 +1,25 @@
+specification: '0.5'
+name: click
+unikraft:
+  version: '0.5'
+  kconfig:
+    - CONFIG_LIBPOSIX_USER=y
+targets:
+  - architecture: x86_64
+    platform: kvm
+libraries:
+  lwip:
+    version: '0.5'
+    kconfig:
+      - CONFIG_LWIP=y
+      - CONFIG_LWIP_AUTOIFACE=n
+  musl:
+    version: '0.5'
+  click:
+    version: '0.5'
+    kconfig:
+      - LIBCLICK_MAIN=y
+volumes:
+  vol0:
+    driver: initrd
+    source: ./helloworld.click
