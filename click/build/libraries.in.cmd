@@ -1,1 +1,0 @@
-cmp -s /home/stefan/unikraft_project/click/build/libuklibid/libraries.in.new /home/stefan/unikraft_project/click/build/libuklibid/libraries.in; if [ $? -ne 0 ]; then cp /home/stefan/unikraft_project/click/build/libuklibid/libraries.in.new /home/stefan/unikraft_project/click/build/libuklibid/libraries.in; fi

@@ -1,1 +1,0 @@
-gawk --lint -f /home/stefan/unikraft_project/click/.unikraft/unikraft/lib/uklibid/libid.awk        /home/stefan/unikraft_project/click/build/libuklibid/libraries.in > /home/stefan/unikraft_project/click/build/libuklibid/include/uk/bits/libid.h

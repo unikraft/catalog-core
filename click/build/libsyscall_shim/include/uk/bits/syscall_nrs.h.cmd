@@ -1,1 +1,0 @@
-gawk --lint -f /home/stefan/unikraft_project/click/.unikraft/unikraft/lib/syscall_shim/syscall_nrs.awk        /home/stefan/unikraft_project/click/.unikraft/unikraft/lib/syscall_shim/arch/x86_64/syscall.h.in > /home/stefan/unikraft_project/click/build/libsyscall_shim/include/uk/bits/syscall_nrs.h
