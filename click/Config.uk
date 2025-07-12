@@ -1,0 +1,18 @@
+# Configure Click unikernel for minimal KVM build
+# Enable architecture, platform, and essential libraries
+
+config APPCLICK
+bool "Configure Click unikernel with minimal KVM setup"
+default y
+
+	# Select musl libc as standard C library
+	select LIBMUSL
+
+	# Select Click main library
+	select LIBCLICK_MAIN
+
+	# Select networking loopback interface
+	select LWIP_LOOPIF
+
+	# Enable compression optimization
+	select OPTIMIZE_COMPRESS
