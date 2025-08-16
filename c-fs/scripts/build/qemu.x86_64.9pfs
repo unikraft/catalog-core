@@ -1,0 +1,12 @@
+#!/bin/sh
+
+make distclean
+UK_DEFCONFIG=$(pwd)/scripts/defconfig/qemu.x86_64.9pfs make defconfig
+touch Makefile.uk
+make prepare
+if test -z "$CC"; then
+    make -j $(nproc)
+else
+    make CC="$CC" -j $(nproc)
+fi
+
