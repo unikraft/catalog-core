@@ -31,6 +31,11 @@ default y
 	select LIBDEVFS
 	select LIBDEVFS_AUTOMOUNT
 
+	# Add multithreading support to run exit() calls.
+	select LIBUKBOOT_MAINTHREAD
+	select LIBUKBOOT_SHUTDOWNREQ_HANDLER
+	select LIBPOSIX_PROCESS_MULTITHREADING
+
 	# Select LWIP networking stack library.
 	select LIBLWIP
 
