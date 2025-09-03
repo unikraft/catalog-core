@@ -9,7 +9,6 @@ default y
 
 	# Configurations options for app-elfloader
 	# (they can't be part of the template atm)
-	select APPELFLOADER_ARCH_PRCTL
 	select APPELFLOADER_BRK
 	select APPELFLOADER_CUSTOMAPPNAME
 	select APPELFLOADER_STACK_NBPAGES
@@ -20,6 +19,9 @@ default y
 	select APPELFLOADER_HFS_ETCHOSTS
 	select APPELFLOADER_HFS_ETCHOSTNAME
 	select APPELFLOADER_HFS_REPLACEEXIST
+
+	# Select arch_prctl() support.
+	select LIBPOSIX_PROCESS_ARCH_PRCTL
 
 	# Select filesystem implementation: cpio, ramfs, devfs.
 	select LIBVFSCORE
