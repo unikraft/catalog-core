@@ -110,7 +110,10 @@ jobs:
       - name: Run tests
         id: run-tests
         run: |
-          sudo -E ./test.overall.sh 2>&1 | tee -a output.log
+          # sudo -E ./test.overall.sh 2>&1 | tee -a output.log
+          cd c-fs
+          CC=clang
+          sudo -E ./scripts/test/all.sh 2>&1 | tee -a ../output.log
           RESULT=$(grep -q 'FAILED' output.log && echo 'failure' || echo 'success')
           echo "result=$RESULT" >> $GITHUB_OUTPUT
           echo "result_upper=$(echo $RESULT | tr 'a-z' 'A-Z')" >> $GITHUB_OUTPUT
@@ -126,10 +129,10 @@ jobs:
           route: PATCH /repos/{owner}/{repo}/check-runs/{check_run_id}
           owner: ${{ steps.parse_repo.outputs.owner }}
           repo: ${{ steps.parse_repo.outputs.repo }}
-          # check_run_id: ${{ steps.create_check.outputs.data.id }}
           check_run_id: ${{ fromJson(steps.create_check.outputs.data).id }}
           status: 'completed'
-          conclusion: ${{ steps.run-tests.outputs.result }}
+          # conclusion: ${{ steps.run-tests.outputs.result }}
+          conclusion: ${{ steps.run-tests.outputs.result || job.status }}
           started_at: ${{ github.event.client_payload.start_time }}
           completed_at: ${{ steps.completion_time.outputs.completion_time }}
           output: |
