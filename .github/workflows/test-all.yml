@@ -137,7 +137,7 @@ jobs:
           completed_at: ${{ steps.completion_time.outputs.completion_time }}
           output: |
             {
-              "title": "Test run complete: ${{ steps.run-tests.outputs.result_upper }}",
+              "title": "Test run complete: ${{ steps.run-tests.outputs.result_upper || (job.status == 'cancelled' && 'CANCELED' || 'FAILED') }}",
               "summary": "The Catalog Core tests have finished. [View Full Logs](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})"
             }
         env:
