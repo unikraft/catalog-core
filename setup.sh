@@ -14,3 +14,4 @@ test -d repos/libs/libelf || git clone https://github.com/unikraft/lib-libelf re
 test -d repos/apps/elfloader || git clone https://github.com/unikraft/app-elfloader repos/apps/elfloader
 test -d repos/apps/redis || git clone https://github.com/unikraft/lib-redis repos/libs/redis
 test -d repos/libs/wamr || git clone https://github.com/unikraft/lib-wamr repos/libs/wamr
+test -d repos/libs/sqlite || git clone https://github.com/unikraft/lib-sqlite repos/libs/sqlite
