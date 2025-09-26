@@ -11,7 +11,6 @@ default y
 	# (they can't be part of the template atm)
 	select APPELFLOADER_BRK
 	select APPELFLOADER_CUSTOMAPPNAME
-	select APPELFLOADER_STACK_NBPAGES
 	select APPELFLOADER_VFSEXEC_EXECBIT
 	select APPELFLOADER_VFSEXEC
 	select APPELFLOADER_HFS
@@ -35,3 +34,8 @@ default y
 	select LIBUKBOOT_MAINTHREAD
 	select LIBUKBOOT_SHUTDOWNREQ_HANDLER
 	select LIBPOSIX_PROCESS_MULTITHREADING
+
+# Increase the application's default stack size.
+config APPELFLOADER_STACK_NBPAGES
+int
+default 128 if APPBASEELFLOADER
