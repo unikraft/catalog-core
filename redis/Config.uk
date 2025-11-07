@@ -4,7 +4,7 @@
 # Enable extendeded information for configuring network parameters.
 
 config APPREDIS
-bool "Configure Redis server application with initrd as rootfs"
+bool "Configure Redis server application with 9pfs as rootfs"
 default y
 
 	# Select application library (Redis). Use the server main function the
@@ -19,9 +19,8 @@ default y
 	# each select corresponding features. The other core components are
 	# selected as dependencies of Redis.
 	select LIBVFSCORE
-	select LIBVFSCORE_AUTOMOUNT_UP
 	select LIBRAMFS
-	select LIBUKCPIO
+        select LIBUKCPIO
 	select LIBDEVFS
 	select LIBDEVFS_AUTOMOUNT
 	select LIBDEVFS_DEVSTDOUT
