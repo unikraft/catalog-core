@@ -1,0 +1,18 @@
+#!/bin/sh
+
+if test ! -f "workdir/build/c-fs_qemu-x86_64"; then
+    echo "No kernel file workdir/build/c-fs_qemu-x86_64." 1>&2
+    echo "Did you run ./build.qemu.x86_64 ?" 1>&2
+    exit 1
+fi
+
+rm -fr 9pfs-rootfs
+cp -r rootfs 9pfs-rootfs
+qemu-system-x86_64 \
+    -nographic \
+    -m 8 \
+    -cpu max \
+    -kernel workdir/build/c-fs_qemu-x86_64 \
+    -append "c-fs vfs.fstab=[ \"fs0:/:9pfs:::\" ] -- /hello.txt" \
+    -fsdev local,id=myid,path=$(pwd)/9pfs-rootfs/,security_model=none \
+    -device virtio-9p-pci,fsdev=myid,mount_tag=fs0
