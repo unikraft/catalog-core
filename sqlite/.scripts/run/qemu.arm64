@@ -1,0 +1,19 @@
+#!/bin/sh
+
+if test ! -f "workdir/build/sqlite_qemu-arm64"; then
+    echo "No kernel file workdir/build/sqlite_qemu-arm64." 1>&2
+    echo "Did you run ./.scripts/build/qemu.arm64 ?" 1>&2
+    exit 1
+fi
+
+# Pack filesystem as an initial ramdisk CPIO file.
+rm -f initrd.cpio
+../repos/unikraft/support/scripts/mkcpio initrd.cpio ./rootfs/
+
+qemu-system-aarch64 \
+    -nographic \
+    -machine virt \
+    -cpu max \
+    -kernel workdir/build/sqlite_qemu-arm64 \
+    -append "sqlite_qemu-arm64 vfs.fstab=[ \"initrd0:/:extract::ramfs=1:\" ] env.vars=[ \"HOME=/root\" ] -- /chinook.db 'SELECT * FROM Album LIMIT 10'" \
+    -initrd ./initrd.cpio
