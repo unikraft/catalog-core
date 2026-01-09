@@ -1,0 +1,20 @@
+#!/bin/sh
+
+if test ! -f initrd.cpio; then
+    echo "No initrd.cpio file found." 1>&2
+    echo "Did you run the build script?" 1>&2
+    exit 1
+fi
+
+base_kernel="workdir/base/build/elfloader_fc-x86_64"
+if test ! -f "$base_kernel"; then
+    echo "No kernel file $base_kernel." 1>&2
+    echo "Did you run the build script?" 1>&2
+    exit 1
+fi
+
+rm -f firecracker.socket
+
+firecracker-x86_64 \
+        --api-sock firecracker.socket \
+        --config-file fc.x86_64.json

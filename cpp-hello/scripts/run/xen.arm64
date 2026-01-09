@@ -1,0 +1,9 @@
+#!/bin/sh
+
+if test ! -f "workdir/build/cpp-hello_xen-arm64"; then
+    echo "No kernel file workdir/build/cpp-hello_xen-arm64." 1>&2
+    echo "Did you run ./build.xen.arm64 ?" 1>&2
+    exit 1
+fi
+
+sudo xl create -c xen.arm64.cfg
