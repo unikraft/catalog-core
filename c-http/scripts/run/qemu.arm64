@@ -1,0 +1,29 @@
+#!/bin/sh
+
+if test ! -f "workdir/build/c-http_qemu-arm64"; then
+    echo "No kernel file workdir/build/c-http_qemu-arm64." 1>&2
+    echo "Did you run ./build.qemu.arm64 ?" 1>&2
+    exit 1
+fi
+
+{
+# Remove previously created network interface.
+sudo ip link set dev virbr0 down
+sudo ip link del dev virbr0
+sudo ip link set dev tap0 down
+sudo ip link del dev tap0
+} > /dev/null 2>&1
+
+# Create bridge interface for QEMU networking.
+sudo ip link add dev virbr0 type bridge
+sudo ip address add 172.44.0.1/24 dev virbr0
+sudo ip link set dev virbr0 up
+
+sudo qemu-system-aarch64 \
+    -nographic \
+    -machine virt \
+    -m 8 \
+    -cpu max \
+    -netdev bridge,id=en0,br=virbr0 -device virtio-net-pci,netdev=en0 \
+    -append "c-http netdev.ip=172.44.0.2/24:172.44.0.1::: -- " \
+    -kernel workdir/build/c-http_qemu-arm64

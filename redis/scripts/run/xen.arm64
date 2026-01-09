@@ -1,0 +1,26 @@
+#!/bin/sh
+
+if test ! -f "workdir/build/redis_xen-arm64"; then
+    echo "No kernel file workdir/build/redis_xen-arm64." 1>&2
+    echo "Did you run ./build.xen.arm64 ?" 1>&2
+    exit 1
+fi
+
+{
+# Remove previously created network interface.
+sudo ip link set dev virbr0 down
+sudo ip link del dev virbr0
+sudo ip link set dev tap0 down
+sudo ip link del dev tap0
+} > /dev/null 2>&1
+
+# Create bridge interface for QEMU networking.
+sudo ip link add dev virbr0 type bridge
+sudo ip address add 172.44.0.1/24 dev virbr0
+sudo ip link set dev virbr0 up
+
+# Pack filesystem as an initial ramdisk CPIO file.
+rm -f initrd.cpio
+../repos/unikraft/support/scripts/mkcpio initrd.cpio ./rootfs/
+
+sudo xl create -c xen.arm64.cfg
