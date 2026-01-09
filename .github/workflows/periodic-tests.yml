@@ -101,5 +101,5 @@ jobs:
           name: catalog-core-test-logs-${{ github.run_id }}
           path: |
             output.log
-            */scripts/test/log/*
+            */.scripts/test/log/*
           retention-days: 7

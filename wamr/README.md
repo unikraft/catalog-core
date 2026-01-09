@@ -15,7 +15,7 @@ For building and running everything for `x86_64`, follow the steps below:
 ```console
 ./setup.sh
 make distclean
-wget -O /tmp/defconfig https://raw.githubusercontent.com/unikraft/catalog-core/refs/heads/scripts/wamr/scripts/defconfig/qemu.x86_64
+wget -O /tmp/defconfig https://raw.githubusercontent.com/unikraft/catalog-core/refs/heads/main/wamr/.scripts/defconfig/qemu.x86_64
 UK_DEFCONFIG=/tmp/defconfig make defconfig
 make prepare
 make -j $(nproc)

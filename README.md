@@ -154,11 +154,11 @@ For scripted runs, switch to the `scripts` branch of the repository:
 git checkout -b scripts origin/scripts
 ```
 
-Then use the scripts in the `scripts/` directory of each application.
-The build scripts are in the `scripts/build/` directory and the run scripts are in the `scripts/run/` directory.
+Then use the scripts in the `.scripts/` directory of each application.
+The build scripts are in the `.scripts/build/` directory and the run scripts are in the `.scripts/run/` directory.
 
-See instructions in the `scripts/README.md` file about running scripts.
-As noted in `scripts/README.md` file, scripts are run from the application directory.
+See instructions in the `.scripts/README.md` file about running scripts.
+As noted in `.scripts/README.md` file, scripts are run from the application directory.
 
 ### Testing
 
@@ -174,9 +174,9 @@ Test all applications by running:
 ./test.overall.sh
 ```
 
-To test individual applications, navigate to each application directory and run the scripts in the `scripts/test/` directory.
+To test individual applications, navigate to each application directory and run the scripts in the `.scripts/test/` directory.
 
-Build and run logs from running tests are stored in the `scripts/test/log/` directory.
+Build and run logs from running tests are stored in the `.scripts/test/log/` directory.
 
-See instructions in the `scripts/test/README.md` file about running scripts.
-As noted in the `scripts/test/README.md` file, scripts are run from the application directory.
+See instructions in the `.scripts/test/README.md` file about running scripts.
+As noted in the `.scripts/test/README.md` file, scripts are run from the application directory.
