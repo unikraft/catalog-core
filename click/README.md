@@ -13,7 +13,7 @@ For building and running everything for Qemu in `x86_64`, follow the steps below
 ```console
 make distclean
 ./setup.sh
-wget -O /tmp/defconfig https://raw.githubusercontent.com/unikraft/catalog-core/refs/heads/scripts/click/scripts/defconfig/qemu.x86_64
+wget -O /tmp/defconfig https://raw.githubusercontent.com/unikraft/catalog-core/refs/heads/main/click/.scripts/defconfig/qemu.x86_64
 UK_DEFCONFIG=/tmp/defconfig make defconfig
 make -j $(nproc)
 sudo ip link set dev virbr0 down 2> /dev/null
@@ -37,7 +37,7 @@ The same can be done for Qemu in `AArch64`, by running the commands below:
 ```console
 make distclean
 ./setup.sh
-wget -O /tmp/defconfig https://raw.githubusercontent.com/unikraft/catalog-core/refs/heads/scripts/click/scripts/defconfig/qemu.arm64
+wget -O /tmp/defconfig https://raw.githubusercontent.com/unikraft/catalog-core/refs/heads/main/click/.scripts/defconfig/qemu.arm64
 UK_DEFCONFIG=/tmp/defconfig make defconfig
 make -j $(nproc)
 sudo ip link set dev virbr0 down 2> /dev/null

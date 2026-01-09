@@ -25,7 +25,7 @@ docker export unikraft-java-container -o rootfs.tar
 tar xvf rootfs.tar -C rootfs/
 test -f initrd.cpio || ./workdir/unikraft/support/scripts/mkcpio initrd.cpio ./rootfs/
 make distclean
-wget -O /tmp/defconfig https://raw.githubusercontent.com/unikraft/catalog-core/refs/heads/scripts/bincompat-java-hello/scripts/defconfig/qemu.x86_64
+wget -O /tmp/defconfig https://raw.githubusercontent.com/unikraft/catalog-core/refs/heads/main/bincompat-java-hello/.scripts/defconfig/qemu.x86_64
 UK_DEFCONFIG=/tmp/defconfig make defconfig
 make -j $(nproc)
 qemu-system-x86_64 \
