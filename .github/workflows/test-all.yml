@@ -1,0 +1,146 @@
+name: test-all
+
+on:
+  schedule:
+    - cron: '0 1 * * *'   # 1 AM UTC daily
+  repository_dispatch:
+    types: [unikraft_open_pr]  # Triggered by external PRs in the unikraft repository
+  workflow_dispatch:      # Manual trigger
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.client_payload.pr_repo }}-${{ github.event.client_payload.pr_number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test-all-apps:
+    timeout-minutes: 90
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout to the branch that triggered the workflow
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+
+      - name: Backup CI Scripts
+        run: |
+          mkdir -p /tmp/ci-scripts
+          cp -r .github/scripts/* /tmp/ci-scripts/
+
+      # Parse repository information from the dispatch event
+      - name: Parse Repository Info
+        if: github.event_name == 'repository_dispatch'
+        id: parse_repo
+        run: bash .github/scripts/utils/parse-repo.sh "${{ github.event.client_payload.pr_repo }}"
+
+      # Generate a GitHub App token for authentication
+      # This is required to create and update check runs on the target repository
+      - name: Generate GitHub App Token
+        if: github.event_name == 'repository_dispatch'
+        id: generate_token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ vars.APP_ID }}  # GitHub App ID stored in repository variables
+          private-key: ${{ secrets.PRIVATE_KEY }}  # Private key stored in repository secrets
+          owner: ${{ steps.parse_repo.outputs.owner }}
+          repositories: ${{ steps.parse_repo.outputs.repo }}
+
+      # Create an initial check run to indicate tests are starting
+      # This check run will be updated later with the final results
+      - name: Create Initial Check Run
+        if: github.event_name == 'repository_dispatch'
+        id: create_check
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ steps.generate_token.outputs.token }}
+          script: |
+            const { data } = await github.rest.checks.create({
+              owner: '${{ steps.parse_repo.outputs.owner }}',
+              repo: '${{ steps.parse_repo.outputs.repo }}',
+              name: 'Catalog Core Tests',
+              head_sha: '${{ github.event.client_payload.pr_sha }}',
+              status: 'in_progress',
+              output: {
+                title: 'Tests are running...',
+                summary: 'The Unikraft Catalog Core tests have been triggered. [View Progress](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})'
+              }
+            });
+            return data.id;
+
+      # Checkout the test branch
+      # This branch contains the test scripts and configurations
+      - name: Checkout test branch
+        uses: actions/checkout@v4
+        with:
+          ref: test
+
+      - name: Restore scripts to workspace
+        run: |
+          mkdir -p .github/scripts
+          cp -r /tmp/ci-scripts/* .github/scripts/
+
+      - name: Install Base Dependencies
+        run: bash .github/scripts/setup/base-dependencies.sh
+
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Enable Docker Buildkit
+        run: bash .github/scripts/setup/docker-setup.sh
+
+      - name: Install Firecracker
+        run: bash .github/scripts/setup/firecracker-setup.sh
+
+      - name: Setup QEMU Networking
+        run: bash .github/scripts/setup/qemu-setup.sh
+
+      # In case of a repository dispatch event, checkout to the PR branch
+      # This allows testing of the specific PR changes
+      - name: Checkout unikraft PR Branch
+        if: github.event_name == 'repository_dispatch'
+        run: bash .github/scripts/utils/use-pull-request.sh repos/unikraft "${{ github.event.client_payload.pr_repo }}" "${{ github.event.client_payload.pr_number }}"
+
+      - name: Run Tests
+        id: run-tests
+        run: bash .github/scripts/tests/run-tests.sh
+
+      # Update the initial check run with the final results
+      # This provides feedback on the PR about the test outcomes
+      - name: Update Final Check Run
+        if: always() && github.event_name == 'repository_dispatch'
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ steps.generate_token.outputs.token }}
+          script: |
+            const result = '${{ steps.run-tests.outputs.result }}';
+            const jobStatus = '${{ job.status }}';
+            
+            const conclusion = result === 'success' ? 'success' : (jobStatus === 'cancelled' ? 'cancelled' : 'failure');
+            
+            const title = `Check Status: ${conclusion}`;
+
+            await github.rest.checks.update({
+              owner: '${{ steps.parse_repo.outputs.owner }}',
+              repo: '${{ steps.parse_repo.outputs.repo }}',
+              check_run_id: ${{ steps.create_check.outputs.result }},
+              status: 'completed',
+              conclusion: conclusion,
+              output: {
+                title: title,
+                summary: `The Catalog Core tests have finished. [View Full Logs](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})`
+              }
+            });
+
+      - name: Generate Workflow Summary
+        if: always()
+        run: bash .github/scripts/utils/generate-summary.sh
+
+      - name: Archive test artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: catalog-core-test-logs-${{ github.run_id }}
+          path: |
+            output.log
+            */scripts/test/log/*
+          retention-days: 7
