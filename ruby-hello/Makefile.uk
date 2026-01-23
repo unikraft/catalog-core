@@ -1,0 +1,4 @@
+$(eval $(call addlib,apprubyhello))
+
+# Adding the rootfs directory as the filesystem entry point
+APP_ROOTFS_FLAGS-y += -DROOTFS_DIR=\"$(APP_BASE)/rootfs\"

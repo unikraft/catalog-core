@@ -15,3 +15,8 @@ test -d repos/apps/elfloader || git clone https://github.com/unikraft/app-elfloa
 test -d repos/libs/redis || git clone https://github.com/unikraft/lib-redis repos/libs/redis
 test -d repos/libs/wamr || git clone https://github.com/unikraft/lib-wamr repos/libs/wamr
 test -d repos/libs/sqlite || git clone https://github.com/unikraft/lib-sqlite repos/libs/sqlite
+
+# for ruby
+test -d repos/libs/newlib || git clone https://github.com/unikraft/lib-newlib repos/libs/newlib
+test -d repos/libs/pthread-embedded || git clone https://github.com/unikraft/lib-pthread-embedded repos/libs/pthread-embedded
+test -d repos/libs/ruby || git clone https://github.com/unikraft/lib-ruby repos/libs/ruby
