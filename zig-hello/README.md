@@ -15,7 +15,7 @@ To build and run the application for `x86_64` (QEMU), use the commands below:
 ```console
 ./setup.sh
 make distclean
-wget -O /tmp/defconfig https://raw.githubusercontent.com/unikraft/catalog-core/refs/heads/scripts/c-hello/scripts/defconfig/qemu.x86_64
+wget -O /tmp/defconfig https://raw.githubusercontent.com/unikraft/catalog-core/refs/heads/scripts/zig-hello/scripts/defconfig/qemu.x86_64
 UK_DEFCONFIG=/tmp/defconfig make defconfig
 make -j $(nproc)
 qemu-system-x86_64 -nographic -m 8 -cpu max -kernel workdir/build/zig-hello_qemu-x86_64
