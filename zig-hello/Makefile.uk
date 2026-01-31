@@ -1,0 +1,32 @@
+$(eval $(call addlib,appzighello))
+
+APPZIGHELLO_SRCS-y += $(APPZIGHELLO_BASE)/hello.zig
+
+# Zig compiler
+ZIG ?= zig
+
+ifeq ($(CONFIG_ARCH_X86_64),y)
+ZIG_TARGET := x86_64-linux-musl
+else ifeq ($(CONFIG_ARCH_ARM_64),y)
+ZIG_TARGET := aarch64-linux-musl
+else
+ZIG_TARGET := x86_64-linux-musl
+endif
+
+#  build rule for .zig files
+define buildrule_zig =
+$(4): $(2)
+	$(call build_cmd,ZIG,$(1),$(4),\
+		$(ZIG) build-obj \
+			$(2) \
+			-femit-bin=$(4) \
+			-target $(ZIG_TARGET) \
+			-O ReleaseSmall \
+			-fPIC \
+			-mcpu=baseline \
+			-lc)
+
+UK_OBJS-y += $(4)
+$(eval $(call vprefix_lib,$(1),OBJS-y) += $(4))
+$(eval $(call vprefix_lib,$(1),CLEAN-y) += $(call build_clean,$(4)))
+endef
