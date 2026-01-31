@@ -28,7 +28,7 @@ To do the same for `AArch64`, run the commands below:
 ```console
 ./setup.sh
 make distclean
-wget -O /tmp/defconfig https://raw.githubusercontent.com/unikraft/catalog-core/refs/heads/scripts/c-hello/scripts/defconfig/qemu.arm64
+wget -O /tmp/defconfig https://raw.githubusercontent.com/unikraft/catalog-core/refs/heads/scripts/zig-hello/scripts/defconfig/qemu.arm64
 UK_DEFCONFIG=/tmp/defconfig make defconfig
 make -j $(nproc)
 qemu-system-aarch64 -nographic -machine virt -m 8 -cpu max -kernel workdir/build/zig-hello_qemu-arm64
