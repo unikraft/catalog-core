@@ -74,7 +74,7 @@ make menuconfig
 In the console menu interface:
 
 1.  Choose the target architecture (`x86_64`).
-2.  Choose the platform (`KVM/QEMU`).
+1.  Choose the platform (`KVM/QEMU`).
 1.  Ensure `Zig Hello` is selected.
 1.  Ensure `musl` library is selected.
 
