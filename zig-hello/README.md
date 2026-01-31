@@ -55,6 +55,9 @@ For this, you have two options:
 2. Have your custom setup of repositories in the `workdir/` directory.
    Clone, update and customize repositories to your own needs.
 
+## Clean
+
+While not strictly required, it is safest to clean the previous build artifacts:
 
 ```console
 make distclean
