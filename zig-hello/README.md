@@ -91,7 +91,8 @@ make -j $(nproc)
 This results in the creation of the `workdir/build/` directory storing the build artifacts.
 The unikernel application image file is `workdir/build/zig-hello_<plat>-<arch>`.
 
-**Note:** You need `zig` installed on your host machine to build this application.
+> [!NOTE]
+> You need [`zig` installed](https://ziglang.org/learn/getting-started/) on your host machine to build this application.
 
 ## Run
 
