@@ -72,6 +72,7 @@ make menuconfig
 ```
 
 In the console menu interface:
+
 1.  Choose the target architecture (`x86_64`).
 2.  Choose the platform (`KVM/QEMU`).
 3.  Ensure `Zig Hello` is selected.
