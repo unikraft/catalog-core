@@ -76,7 +76,7 @@ In the console menu interface:
 1.  Choose the target architecture (`x86_64`).
 2.  Choose the platform (`KVM/QEMU`).
 1.  Ensure `Zig Hello` is selected.
-4.  Ensure `musl` library is selected.
+1.  Ensure `musl` library is selected.
 
 The end result will be the creation of the `.config` configuration file.
 
