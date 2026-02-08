@@ -1,0 +1,4 @@
+menuconfig APPZIGHELLO
+	bool "Zig Hello"
+	default y
+	select LIBMUSL
