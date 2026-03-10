@@ -1,0 +1,7 @@
+/rootfs/
+/9pfs-rootfs/
+/workdir/
+/.config
+/initrd.cpio
+/qemu.log
+/__pycache__/
