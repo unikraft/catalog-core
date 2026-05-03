@@ -1,0 +1,48 @@
+# Configure ELF loader application, with networking support.
+
+config APPELFLOADERNET
+bool "Configure ELF loader application (for binary compatibility) with networking support"
+default y
+
+	# Select app-elfloader component.
+	select APPELFLOADER_DEPENDENCIES
+
+	# Configurations options for app-elfloader
+	# (they can't be part of the template atm)
+	select APPELFLOADER_BRK
+	select APPELFLOADER_CUSTOMAPPNAME
+	select APPELFLOADER_VFSEXEC_EXECBIT
+	select APPELFLOADER_VFSEXEC
+	select APPELFLOADER_HFS
+	select APPELFLOADER_HFS_ETCRESOLVCONF
+	select APPELFLOADER_HFS_ETCHOSTS
+	select APPELFLOADER_HFS_ETCHOSTNAME
+	select APPELFLOADER_HFS_REPLACEEXIST
+
+	# Select filesystem implementation: cpio, ramfs, devfs.
+	select LIBPOSIX_PROCESS_ARCH_PRCTL
+	select LIBVFSCORE
+	select LIBVFSCORE_AUTOMOUNT_UP
+	select LIBRAMFS
+	select LIBUKCPIO
+	select LIBDEVFS
+	select LIBDEVFS_AUTOMOUNT
+
+	# Required for Go HTTP runtime support:
+	select LIBUKBOOT_MAINTHREAD
+	select LIBUKBOOT_SHUTDOWNREQ_HANDLER
+	select LIBPOSIX_PROCESS_MULTITHREADING
+	select LIBPOSIX_EVENTFD
+	select LIBPOSIX_FUTEX
+	select LIBLWIP
+
+	# Use extended information (einfo) for configuring network parameters.
+	# This component parses the configuration string in the command line:
+	#    netdev.ip=172.44.0.2/24:172.44.0.1:::
+	select LIBUKNETDEV_EINFO_LIBPARAM
+
+
+# Increase the application's default stack size.
+config APPELFLOADER_STACK_NBPAGES
+int
+default 128 if APPELFLOADERNET
