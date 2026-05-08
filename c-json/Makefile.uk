@@ -1,0 +1,4 @@
+$(eval $(call addlib,appcjson))
+
+APPCJSON_SRCS-y += $(APPCJSON_BASE)/main.c
+APPCJSON_SRCS-y += $(APPCJSON_BASE)/cJSON.c
