@@ -1,0 +1,10 @@
+#!/bin/sh
+. ./scripts/test/common.sh
+
+./scripts/run/qemu.x86_64 | grep "Parse OK!" 1>&2
+if test $? -ne 0; then
+    echo "FAILED"
+    exit 1
+fi
+
+end_with_success
