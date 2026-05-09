@@ -40,7 +40,9 @@ In order to set up, configure, build and run applications on Unikraft using firs
 * `g++-aarch64-linux-gnu`
 * `bsdcpio`
 
-GCC >= 8 is required to build Unikraft.
+The required GCC for building unikraft depends on the target architecture:
+* **ARM:** GCC >= 8
+* **x86_64:** GCC >= 11
 
 On Ubuntu/Debian or other `apt`-based distributions, use the following command to install the requirements:
 
