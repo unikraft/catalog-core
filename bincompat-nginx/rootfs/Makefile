@@ -8,7 +8,6 @@ all:
 	docker create --name temp-container $(DOCKER_IMAGE)
 	docker cp temp-container:/rootfs $(ROOTFS_DIR)
 	docker rm temp-container
-	docker rmi $(DOCKER_IMAGE)
 
 clean:
 	rm -rf $(ROOTFS_DIR)
