@@ -1,0 +1,15 @@
+config APPLUA
+	bool "Configure Lua application with 9pfs as rootfs"
+	default y
+	# Select lib-musl dependency.
+	select LIBMUSL
+	# Select application library (lua). Use main function in application
+	# library. Other libraries, such as Musl, are dependencies of Lua.
+	select LIBLUA
+	select LIBLUA_MAIN_FUNCTION
+	# Select filesystem core components: vfscore.
+	select LIBVFSCORE
+	select LIBVFSCORE_AUTOMOUNT_UP
+	select LIBVFSCORE_ROOTFS_9PFS
+	select LIB9PFS
+	select LIBUK9P
