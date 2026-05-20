@@ -1,0 +1,7 @@
+config APPRUBYHELLO
+    bool "ruby-hello"
+    default y
+    select LIBRUBY
+    select LIBNEWLIBC
+    select LIBLWIP
+    select LIBPTHREAD_EMBEDDED

@@ -1,0 +1,12 @@
+{
+  "boot-source": {
+    "kernel_image_path": "build/ruby-hello_kvm-x86_64",
+    "boot_args": "ruby-hello_kvm-x86_64 -- /helloworld.rb"
+  },
+  "drives": [],
+  "machine-config": {
+    "vcpu_count": 1,
+    "mem_size_mib": 256,
+    "ht_enabled": false
+  }
+}
