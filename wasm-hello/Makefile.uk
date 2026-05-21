@@ -1,0 +1,4 @@
+$(eval $(call addlib,appwasmhello))
+
+
+APPWASMHELLO_WASM-y += $(APPWASMHELLO_BASE)/main.wasm
