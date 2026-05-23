@@ -1,0 +1,28 @@
+#!/bin/sh
+
+if test ! -f "workdir/build/python3.10-http-server_qemu-x86_64"; then
+    echo "No kernel file workdir/build/python3.10-http-server_qemu-x86_64." 1>&2
+    echo "Did you run ./build.qemu.x86_64 ?" 1>&2
+    exit 1
+fi
+
+# Generate root filesystem from Dockerfile.
+rm -fr ./rootfs
+docker build -o ./rootfs -f Dockerfile .
+
+# Pack filesystem as an initial ramdisk CPIO file.
+rm -f initrd.cpio
+../repos/unikraft/support/scripts/mkcpio initrd.cpio ./rootfs/
+
+qemu-system-x86_64 \
+  -machine accel=tcg -cpu max \
+  -m 256M \
+  -nographic \
+  -netdev user,id=net0,hostfwd=tcp:127.0.0.1:8080-:8080 \
+  -device virtio-net-pci,netdev=net0 \
+  -kernel workdir/build/python3.10-http-server_qemu-x86_64 \
+  -initrd ./initrd.cpio \
+  -append 'rootfstype=ramfs console=ttyS0 \
+    vfs.fstab=["initrd0:/:extract::ramfs=1"] \
+    env.vars=[PYTHONHOME="/usr/local/lib/python3.10" PYTHONPATH="/usr/local/lib/python3.10"] \
+    -- /app/http-server.py'
