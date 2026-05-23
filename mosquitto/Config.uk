@@ -1,0 +1,48 @@
+# Configure Mosquitto application for a build that uses initrd to pass the root
+# filesystem and bridge networking.
+
+config APPMOSQUITTO
+bool "Configure Mosquitto MQTT broker with initrd as rootfs"
+default y
+
+	# Select application library (mosquitto). Use main function in application
+	# library. Other libraries, such as musl or lwip, are selected as
+	# dependencies of mosquitto.
+	select LIBMOSQUITTO
+	select LIBMOSQUITTO_MAIN_FUNCTION
+
+	select LIBMUSL
+
+	#  networking stack
+	select LIBLWIP
+	select LIBLWIP_IPV4
+	select LIBLWIP_TCP
+	select LIBLWIP_UDP
+	select LIBLWIP_DNS
+	select LIBLWIP_DHCP
+	select LIBLWIP_SOCKET
+
+	# Select   Filesystem core components and rootfs (initrd/cpio)
+	select LIBVFSCORE
+	select LIBVFSCORE_AUTOMOUNT_UP
+	select LIBRAMFS
+	select LIBUKCPIO
+	select LIBDEVFS
+	select LIBDEVFS_AUTOMOUNT
+
+	# 9PFS 
+	select LIBUK9P
+	select LIB9PFS
+
+	# Use extended information (einfo) for configuring network parameters.
+	# This component parses the configuration string in the command line:
+	#    netdev.ip=172.44.0.2/24:172.44.0.1:::
+	select LIBUKNETDEV_EINFO_LIBPARAM
+
+	# Add support for environment variables.
+	select LIBPOSIX_ENVIRON_LIBPARAM
+
+	# Allow passing random seed via command line
+	select LIBUKRANDOM_CMDLINE_SEED
+	select LIBUKRANDOM_DEVFS
+	select LIBUKRANDOM_GETRANDOM
