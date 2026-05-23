@@ -1,0 +1,34 @@
+# Configure Micropython application for a build that uses initrd to pass the root
+# filesystem.
+# Enable initrd / CPIO-related core components and configurations.
+
+config APPMICROPYTHON
+	bool "Configure Micropython application with initrd as rootfs"
+	default y
+
+	# Select application library (Python3). Use main function in
+	# application library. Other libraries, such as Musl or LWIP, are
+	# selected as dependencies of Python3.
+	select LIBMICROPYTHON
+	select LIBMICROPYTHON_MAIN_FUNCTION
+
+	# Select filesystem core components: vfscore, cpio, ramfs, devfs. For
+	# each select corresponding features. The other core components are
+	# selected as dependencies of Python3.
+	select LIBVFSCORE
+	select LIBVFSCORE_AUTOMOUNT_UP
+	select LIBRAMFS
+	select LIBUKCPIO
+
+	# Pass environment variables as command line arguments. This is
+	# required for passing the `PYTHONPATH` environment variable.
+	select LIBPOSIX_ENVIRON
+	select LIBPOSIX_ENVIRON_LIBPARAM
+
+	# Add randomness support.
+	select LIBUKRANDOM
+	select LIBUKRANDOM_GETRANDOM
+	
+	 # Add optional network support for MicroPython.
+        select LIBLWIP
+        select LIBLWIP_SOCKETS
