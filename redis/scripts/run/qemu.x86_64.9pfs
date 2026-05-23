@@ -1,0 +1,34 @@
+#!/bin/sh
+
+if test ! -f "workdir/build/redis_qemu-x86_64"; then
+    echo "No kernel file workdir/build/redis_qemu-x86_64." 1>&2
+    echo "Did you run ./build.qemu.x86_64 ?" 1>&2
+    exit 1
+fi
+
+{
+# Remove previously created network interface.
+sudo ip link set dev virbr0 down
+sudo ip link del dev virbr0
+sudo ip link set dev tap0 down
+sudo ip link del dev tap0
+} > /dev/null 2>&1
+
+# Create bridge interface for QEMU networking.
+sudo ip link add dev virbr0 type bridge
+sudo ip address add 172.44.0.1/24 dev virbr0
+sudo ip link set dev virbr0 up
+
+# Pack filesystem as an initial ramdisk CPIO file.
+rm -fr 9pfs-rootfs
+cp -r rootfs 9pfs-rootfs
+
+sudo qemu-system-x86_64 \
+    -nographic \
+    -m 256 \
+    -cpu max \
+    -netdev bridge,id=en0,br=virbr0 -device virtio-net-pci,netdev=en0 \
+    -append "redis netdev.ip=172.44.0.2/24:172.44.0.1::: vfs.fstab=[ \"fs0:/:9pfs:::\" ] -- /redis.conf" \
+    -kernel workdir/build/redis_qemu-x86_64 \
+    -fsdev local,id=myid,path=$(pwd)/9pfs-rootfs/,security_model=none \
+    -device virtio-9p-pci,fsdev=myid,mount_tag=fs0

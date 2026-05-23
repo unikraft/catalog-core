@@ -1,0 +1,25 @@
+#!/bin/sh
+
+if test ! -f "workdir/build/elfloader_qemu-x86_64"; then
+    echo "No kernel file workdir/build/elfloader_qemu-x86_64." 1>&2
+    echo "Did you run ./build.qemu.x86_64 ?" 1>&2
+    exit 1
+fi
+
+# Build ELFs.
+make -C rootfs/
+
+# Pack filesystem as 9pfs
+
+rm -fr 9pfs-rootfscd 
+cp -r rootfs 9pfs-rootfs
+
+sudo qemu-system-x86_64 \
+ -nographic \
+ -m 512 \
+ -cpu max \
+ -append "elfloader_qemu-x86_64 vfs.fstab=[ \"fs0:/:9pfs:::\" ] -- /hello-c" \
+ -kernel workdir/build/elfloader_qemu-x86_64 \
+ -fsdev local,id=myid,path=$(pwd)/9pfs-rootfs/,security_model=none \
+ -device virtio-9p-pci,fsdev=myid,mount_tag=fs0
+.
