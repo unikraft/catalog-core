@@ -1,0 +1,3 @@
+#!/bin/sh
+. ./scripts/common.sh
+build_elfloader_base qemu.x86_64
