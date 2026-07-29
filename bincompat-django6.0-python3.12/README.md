@@ -100,4 +100,5 @@ qemu-system-x86_64 \
 Access the Django application at http://localhost:8080
 
 ## Close QEMU
+
 To close the QEMU virtual machine, use the Ctrl+a x keyboard shortcut.
