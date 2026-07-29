@@ -1,6 +1,6 @@
 # Django 6.0 on Unikraft
 
-Build and run the Django 6.0 web application with the ELF Loader. The ELF Loader uses the Unikraft binary-compatibility layer in order to run native Linux binaries (ELFs) with Unikraft. The ELF has to be PIE (Position-Independent Executable), either static or dynamic.  
+Build and run the Django 6.0 web application with the ELF Loader. The ELF Loader uses the Unikraft binary-compatibility layer in order to run native Linux binaries (ELFs) with Unikraft. The ELF has to be PIE (Position-Independent Executable), either static or dynamic.
 
 Follow the instructions below to set up, configure, build and run the ELF Loader for Django.
 
