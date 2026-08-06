@@ -1,0 +1,79 @@
+name: catalog-core-tests
+
+on:
+  schedule:
+    - cron: '0 1 * * *'
+  repository_dispatch:
+    types:
+      - unikraft_open_pr
+      - musl_open_pr
+      - libelf_open_pr
+      - lwip_open_pr
+      - elfloader_open_pr
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'musl | lwip | libelf | elfloader | all'
+        required: true
+        default: 'all'
+        type: choice
+        options: [all, musl, lwip, libelf, elfloader]
+      compilers:
+        description: 'JSON array of compilers to test, e.g. ["gcc","clang"]'
+        required: false
+        default: '["gcc","clang"]'
+      apps:
+        description: 'Comma-separated app names to test instead of the full mode list, e.g. "c-hello,cpp-hello" -- for fast iteration, see docs/testing.md'
+        required: false
+        default: ''
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.client_payload.pr_repo }}-${{ github.event.client_payload.pr_number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  mode-lookup:
+    runs-on: ubuntu-latest
+    outputs:
+      mode: ${{ steps.resolve.outputs.mode }}
+      dep_repo_path: ${{ steps.resolve.outputs.dep_repo_path }}
+      display_name: ${{ steps.resolve.outputs.display_name }}
+      apps_override: ${{ steps.resolve.outputs.apps_override }}
+    steps:
+      - id: resolve
+        run: |
+          case "${{ github.event.action }}" in
+            musl_open_pr)
+              mode=musl; dep_repo_path=repos/libs/musl; display_name="catalog-core / lib-musl-tests" ;;
+            libelf_open_pr)
+              mode=libelf; dep_repo_path=repos/libs/libelf; display_name="catalog-core / lib-libelf-tests" ;;
+            lwip_open_pr)
+              mode=lwip; dep_repo_path=repos/libs/lwip; display_name="catalog-core / lib-lwip-tests" ;;
+            elfloader_open_pr)
+              mode=elfloader; dep_repo_path=repos/apps/elfloader; display_name="catalog-core / app-elfloader-tests" ;;
+            unikraft_open_pr|"")
+              mode="${{ github.event.inputs.mode || 'all' }}"; dep_repo_path=repos/unikraft; display_name="catalog-core / test-all" ;;
+            *)
+              echo "::error::Unrecognized dispatch action '${{ github.event.action }}'"; exit 1 ;;
+          esac
+
+          apps_override=""
+          if [ -n "${{ github.event.inputs.apps }}" ]; then
+            apps_override=$(echo "${{ github.event.inputs.apps }}" | tr ',' '\n' | jq -R . | jq -sc .)
+          fi
+
+          echo "mode=$mode" >> "$GITHUB_OUTPUT"
+          echo "dep_repo_path=$dep_repo_path" >> "$GITHUB_OUTPUT"
+          echo "display_name=$display_name" >> "$GITHUB_OUTPUT"
+          echo "apps_override=$apps_override" >> "$GITHUB_OUTPUT"
+
+  run-tests:
+    needs: mode-lookup
+    uses: ./.github/workflows/_reusable-test-suite.yml
+    with:
+      mode: ${{ needs.mode-lookup.outputs.mode }}
+      compilers: ${{ github.event.inputs.compilers || '["gcc","clang"]' }}
+      dep_repo_path: ${{ needs.mode-lookup.outputs.dep_repo_path }}
+      display_name: ${{ needs.mode-lookup.outputs.display_name }}
+      apps_override: ${{ needs.mode-lookup.outputs.apps_override }}
+    secrets: inherit

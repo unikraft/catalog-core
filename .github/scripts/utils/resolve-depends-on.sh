@@ -1,40 +1,30 @@
 #!/usr/bin/env bash
 #
-# Cross-repository dependency resolution for catalog-core CI.
+# Cross-repo dependency resolution: a PR to lib-musl may only make sense
+# together with an unmerged PR to lib-libelf. This checks out every repo
+# a PR declares a dependency on, so the test suite runs once against the
+# composite result instead of `musl@PR / libelf@main`.
 #
-# Problem: a PR to lib-musl may only make sense together with an
-# unmerged PR to lib-libelf. Without this, a scheduled run tests
-# `musl@PR / libelf@main` and gets a false FAILED, or a PR run tests
-# `musl@PR / libelf@main` and gets a false PASSED that will break once
-# both land.
-#
-# Convention (deliberately borrowed from Zuul's cross-repo "Depends-On:"
-# footer, which is the closest thing to a de-facto standard for this --
-# see https://zuul-ci.org/docs/zuul/reference/gating.html#cross-project-dependencies.
-# We do NOT reimplement Zuul's speculative merge / dependency pipeline;
-# that is a project-wide CI system, not a fit for a single test repo on
-# GitHub-hosted runners. This script does the minimal useful subset:
-# resolve the graph, check out every node, then let the existing test
-# suite run once against the resulting composite checkout):
+# Convention, borrowed from Zuul's "Depends-On:" footer (the closest
+# thing to a de-facto standard -- see
+# https://zuul-ci.org/docs/zuul/reference/gating.html#cross-project-dependencies):
 #
 #   Depends-On: unikraft/lib-libelf#42
 #   Depends-On: #17                (same repo as the triggering PR)
 #
-# One or more such lines anywhere in the PR body (or trailing commit
-# messages, since squash-merge tooling often moves footers there) are
-# picked up. Resolution is recursive (a dependency's PR body is scanned
-# too) with a visited-set to guard against cycles, and depth-limited as
-# a belt-and-braces backstop.
+# Picked up anywhere in the PR body or commit messages. Resolution is
+# recursive (a dependency's own PR body is scanned too), with a
+# visited-set to skip repeats/guard cycles, and depth-limited as a backstop.
+# This is NOT Zuul's speculative-merge pipeline -- just: resolve the
+# graph, check out every node, run the existing suite once.
 #
 # Usage:
 #   resolve-depends-on.sh <owner/repo> <pr_number> <local-repo-map-file>
 #
-# local-repo-map-file: lines of "owner/repo=local/path", e.g.
+# local-repo-map-file: lines of "owner/repo=local/path" (see repo-map.txt),
+# mirroring setup.sh's clone layout, e.g.:
 #   unikraft/unikraft=repos/unikraft
 #   unikraft/lib-musl=repos/libs/musl
-#   unikraft/lib-libelf=repos/libs/libelf
-#   ...
-# (this mirrors setup.sh's clone layout -- see repo-map.txt in this dir)
 #
 # Requires: gh CLI authenticated (GH_TOKEN), git.
 
@@ -99,12 +89,8 @@ resolve() {
   body="$(get_pr_body "$repo" "$pr")"
   [ -z "$body" ] && return
 
-  # Matches:
-  #   Depends-On: owner/repo#123
-  #   Depends-On: #123            (implicitly same repo as $repo)
-  #   Depends on #123             (case/hyphen-insensitive, matches the
-  #                                 plain-English phrasing used in the
-  #                                 issue that prompted this script)
+  # Matches "Depends-On: owner/repo#123", "Depends-On: #123" (same repo),
+  # and "Depends on #123" (case/hyphen-insensitive plain English).
   while IFS= read -r line; do
     [ -z "$line" ] && continue
 

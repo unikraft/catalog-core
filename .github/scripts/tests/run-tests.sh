@@ -1,7 +1,4 @@
 #!/usr/bin/env bash
-#
-# Unified test runner. Args: $1=mode ("all" or "musl"), $2=compiler (optional, e.g., "clang").
-# Runs setup, finds apps based on dependency, executes tests, captures output, sets results.
 
 set -e
 

@@ -1,21 +1,4 @@
 #!/usr/bin/env bash
-#
-# Runs all test flavours (qemu.x86_64, qemu.arm64, fc.x86_64, fc.arm64,
-# xen.x86_64, xen.arm64, ...) for exactly ONE app. Flavours run
-# sequentially, as before -- only the *apps* are parallelized now, via
-# the matrix in the reusable workflow.
-#
-# Usage: run-app-test.sh <app-dir> [compiler]
-#
-# IMPORTANT (fixes the gcc/clang C++ discrepancy, see docs/toolchains.md):
-#   Setting only $CC (e.g. CC=clang) and leaving $CXX unset means C
-#   sources get compiled by clang while C++ sources still fall back to
-#   whatever the default $CXX is (typically g++). Mixing a clang-built
-#   libc/libmusl/libelf object graph with g++-built C++ runtime objects
-#   (libcxx/libcxxabi/libunwind/compiler-rt) is an ABI hazard, not just a
-#   cosmetic inconsistency, and it silently differs from a pure-gcc or
-#   pure-clang build. Whenever CC is set, we now derive a matching CXX
-#   unless the caller already exported one explicitly.
 
 set -e
 
@@ -41,8 +24,6 @@ if [ -n "$COMPILER" ]; then
   fi
 fi
 
-echo "[$APP] CC=${CC:-<default>} CXX=${CXX:-<default>}"
-
 ./setup.sh
 
 mkdir -p "$APP/.scripts/test/log"
@@ -51,10 +32,26 @@ LOG_SUFFIX="$APP"
 if [ -n "$COMPILER" ]; then
   LOG_SUFFIX="${APP}-${COMPILER}"
 fi
+LOG_FILE="app-output-${LOG_SUFFIX}.log"
 
-echo "[$APP] (compiler: ${COMPILER:-default})"
-echo ""
-(
-  cd "$APP"
-  sudo -E env CC="$CC" CXX="$CXX" ./.scripts/test/all.sh
-) 2>&1 | tee "app-output-${LOG_SUFFIX}.log"
+# Header + test run go through the same `tee` pipe into the same file.
+# (Previously the header was echoed outside the pipe, so it never
+# reached the log file -- only the console -- and the summary's
+# App/Compiler column came out blank.)
+{
+  echo "[$APP] CC=${CC:-<default>} CXX=${CXX:-<default>} compiler=${COMPILER:-default}"
+  echo ""
+  (
+    cd "$APP"
+    sudo -E env CC="$CC" CXX="$CXX" ./.scripts/test/all.sh
+  )
+} 2>&1 | tee "$LOG_FILE"
+
+# Also write structured results (CSV) alongside the human log --
+# text-scraping the log with awk/grep for reports is fragile (see the
+# blank-column bug above); a typed row per result is harder to get wrong.
+python3 "$(dirname "$0")/parse-test-log.py" \
+  --app "$APP" \
+  --compiler "${COMPILER:-default}" \
+  --log "$LOG_FILE" \
+  --out "results-${LOG_SUFFIX}.csv"

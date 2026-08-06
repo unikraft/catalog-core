@@ -9,16 +9,9 @@ on:
         type: string
       compilers:
         description: >
-          JSON array of compilers to test against, e.g. '["gcc","clang"]'.
-          Every app in this workflow's matrix is tested once per entry.
-          This is deliberate: the original discrepancy between the
-          scheduled test-all run (no CC set -> gcc default) and the
-          per-library PR workflows (CC=clang hardcoded) meant a PR could
-          pass on the compiler its own CI used and still fail on the
-          scheduled sweep's compiler, or vice versa, with no single
-          workflow ever catching both. Testing both compilers everywhere
-          removes that gap instead of just picking one. See
-          docs/toolchains.md.
+          JSON array of compilers to test, e.g. '["gcc","clang"]'.
+          Every app is tested once per entry, so a PR can't pass on one
+          compiler and silently break on the other.
         required: false
         type: string
         default: '["gcc","clang"]'
@@ -32,17 +25,20 @@ on:
         required: true
         type: string
       toolchain_image:
-        description: "Optional pinned toolchain container (see docker/toolchains). Empty = install straight on the runner as before."
+        description: "Optional pinned toolchain container (see docker/toolchains). Empty = install deps on the runner as before."
+        required: false
+        type: string
+        default: ""
+      apps_override:
+        description: >
+          JSON array of app names to test instead of the full mode-based
+          list, e.g. '["c-hello"]'. For fast iteration only.
+          Empty = use list-apps.sh as normal.
         required: false
         type: string
         default: ""
 
 jobs:
-  # ---------------------------------------------------------------------
-  # 1) One-time setup: parse the dispatch payload, mint the GitHub App
-  #    token, open the check run, and compute the app matrix. Also kicks
-  #    off a "started" Discord notification.
-  # ---------------------------------------------------------------------
   setup:
     runs-on: ubuntu-latest
     outputs:
@@ -95,31 +91,28 @@ jobs:
       - name: List apps for matrix
         id: list_apps
         run: |
-          apps=$(bash .github/scripts/tests/list-apps.sh "${{ inputs.mode }}")
+          if [ -n "${{ inputs.apps_override }}" ]; then
+            apps='${{ inputs.apps_override }}'
+            echo "Using apps_override, skipping list-apps.sh: $apps"
+          else
+            apps=$(bash .github/scripts/tests/list-apps.sh "${{ inputs.mode }}")
+          fi
           echo "apps=$apps" >> "$GITHUB_OUTPUT"
 
-      # - name: "Discord: notify started"
-      #   if: always()
-      #   env:
-      #     DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
-      #   run: |
-      #     bash .github/scripts/notify/discord-notify.sh started \
-      #       "${{ inputs.display_name }} started for ${{ github.event.client_payload.pr_repo || github.repository }}${{ github.event.client_payload.pr_number && format('#{0}', github.event.client_payload.pr_number) || '' }} (mode=${{ inputs.mode }}, compilers=${{ inputs.compilers }})"
+      - name: "Discord: notify started"
+        # if: always() && github.event_name == 'schedule'
+        if: always()
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: |
+          bash .github/scripts/notify/discord-notify.sh started \
+            "${{ inputs.display_name }} (mode=${{ inputs.mode }}, compilers=${{ inputs.compilers }})"
 
-  # ---------------------------------------------------------------------
-  # 2) One job per app, run in parallel by the matrix. Flavours within an
-  #    app (qemu.x86_64, fc.arm64, xen.x86_64, ...) still run
-  #    sequentially inside .scripts/test/all.sh -- only the apps
-  #    themselves are parallelized, as requested. GitHub Actions gives
-  #    each matrix leg its own isolated log stream, which also solves
-  #    the "log output sync" problem for free -- no interleaving to
-  #    manage by hand.
-  # ---------------------------------------------------------------------
   test:
     needs: setup
     runs-on: ubuntu-latest
-    timeout-minutes: 60
-    continue-on-error: false # Why?
+    timeout-minutes: 120
+    continue-on-error: false
     strategy:
       fail-fast: false
       matrix:
@@ -128,36 +121,54 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        timeout-minutes: 3
         with:
           ref: ${{ github.ref }}
 
+      - name: Cache apt packages
+        if: inputs.toolchain_image == ''
+        uses: actions/cache@v4
+        timeout-minutes: 3
+        with:
+          path: /var/cache/apt/archives
+          key: apt-${{ runner.os }}-${{ hashFiles('.github/scripts/setup/base-dependencies.sh') }}
+
       - name: Install Base Dependencies
         if: inputs.toolchain_image == ''
-        run: bash .github/scripts/setup/base-dependencies.sh
+        timeout-minutes: 20
+        run: bash .github/scripts/utils/retry.sh 6m 3 1m -- bash .github/scripts/setup/base-dependencies.sh
 
       - name: Setup Docker Buildx
         uses: docker/setup-buildx-action@v3
+        timeout-minutes: 5
 
       - name: Enable Docker Buildkit
+        timeout-minutes: 2
         run: bash .github/scripts/setup/docker-setup.sh
 
       - name: Install Firecracker
-        run: bash .github/scripts/setup/firecracker-setup.sh
+        timeout-minutes: 12
+        run: bash .github/scripts/utils/retry.sh 4m 3 1m -- bash .github/scripts/setup/firecracker-setup.sh
 
       - name: Setup QEMU Networking
+        timeout-minutes: 2
         run: bash .github/scripts/setup/qemu-setup.sh
+
+      - name: Collect tool versions
+        if: matrix.compiler == fromJson(inputs.compilers)[0]  # only once per app, not once per compiler -- versions don't vary by compiler
+        timeout-minutes: 5
+        run: |
+          bash .github/scripts/setup/collect-tool-versions.sh
+          mv tool-versions.txt "tool-versions-${{ matrix.app }}.txt"
 
       - name: Checkout PR Branch
         if: github.event_name == 'repository_dispatch'
+        timeout-minutes: 5
         run: bash .github/scripts/utils/use-pull-request.sh "${{ inputs.dep_repo_path }}" "${{ github.event.client_payload.pr_repo }}" "${{ github.event.client_payload.pr_number }}"
 
-      # See item 3/4 of the CI upgrade: pick up `Depends-On:` /
-      # `Depends on #N` references from the triggering PR body so a PR
-      # that only makes sense alongside another unmerged PR (possibly in
-      # a different repo) is tested against that PR's code too, instead
-      # of against main/master.
       - name: Resolve cross-repo PR dependencies
         if: github.event_name == 'repository_dispatch'
+        timeout-minutes: 10
         env:
           GH_TOKEN: ${{ needs.setup.outputs.token }}
         run: |
@@ -168,6 +179,7 @@ jobs:
 
       - name: Run test for ${{ matrix.app }} (${{ matrix.compiler }})
         id: run-test
+        timeout-minutes: 20
         run: bash .github/scripts/tests/run-app-test.sh "${{ matrix.app }}" "${{ matrix.compiler }}"
 
       - name: Namespace in-app log dir by compiler
@@ -184,15 +196,12 @@ jobs:
           name: catalog-core-app-log-${{ matrix.app }}-${{ matrix.compiler }}-${{ github.run_id }}
           path: |
             app-output-${{ matrix.app }}-${{ matrix.compiler }}.log
+            results-${{ matrix.app }}-${{ matrix.compiler }}.csv
+            tool-versions-${{ matrix.app }}.txt
             ${{ matrix.app }}-${{ matrix.compiler }}-log/*
           retention-days: 7
           if-no-files-found: warn
 
-  # ---------------------------------------------------------------------
-  # 3) Fan-in: gather every app's log into the same output.log format the
-  #    old sequential runner produced, decide pass/fail, close out the
-  #    check run, post the summary, and send the final Discord message.
-  # ---------------------------------------------------------------------
   aggregate:
     needs: [setup, test]
     if: always()
@@ -242,16 +251,20 @@ jobs:
         if: always()
         run: bash .github/scripts/utils/generate-summary.sh
 
-      # - name: "Discord: notify final result"
-      #   if: always()
-      #   env:
-      #     DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
-      #   run: |
-      #     summary=$(grep -E 'PASSED|FAILED' output.log | sort | uniq -c || true)
-      #     bash .github/scripts/notify/discord-notify.sh "${{ steps.aggregate.outputs.result }}" "${{ inputs.display_name }} (mode=${{ inputs.mode }}) finished.
-      #     \`\`\`
-      #     $summary
-      #     \`\`\`"
+      - name: "Discord: notify final result"
+        # if: always() && (github.event_name == 'schedule' || steps.aggregate.outputs.result == 'failure')
+        if: always()
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          DISCORD_THREAD_ID: ${{ vars.DISCORD_THREAD_ID }}
+          DISCORD_MENTION: ${{ vars.DISCORD_MENTION }}
+        run: |
+          summary=$(tail -n +2 results.csv | awk -F, '{print $6}' | sort | uniq -c || true)
+          bash .github/scripts/notify/discord-notify.sh "${{ steps.aggregate.outputs.result }}" \
+            "${{ inputs.display_name }} (mode=${{ inputs.mode }}) finished.
+          \`\`\`
+          $summary
+          \`\`\`"
 
       - name: Archive test artifacts
         if: always()
@@ -260,5 +273,7 @@ jobs:
           name: catalog-core-test-logs-${{ github.run_id }}
           path: |
             output.log
+            results.csv
+            tool-versions.txt
             *-log/*
           retention-days: 28

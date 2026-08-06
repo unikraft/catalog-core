@@ -1,15 +1,4 @@
 #!/usr/bin/env bash
-#
-# Discovers which app directories should be tested for a given mode and
-# prints them as a JSON array, e.g. ["c-hello","cpp-hello","redis"].
-#
-# This is the same selection logic that used to live inline in
-# run-tests.sh's `for app in $apps` loop -- it is now factored out so it
-# can be called once, up front, to build a GitHub Actions matrix, instead
-# of being re-derived while apps are being tested sequentially.
-#
-# Usage: list-apps.sh <mode>
-#   mode: all | musl | lwip | libelf | elfloader
 
 set -e
 
