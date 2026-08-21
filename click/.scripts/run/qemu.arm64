@@ -19,4 +19,5 @@ sudo qemu-system-aarch64 \
     -kernel workdir/build/click_qemu-arm64 \
     -initrd helloworld.click \
     -machine virt -cpu max \
-    -nographic
+    -nographic \
+    < /dev/null

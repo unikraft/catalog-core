@@ -26,4 +26,5 @@ sudo qemu-system-aarch64 \
     -cpu max \
     -netdev bridge,id=en0,br=virbr0 -device virtio-net-pci,netdev=en0 \
     -append "c-http netdev.ip=172.44.0.2/24:172.44.0.1::: -- " \
-    -kernel workdir/build/c-http_qemu-arm64
+    -kernel workdir/build/c-http_qemu-arm64 \
+    < /dev/null

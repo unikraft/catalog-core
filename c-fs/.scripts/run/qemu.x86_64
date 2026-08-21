@@ -16,4 +16,5 @@ qemu-system-x86_64 \
     -cpu max \
     -kernel workdir/build/c-fs_qemu-x86_64 \
     -append "c-fs_qemu-x86_64 vfs.fstab=[ \"initrd0:/:extract::ramfs=1:\" ] -- /hello.txt" \
-    -initrd ./initrd.cpio
+    -initrd ./initrd.cpio \
+    < /dev/null

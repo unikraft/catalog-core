@@ -23,4 +23,5 @@ qemu-system-x86_64 \
     -cpu max \
     -append "java-hello_qemu-x86_64 vfs.fstab=[ \"initrd0:/:extract::ramfs=1:\" ] -- /usr/lib/jvm/java-17-openjdk-amd64/bin/java /usr/src/hello" \
     -kernel workdir/build/java-hello_qemu-x86_64 \
-    -initrd ./initrd.cpio
+    -initrd ./initrd.cpio \
+    < /dev/null
