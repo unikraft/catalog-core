@@ -21,4 +21,5 @@ qemu-system-aarch64 \
     -cpu max \
     -append "python3-hello_qemu-arm64 vfs.fstab=[ \"initrd0:/:extract::ramfs=1:\" ] env.vars=[ PYTHONPATH=\"/usr/local/lib/python3.10:/usr/local/lib/python3.10/site-packages\" ] -- /app/hello.py" \
     -kernel workdir/build/python3-hello_qemu-arm64 \
-    -initrd ./initrd.cpio
+    -initrd ./initrd.cpio \
+    < /dev/null

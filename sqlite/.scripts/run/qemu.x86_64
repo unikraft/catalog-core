@@ -14,4 +14,5 @@ qemu-system-x86_64 \
     -nographic \
     -kernel workdir/build/sqlite_qemu-x86_64 \
     -append "sqlite_qemu-x86_64 vfs.fstab=[ \"initrd0:/:extract::ramfs=1:\" ] env.vars=[ \"HOME=/root\" ] -- /chinook.db 'SELECT * FROM Album LIMIT 10'" \
-    -initrd ./initrd.cpio
+    -initrd ./initrd.cpio \
+    < /dev/null

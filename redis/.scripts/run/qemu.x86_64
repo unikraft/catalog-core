@@ -30,4 +30,5 @@ sudo qemu-system-x86_64 \
     -netdev bridge,id=en0,br=virbr0 -device virtio-net-pci,netdev=en0 \
     -append "redis netdev.ip=172.44.0.2/24:172.44.0.1::: vfs.fstab=[ \"initrd0:/:extract::ramfs=1:\" ] -- /redis.conf" \
     -kernel workdir/build/redis_qemu-x86_64 \
-    -initrd ./initrd.cpio
+    -initrd ./initrd.cpio \
+    < /dev/null

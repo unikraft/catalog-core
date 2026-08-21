@@ -25,4 +25,5 @@ sudo qemu-system-x86_64 \
     -cpu max \
     -netdev bridge,id=en0,br=virbr0 -device virtio-net-pci,netdev=en0 \
     -append "cpp-http netdev.ip=172.44.0.2/24:172.44.0.1::: -- " \
-    -kernel workdir/build/cpp-http_qemu-x86_64
+    -kernel workdir/build/cpp-http_qemu-x86_64 \
+    < /dev/null

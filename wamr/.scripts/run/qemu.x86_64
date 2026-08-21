@@ -30,5 +30,5 @@ sudo qemu-system-x86_64 \
     -cpu max \
     -append "vfs.fstab=[ \"initrd0:/:extract::ramfs=1:\" ] -- $cmd" \
     -kernel "$kernel" \
-    -initrd "$PWD"/rootfs.cpio
-
+    -initrd "$PWD"/rootfs.cpio \
+    < /dev/null

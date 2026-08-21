@@ -11,4 +11,5 @@ qemu-system-aarch64 \
     -machine virt \
     -m 8 \
     -cpu max \
-    -kernel workdir/build/c-hello_qemu-arm64
+    -kernel workdir/build/c-hello_qemu-arm64 \
+    < /dev/null
