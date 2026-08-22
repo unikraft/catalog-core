@@ -255,3 +255,83 @@ ELFs using require additional configuration of the ELF Loader.
 You can customize the ELF Loader build debug messages.
 For that, use the ["Configure" step](#configure) enable the [`ukdebug` library](https://github.com/unikraft/unikraft/tree/staging/lib/ukdebug) and its other options.
 Then, build and run again.
+
+### Use a Different Filesystem Type for QEMU
+
+You can use [`9pfs`](https://github.com/unikraft/unikraft/tree/staging/lib/9pfs) as an alternate filesystem to initrd.
+Note that 9pfs does not work with Firecracker.
+And it requires re-building Xen to add 9pfs support.
+Below find instructions on running Nginx on QEMU with 9pfs support.
+
+You need to use these contents for the [`Config.uk`](Config.uk) configuration file:
+
+```text
+# Configure ELF loader application, with networking support.
+
+config APPELFLOADERNET
+bool "Configure ELF loader application (for binary compatibility) with networking support"
+default y
+
+	# Select app-elfloader component.
+	select APPELFLOADER_DEPENDENCIES
+
+	# Configurations options for app-elfloader
+	# (they can't be part of the template atm)
+	select APPELFLOADER_ARCH_PRCTL
+	select APPELFLOADER_BRK
+	select APPELFLOADER_CUSTOMAPPNAME
+	select APPELFLOADER_STACK_NBPAGES
+	select APPELFLOADER_VFSEXEC_EXECBIT
+	select APPELFLOADER_VFSEXEC
+	select APPELFLOADER_HFS
+	select APPELFLOADER_HFS_ETCRESOLVCONF
+	select APPELFLOADER_HFS_ETCHOSTS
+	select APPELFLOADER_HFS_ETCHOSTNAME
+	select APPELFLOADER_HFS_REPLACEEXIST
+
+	# Select filesystem implementation: cpio, ramfs, devfs.
+	select LIBVFSCORE
+	select LIBVFSCORE_AUTOMOUNT_UP
+	select LIBUK9P
+        select LIB9PFS
+	select LIBDEVFS
+	select LIBDEVFS_AUTOMOUNT
+```
+
+This means you replace these two lines in [`Config.uk`](Config.uk):
+
+```text
+        select LIBRAMFS
+        select LIBUKCPIO
+```
+
+with these lines:
+
+```text
+        select LIBUK9P
+        select LIB9PFS
+```
+
+Now go through the [configure](#configure) step.
+
+From the `Library Configuration` tab, select `uk9p` and `Process-related functions` ---> `Multiprocess support`.
+
+From the `Application Options` tab, select `Multiprocess application` 
+
+Then continue with the [build](#build) step.
+
+Finally, after configuring networking, use the commands below to run elfloader-basic on QEMU/x86_64 with 9pfs support:
+
+```console
+# Create a copy of the filesystem to be mounted as 9pfs.
+rm -fr 9pfs-rootfs
+cp -r rootfs 9pfs-rootfs
+sudo qemu-system-x86_64 \
+ -nographic \
+ -m 512 \
+ -cpu max \
+ -append "elfloader_qemu-x86_64 vfs.fstab=[ \"fs0:/:9pfs:::\" ] -- /hello-c" \
+ -kernel workdir/build/elfloader_qemu-x86_64 \
+ -fsdev local,id=myid,path=$(pwd)/9pfs-rootfs/,security_model=none \
+ -device virtio-9p-pci,fsdev=myid,mount_tag=fs0
+```
