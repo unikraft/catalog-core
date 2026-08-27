@@ -12,6 +12,14 @@ on:
       - elfloader_open_pr
   workflow_dispatch:
     inputs:
+      branch:
+        description: 'Branch to test (staging | stable)'
+        required: true
+        default: 'staging'
+        type: choice
+        options:
+          - staging
+          - stable
       mode:
         description: 'musl | lwip | libelf | elfloader | all'
         required: true
@@ -23,7 +31,7 @@ on:
         required: false
         default: '["gcc","clang"]'
       apps:
-        description: 'Comma-separated app names to test instead of the full mode list, e.g. "c-hello,cpp-hello" -- for fast iteration, see docs/testing.md'
+        description: 'Comma-separated app names to test instead of the full mode list, e.g. "c-hello,cpp-hello"'
         required: false
         default: ''
 
@@ -39,6 +47,7 @@ jobs:
       dep_repo_path: ${{ steps.resolve.outputs.dep_repo_path }}
       display_name: ${{ steps.resolve.outputs.display_name }}
       apps_override: ${{ steps.resolve.outputs.apps_override }}
+      branch: ${{ steps.resolve.outputs.branch }}
     steps:
       - id: resolve
         run: |
@@ -57,6 +66,8 @@ jobs:
               echo "::error::Unrecognized dispatch action '${{ github.event.action }}'"; exit 1 ;;
           esac
 
+          branch="${{ github.event.inputs.branch || 'staging' }}"
+
           apps_override=""
           if [ -n "${{ github.event.inputs.apps }}" ]; then
             apps_override=$(echo "${{ github.event.inputs.apps }}" | tr ',' '\n' | jq -R . | jq -sc .)
@@ -66,11 +77,13 @@ jobs:
           echo "dep_repo_path=$dep_repo_path" >> "$GITHUB_OUTPUT"
           echo "display_name=$display_name" >> "$GITHUB_OUTPUT"
           echo "apps_override=$apps_override" >> "$GITHUB_OUTPUT"
+          echo "branch=$branch" >> "$GITHUB_OUTPUT"
 
   run-tests:
     needs: mode-lookup
     uses: ./.github/workflows/_reusable-test-suite.yml
     with:
+      branch: ${{ needs.mode-lookup.outputs.branch }}
       mode: ${{ needs.mode-lookup.outputs.mode }}
       compilers: ${{ github.event.inputs.compilers || '["gcc","clang"]' }}
       dep_repo_path: ${{ needs.mode-lookup.outputs.dep_repo_path }}

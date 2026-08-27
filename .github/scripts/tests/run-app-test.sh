@@ -4,9 +4,10 @@ set -e
 
 APP="$1"
 COMPILER="$2"
+BRANCH="${3:-${BRANCH:-staging}}"
 
 if [ -z "$APP" ]; then
-  echo "Usage: run-app-test.sh <app-dir> [compiler]" >&2
+  echo "Usage: run-app-test.sh <app-dir> [compiler] [branch]" >&2
   exit 1
 fi
 
@@ -24,7 +25,7 @@ if [ -n "$COMPILER" ]; then
   fi
 fi
 
-./setup.sh
+./setup.sh "$BRANCH"
 
 mkdir -p "$APP/.scripts/test/log"
 
@@ -43,7 +44,14 @@ LOG_FILE="app-output-${LOG_SUFFIX}.log"
   echo ""
   (
     cd "$APP"
-    sudo -E env CC="$CC" CXX="$CXX" ./.scripts/test/all.sh
+    ENV_ARGS=()
+    [ -n "${CC:-}" ] && ENV_ARGS+=("CC=$CC")
+    [ -n "${CXX:-}" ] && ENV_ARGS+=("CXX=$CXX")
+    if [ ${#ENV_ARGS[@]} -gt 0 ]; then
+      sudo -E env "${ENV_ARGS[@]}" ./.scripts/test/all.sh
+    else
+      sudo -E ./.scripts/test/all.sh
+    fi
   )
 } 2>&1 | tee "$LOG_FILE"
 

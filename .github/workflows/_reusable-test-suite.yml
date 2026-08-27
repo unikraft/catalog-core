@@ -3,6 +3,11 @@ name: reusable-test-suite
 on:
   workflow_call:
     inputs:
+      branch:
+        description: "Branch to clone/test (staging | stable)"
+        required: false
+        type: string
+        default: "staging"
       mode:
         description: "musl | lwip | libelf | elfloader | all"
         required: true
@@ -16,7 +21,7 @@ on:
         type: string
         default: '["gcc","clang"]'
       dep_repo_path:
-        description: "Local clone path (relative to repo root) that use-pull-request.sh should check the triggering PR branch out into, e.g. repos/libs/musl. Empty for test-all (unikraft core itself)."
+        description: "Local clone path (relative to repo root) that use-pull-request.sh should check the triggering PR branch out into, e.g. repos/unikraft or repos/libs/musl."
         required: false
         type: string
         default: "repos/unikraft"
@@ -32,8 +37,7 @@ on:
       apps_override:
         description: >
           JSON array of app names to test instead of the full mode-based
-          list, e.g. '["c-hello"]'. For fast iteration only.
-          Empty = use list-apps.sh as normal.
+          list, e.g. '["c-hello"]'. Empty = use list-apps.sh as normal.
         required: false
         type: string
         default: ""
@@ -99,6 +103,29 @@ jobs:
           fi
           echo "apps=$apps" >> "$GITHUB_OUTPUT"
 
+      - name: Setup repositories
+        run: ./setup.sh "${{ inputs.branch }}"
+
+      - name: Resolve PR and dependencies
+        if: github.event_name == 'repository_dispatch'
+        env:
+          GH_TOKEN: ${{ steps.generate_token.outputs.token }}
+        run: |
+          python3 .github/scripts/utils/resolve-depends-on.py \
+            "${{ github.event.client_payload.pr_repo }}" \
+            "${{ github.event.client_payload.pr_number }}" \
+            .github/scripts/utils/repo-map.txt
+
+      - name: Archive repositories
+        run: tar -czf repos.tar.gz repos
+
+      - name: Upload repositories artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: catalog-core-repos-${{ github.run_id }}
+          path: repos.tar.gz
+          retention-days: 1
+
       - name: "Discord: notify started"
         # if: always() && github.event_name == 'schedule'
         if: always()
@@ -106,7 +133,7 @@ jobs:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
         run: |
           bash .github/scripts/notify/discord-notify.sh started \
-            "${{ inputs.display_name }} (mode=${{ inputs.mode }}, compilers=${{ inputs.compilers }})"
+            "${{ inputs.display_name }} (branch=${{ inputs.branch }}, mode=${{ inputs.mode }}, compilers=${{ inputs.compilers }})"
 
   test:
     needs: setup
@@ -124,6 +151,14 @@ jobs:
         timeout-minutes: 3
         with:
           ref: ${{ github.ref }}
+
+      - name: Download repositories artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: catalog-core-repos-${{ github.run_id }}
+
+      - name: Extract repositories
+        run: tar -xzf repos.tar.gz
 
       - name: Cache apt packages
         if: inputs.toolchain_image == ''
@@ -161,26 +196,10 @@ jobs:
           bash .github/scripts/setup/collect-tool-versions.sh
           mv tool-versions.txt "tool-versions-${{ matrix.app }}.txt"
 
-      - name: Checkout PR Branch
-        if: github.event_name == 'repository_dispatch'
-        timeout-minutes: 5
-        run: bash .github/scripts/utils/use-pull-request.sh "${{ inputs.dep_repo_path }}" "${{ github.event.client_payload.pr_repo }}" "${{ github.event.client_payload.pr_number }}"
-
-      - name: Resolve cross-repo PR dependencies
-        if: github.event_name == 'repository_dispatch'
-        timeout-minutes: 10
-        env:
-          GH_TOKEN: ${{ needs.setup.outputs.token }}
-        run: |
-          bash .github/scripts/utils/resolve-depends-on.sh \
-            "${{ github.event.client_payload.pr_repo }}" \
-            "${{ github.event.client_payload.pr_number }}" \
-            .github/scripts/utils/repo-map.txt
-
       - name: Run test for ${{ matrix.app }} (${{ matrix.compiler }})
         id: run-test
         timeout-minutes: 20
-        run: bash .github/scripts/tests/run-app-test.sh "${{ matrix.app }}" "${{ matrix.compiler }}"
+        run: bash .github/scripts/tests/run-app-test.sh "${{ matrix.app }}" "${{ matrix.compiler }}" "${{ inputs.branch }}"
 
       - name: Namespace in-app log dir by compiler
         if: always()
@@ -261,7 +280,7 @@ jobs:
         run: |
           summary=$(tail -n +2 results.csv | awk -F, '{print $6}' | sort | uniq -c || true)
           bash .github/scripts/notify/discord-notify.sh "${{ steps.aggregate.outputs.result }}" \
-            "${{ inputs.display_name }} (mode=${{ inputs.mode }}) finished.
+            "${{ inputs.display_name }} (branch=${{ inputs.branch }}, mode=${{ inputs.mode }}) finished.
           \`\`\`
           $summary
           \`\`\`"
