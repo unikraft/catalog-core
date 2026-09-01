@@ -1,0 +1,30 @@
+# Configure Ruby application for a build that uses initrd to pass the root
+# filesystem.
+# Enable initrd / CPIO-related core components and configurations.
+
+config APPRUBYHELLO
+	bool "Configure Ruby Hello application with initrd as rootfs"
+	default y
+
+	# Select application library (Ruby). Use main function in application
+	# library. Other libraries, such as Newlib, pthread-embedded or LWIP,
+	# are selected as dependencies of Ruby.
+	select LIBRUBY
+	select LIBRUBY_MAIN_FUNCTION
+
+	# Select filesystem core components: vfscore, cpio, ramfs. For each
+	# select corresponding features. The Ruby interpreter loads its standard
+	# library from the root filesystem, so these are mandatory.
+	select LIBVFSCORE
+	select LIBVFSCORE_AUTOMOUNT_UP
+	select LIBRAMFS
+	select LIBUKCPIO
+
+	# Pass environment variables as command line arguments. This is
+	# required for passing the `RUBYLIB` environment variable.
+	select LIBPOSIX_ENVIRON
+	select LIBPOSIX_ENVIRON_LIBPARAM
+
+	# Add randomness support.
+	select LIBUKRANDOM
+	select LIBUKRANDOM_GETRANDOM

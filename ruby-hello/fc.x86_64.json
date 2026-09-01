@@ -1,0 +1,14 @@
+{
+  "boot-source": {
+    "kernel_image_path": "workdir/build/ruby-hello_fc-x86_64",
+    "boot_args": "ruby-hello_fc-x86_64 vfs.fstab=[ \"initrd0:/:extract::ramfs=1:\" ] env.vars=[ RUBYLIB=\"/usr/local/lib/ruby/2.6.0:/usr/local/lib/ruby/2.6.0/x86_64-linux\" ] -- /app/helloworld.rb",
+    "initrd_path": "initrd.cpio"
+  },
+  "drives": [],
+  "machine-config": {
+    "vcpu_count": 1,
+    "mem_size_mib": 256,
+    "smt": false,
+    "track_dirty_pages": false
+  }
+}
