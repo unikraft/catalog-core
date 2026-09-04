@@ -34,6 +34,9 @@ default y
 	select LIBUKBOOT_MAINTHREAD
 	select LIBUKBOOT_SHUTDOWNREQ_HANDLER
 	select LIBPOSIX_PROCESS_MULTITHREADING
+	# Required for Go and other multithreaded Linux ELFs.
+	select LIBPOSIX_EVENTFD
+	select LIBPOSIX_FUTEX
 
 	# Select LWIP networking stack library.
 	select LIBLWIP
