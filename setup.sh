@@ -7,6 +7,7 @@ test -d repos/libs/libcxx || git clone https://github.com/unikraft/lib-libcxx re
 test -d repos/libs/libcxxabi || git clone https://github.com/unikraft/lib-libcxxabi repos/libs/libcxxabi
 test -d repos/libs/libunwind || git clone https://github.com/unikraft/lib-libunwind repos/libs/libunwind
 test -d repos/libs/compiler-rt || git clone https://github.com/unikraft/lib-compiler-rt repos/libs/compiler-rt
+test -d repos/libs/zlib || git clone https://github.com/unikraft/lib-zlib repos/libs/zlib
 test -d repos/libs/nginx || git clone https://github.com/unikraft/lib-nginx repos/libs/nginx
 test -d repos/libs/python3 || git clone https://github.com/unikraft/lib-python3 repos/libs/python3
 test -d repos/libs/click || git clone https://github.com/unikraft/lib-click.git repos/libs/click
