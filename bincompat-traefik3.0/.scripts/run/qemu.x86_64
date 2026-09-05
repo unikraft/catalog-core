@@ -1,0 +1,37 @@
+#!/bin/sh
+
+if test ! -f initrd.cpio; then
+    echo "No initrd.cpio file found." 1>&2
+    echo "Did you run the build script?" 1>&2
+    exit 1
+fi
+
+base_kernel="workdir/base/build/elfloader_qemu-x86_64"
+if test ! -f "$base_kernel"; then
+    echo "No kernel file $base_kernel." 1>&2
+    echo "Did you run the build script?" 1>&2
+    exit 1
+fi
+
+{
+# Remove previously created network interface.
+sudo ip link set dev ukbr0 down
+sudo ip link del dev ukbr0
+sudo ip link set dev tap0 down
+sudo ip link del dev tap0
+} > /dev/null 2>&1
+
+# Create bridge interface for QEMU networking.
+sudo ip link add dev ukbr0 type bridge
+sudo ip address add 172.44.0.1/24 dev ukbr0
+sudo ip link set dev ukbr0 up
+
+sudo qemu-system-x86_64 \
+    -nographic \
+    -enable-kvm \
+    -m 2048 \
+    -cpu max \
+    -netdev bridge,id=en0,br=ukbr0 -device virtio-net-pci,netdev=en0 \
+    -append "traefik netdev.ip=172.44.0.2/24:172.44.0.1::: vfs.fstab=[ \"initrd0:/:extract::ramfs=1:\" ] -- /usr/local/bin/traefik --providers.file.watch=false --providers.file.filename=/etc/traefik/config.yml --api.insecure=true" \
+    -kernel "$base_kernel" \
+    -initrd ./initrd.cpio
