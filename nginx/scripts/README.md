@@ -54,3 +54,17 @@ e.g.
 ./scripts/run/fc.x86_64
 ./scripts/run/xen.arm64
 ```
+
+## Build and Run for <plat> / <arch> using a different file system (the default filesystem is initrd)
+
+```console
+./scripts/build/<plat>.<arch>.<file_system>
+./scripts/run/<plat>.<arch>.<file_system>
+```
+
+e.g.
+
+```console
+./scripts/build/qemu.x86_64.9pfs
+./scripts/run/qemu.x86_64.9pfs
+```
