@@ -1,0 +1,16 @@
+# owner/repo=local/clone/path (relative to catalog-core repo root, matches setup.sh)
+unikraft/unikraft=repos/unikraft
+unikraft/lib-musl=repos/libs/musl
+unikraft/lib-lwip=repos/libs/lwip
+unikraft/lib-libcxx=repos/libs/libcxx
+unikraft/lib-libcxxabi=repos/libs/libcxxabi
+unikraft/lib-libunwind=repos/libs/libunwind
+unikraft/lib-compiler-rt=repos/libs/compiler-rt
+unikraft/lib-nginx=repos/libs/nginx
+unikraft/lib-python3=repos/libs/python3
+unikraft/lib-click=repos/libs/click
+unikraft/lib-libelf=repos/libs/libelf
+unikraft/app-elfloader=repos/apps/elfloader
+unikraft/lib-redis=repos/libs/redis
+unikraft/lib-wamr=repos/libs/wamr
+unikraft/lib-sqlite=repos/libs/sqlite

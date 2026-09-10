@@ -1,0 +1,298 @@
+name: reusable-test-suite
+
+on:
+  workflow_call:
+    inputs:
+      branch:
+        description: "Branch to clone/test (staging | stable)"
+        required: false
+        type: string
+        default: "staging"
+      mode:
+        description: "musl | lwip | libelf | elfloader | all"
+        required: true
+        type: string
+      compilers:
+        description: >
+          JSON array of compilers to test, e.g. '["gcc","clang"]'.
+          Every app is tested once per entry, so a PR can't pass on one
+          compiler and silently break on the other.
+        required: false
+        type: string
+        default: '["gcc","clang"]'
+      dep_repo_path:
+        description: "Local clone path (relative to repo root) that use-pull-request.sh should check the triggering PR branch out into, e.g. repos/unikraft or repos/libs/musl."
+        required: false
+        type: string
+        default: "repos/unikraft"
+      display_name:
+        description: "Human name for check runs / Discord, e.g. 'lib-musl-tests'"
+        required: true
+        type: string
+      toolchain_image:
+        description: "Optional pinned toolchain container (see docker/toolchains). Empty = install deps on the runner as before."
+        required: false
+        type: string
+        default: ""
+      apps_override:
+        description: >
+          JSON array of app names to test instead of the full mode-based
+          list, e.g. '["c-hello"]'. Empty = use list-apps.sh as normal.
+        required: false
+        type: string
+        default: ""
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      owner: ${{ steps.parse_repo.outputs.owner }}
+      repo: ${{ steps.parse_repo.outputs.repo }}
+      token: ${{ steps.generate_token.outputs.token }}
+      check_run_id: ${{ steps.create_check.outputs.result }}
+      apps: ${{ steps.list_apps.outputs.apps }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+
+      - name: Parse Repository Info
+        if: github.event_name == 'repository_dispatch'
+        id: parse_repo
+        run: bash .github/scripts/utils/parse-repo.sh "${{ github.event.client_payload.pr_repo }}"
+
+      - name: Generate GitHub App Token
+        if: github.event_name == 'repository_dispatch'
+        id: generate_token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ vars.APP_ID }}
+          private-key: ${{ secrets.PRIVATE_KEY }}
+          owner: ${{ steps.parse_repo.outputs.owner }}
+          repositories: ${{ steps.parse_repo.outputs.repo }}
+
+      - name: Create Initial Check Run
+        if: github.event_name == 'repository_dispatch'
+        id: create_check
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ steps.generate_token.outputs.token }}
+          script: |
+            const { data } = await github.rest.checks.create({
+              owner: '${{ steps.parse_repo.outputs.owner }}',
+              repo: '${{ steps.parse_repo.outputs.repo }}',
+              name: 'Catalog Core Tests',
+              head_sha: '${{ github.event.client_payload.pr_sha }}',
+              status: 'in_progress',
+              output: {
+                title: 'Tests are running...',
+                summary: 'The Unikraft Catalog Core tests have been triggered. [View Progress](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})'
+              }
+            });
+            return data.id;
+
+      - name: List apps for matrix
+        id: list_apps
+        run: |
+          if [ -n "${{ inputs.apps_override }}" ]; then
+            apps='${{ inputs.apps_override }}'
+            echo "Using apps_override, skipping list-apps.sh: $apps"
+          else
+            apps=$(bash .github/scripts/tests/list-apps.sh "${{ inputs.mode }}")
+          fi
+          echo "apps=$apps" >> "$GITHUB_OUTPUT"
+
+      - name: Setup repositories
+        run: ./setup.sh "${{ inputs.branch }}"
+
+      - name: Resolve PR and dependencies
+        if: github.event_name == 'repository_dispatch'
+        env:
+          GH_TOKEN: ${{ steps.generate_token.outputs.token }}
+        run: |
+          python3 .github/scripts/utils/resolve-depends-on.py \
+            "${{ github.event.client_payload.pr_repo }}" \
+            "${{ github.event.client_payload.pr_number }}" \
+            .github/scripts/utils/repo-map.txt
+
+      - name: Archive repositories
+        run: tar -czf repos.tar.gz repos
+
+      - name: Upload repositories artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: catalog-core-repos-${{ github.run_id }}
+          path: repos.tar.gz
+          retention-days: 1
+
+      - name: "Discord: notify started"
+        # if: always() && github.event_name == 'schedule'
+        if: always()
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: |
+          bash .github/scripts/notify/discord-notify.sh started \
+            "${{ inputs.display_name }} (branch=${{ inputs.branch }}, mode=${{ inputs.mode }}, compilers=${{ inputs.compilers }})"
+
+  test:
+    needs: setup
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    continue-on-error: false
+    strategy:
+      fail-fast: false
+      matrix:
+        app: ${{ fromJson(needs.setup.outputs.apps) }}
+        compiler: ${{ fromJson(inputs.compilers) }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        timeout-minutes: 3
+        with:
+          ref: ${{ github.ref }}
+
+      - name: Download repositories artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: catalog-core-repos-${{ github.run_id }}
+
+      - name: Extract repositories
+        run: tar -xzf repos.tar.gz
+
+      - name: Cache apt packages
+        if: inputs.toolchain_image == ''
+        uses: actions/cache@v4
+        timeout-minutes: 3
+        with:
+          path: /var/cache/apt/archives
+          key: apt-${{ runner.os }}-${{ hashFiles('.github/scripts/setup/base-dependencies.sh') }}
+
+      - name: Install Base Dependencies
+        if: inputs.toolchain_image == ''
+        timeout-minutes: 20
+        run: bash .github/scripts/utils/retry.sh 6m 3 1m -- bash .github/scripts/setup/base-dependencies.sh
+
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@v3
+        timeout-minutes: 5
+
+      - name: Enable Docker Buildkit
+        timeout-minutes: 2
+        run: bash .github/scripts/setup/docker-setup.sh
+
+      - name: Install Firecracker
+        timeout-minutes: 12
+        run: bash .github/scripts/utils/retry.sh 4m 3 1m -- bash .github/scripts/setup/firecracker-setup.sh
+
+      - name: Setup QEMU Networking
+        timeout-minutes: 2
+        run: bash .github/scripts/setup/qemu-setup.sh
+
+      - name: Collect tool versions
+        if: matrix.compiler == fromJson(inputs.compilers)[0]  # only once per app, not once per compiler -- versions don't vary by compiler
+        timeout-minutes: 5
+        run: |
+          bash .github/scripts/setup/collect-tool-versions.sh
+          mv tool-versions.txt "tool-versions-${{ matrix.app }}.txt"
+
+      - name: Run test for ${{ matrix.app }} (${{ matrix.compiler }})
+        id: run-test
+        timeout-minutes: 20
+        run: bash .github/scripts/tests/run-app-test.sh "${{ matrix.app }}" "${{ matrix.compiler }}" "${{ inputs.branch }}"
+
+      - name: Namespace in-app log dir by compiler
+        if: always()
+        run: |
+          if [ -d "${{ matrix.app }}/.scripts/test/log" ]; then
+            mv "${{ matrix.app }}/.scripts/test/log" "${{ matrix.app }}-${{ matrix.compiler }}-log"
+          fi
+
+      - name: Upload per-app log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: catalog-core-app-log-${{ matrix.app }}-${{ matrix.compiler }}-${{ github.run_id }}
+          path: |
+            app-output-${{ matrix.app }}-${{ matrix.compiler }}.log
+            results-${{ matrix.app }}-${{ matrix.compiler }}.csv
+            tool-versions-${{ matrix.app }}.txt
+            ${{ matrix.app }}-${{ matrix.compiler }}-log/*
+          retention-days: 7
+          if-no-files-found: warn
+
+  aggregate:
+    needs: [setup, test]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+
+      - name: Download all per-app logs
+        uses: actions/download-artifact@v4
+        with:
+          pattern: catalog-core-app-log-*-${{ github.run_id }}
+          merge-multiple: true
+
+      - name: Aggregate results
+        id: aggregate
+        run: bash .github/scripts/tests/aggregate-results.sh
+
+      - name: Update Final Check Run
+        if: always() && github.event_name == 'repository_dispatch'
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ needs.setup.outputs.token }}
+          script: |
+            const result = '${{ steps.aggregate.outputs.result }}';
+            const testJobStatus = '${{ needs.test.result }}';
+
+            const conclusion = result === 'success'
+              ? 'success'
+              : (testJobStatus === 'cancelled' ? 'cancelled' : 'failure');
+
+            await github.rest.checks.update({
+              owner: '${{ needs.setup.outputs.owner }}',
+              repo: '${{ needs.setup.outputs.repo }}',
+              check_run_id: ${{ needs.setup.outputs.check_run_id }},
+              status: 'completed',
+              conclusion: conclusion,
+              output: {
+                title: `Check Status: ${conclusion}`,
+                summary: `The Catalog Core tests have finished. [View Full Logs](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})`
+              }
+            });
+
+      - name: Generate Workflow Summary
+        if: always()
+        run: bash .github/scripts/utils/generate-summary.sh
+
+      - name: "Discord: notify final result"
+        # if: always() && (github.event_name == 'schedule' || steps.aggregate.outputs.result == 'failure')
+        if: always()
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          DISCORD_THREAD_ID: ${{ vars.DISCORD_THREAD_ID }}
+          DISCORD_MENTION: ${{ vars.DISCORD_MENTION }}
+        run: |
+          summary=$(tail -n +2 results.csv | awk -F, '{print $6}' | sort | uniq -c || true)
+          bash .github/scripts/notify/discord-notify.sh "${{ steps.aggregate.outputs.result }}" \
+            "${{ inputs.display_name }} (branch=${{ inputs.branch }}, mode=${{ inputs.mode }}) finished.
+          \`\`\`
+          $summary
+          \`\`\`"
+
+      - name: Archive test artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: catalog-core-test-logs-${{ github.run_id }}
+          path: |
+            output.log
+            results.csv
+            tool-versions.txt
+            *-log/*
+          retention-days: 28
