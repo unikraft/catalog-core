@@ -1,0 +1,26 @@
+{
+  "boot-source": {
+    "kernel_image_path": "workdir/build/wasm-hello_fc-arm64",
+    "boot_args": "wasm-hello_qemu-x86_64 vfs.fstab=[ \"initrd0:/:extract::ramfs=1:\" ] -- main.wasm",
+    "initrd_path": "initrd.cpio"
+  },
+  "drives": [],
+  "machine-config": {
+    "vcpu_count": 1,
+    "mem_size_mib": 32,
+    "smt": false,
+    "track_dirty_pages": false
+  },
+  "cpu-config": null,
+  "balloon": null,
+  "vsock": null,
+  "logger": {
+    "log_path": "/tmp/firecracker.log",
+    "level": "Debug",
+    "show_level": true,
+    "show_log_origin": true
+  },
+  "metrics": null,
+  "mmds-config": null,
+  "entropy": null
+}
