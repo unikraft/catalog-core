@@ -1,0 +1,12 @@
+#!/bin/sh
+export UK_CFLAGS="${UK_CFLAGS:--std=gnu17 -w}"
+
+make distclean
+UK_DEFCONFIG=$(pwd)/.scripts/defconfig/fc.arm64 make defconfig
+touch Makefile.uk
+make prepare
+if test -z "$CC"; then
+    make -j $(nproc)
+else
+    make CC="$CC" -j $(nproc)
+fi

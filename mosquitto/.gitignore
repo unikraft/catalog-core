@@ -1,0 +1,5 @@
+/workdir/
+*.cpio
+.config
+.config.old
+firecracker.socket

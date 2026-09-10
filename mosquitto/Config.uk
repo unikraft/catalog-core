@@ -1,0 +1,27 @@
+# Configure Mosquitto application for a build with bridged networking and
+# using initrd to pass the root filesystem.
+
+config APPMOSQUITTO
+bool "Configure Mosquitto MQTT broker with initrd as rootfs"
+default y
+
+	# Select application library (mosquitto). Use the main function in the
+	# application library. Other libraries, such as musl or LWIP, are
+	# selected as dependencies of mosquitto.
+	select LIBMOSQUITTO
+	select LIBMOSQUITTO_MAIN_FUNCTION
+
+	select LIBUKCPIO
+	select LIBLWIP
+	select LWIP_IPV4
+	select LWIP_UDP
+	select LWIP_DHCP
+
+	# Use extended information (einfo) for configuring network parameters.
+	# This component parses the configuration string in the command line:
+	#    netdev.ip=172.44.0.2/24:172.44.0.1:::
+	select LIBUKNETDEV_EINFO_LIBPARAM
+
+	select LIBUKRANDOM
+	select LIBUKRANDOM_GETRANDOM
+	select LIBUKRANDOM_DEVFS
