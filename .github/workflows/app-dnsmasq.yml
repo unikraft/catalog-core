@@ -1,0 +1,70 @@
+name: app-dnsmasq
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'dnsmasq/**'
+      - '.github/workflows/app-dnsmasq.yml'
+
+jobs:
+  dnsmasq:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - arch: x86_64
+            runner: ubuntu-latest
+            qemu: qemu-system-x86
+          - arch: arm64
+            runner: ubuntu-26.04-arm
+            qemu: qemu-system-arm
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 40
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            build-essential libncurses-dev libyaml-dev flex bison \
+            git wget curl uuid-runtime \
+            ${{ matrix.qemu }} libarchive-tools dnsutils dns-root-data
+
+      - name: Setup QEMU bridged networking
+        run: bash .github/scripts/setup/qemu-setup.sh
+
+      - name: Clone dnsmasq dependencies into repos/
+        run: |
+          # lib-nettle/lib-dnsmasq: feature-branch forks until upstreamed.
+          test -d repos/unikraft   || git clone --depth 1 https://github.com/unikraft/unikraft repos/unikraft
+          test -d repos/libs/lwip  || git clone --depth 1 https://github.com/unikraft/lib-lwip repos/libs/lwip
+          test -d repos/libs/musl  || git clone --depth 1 https://github.com/unikraft/lib-musl repos/libs/musl
+          test -d repos/libs/nettle  || git clone --depth 1 -b musl-hogweed-dnssec https://github.com/vTusharr/lib-nettle repos/libs/nettle
+          test -d repos/libs/dnsmasq || git clone --depth 1 -b dnsmasq-port https://github.com/vTusharr/lib-dnsmasq repos/libs/dnsmasq
+
+      - name: Build and test dnsmasq (${{ matrix.arch }})
+        run: |
+          cd dnsmasq
+          # qemu: build (+ run on x86). fc: build only.
+          ./.scripts/test/all.sh qemu.${{ matrix.arch }} | tee output.log
+          ./.scripts/test/all.sh fc.${{ matrix.arch }}   | tee -a output.log
+          if grep -q FAILED output.log; then exit 1; fi
+
+      - name: Dump logs on failure
+        if: failure()
+        run: |
+          for f in dnsmasq/.scripts/test/log/*; do
+            [ -e "$f" ] || continue
+            echo "===== $f ====="; cat "$f"; echo
+          done
+
+      - name: Upload logs
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dnsmasq-test-logs-${{ matrix.arch }}
+          path: dnsmasq/.scripts/test/log/*
+          retention-days: 7

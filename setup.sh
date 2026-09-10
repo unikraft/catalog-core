@@ -15,3 +15,8 @@ test -d repos/apps/elfloader || git clone https://github.com/unikraft/app-elfloa
 test -d repos/libs/redis || git clone https://github.com/unikraft/lib-redis repos/libs/redis
 test -d repos/libs/wamr || git clone https://github.com/unikraft/lib-wamr repos/libs/wamr
 test -d repos/libs/sqlite || git clone https://github.com/unikraft/lib-sqlite repos/libs/sqlite
+
+# dnsmasq deps. Pinned to feature-branch forks until upstreamed
+
+test -d repos/libs/nettle || git clone -b musl-hogweed-dnssec https://github.com/vTusharr/lib-nettle repos/libs/nettle
+test -d repos/libs/dnsmasq || git clone -b dnsmasq-port https://github.com/vTusharr/lib-dnsmasq repos/libs/dnsmasq

@@ -1,0 +1,44 @@
+#!/bin/sh
+
+if test ! -f "workdir/build/dnsmasq_fc-arm64"; then
+    echo "No kernel file workdir/build/dnsmasq_fc-arm64." 1>&2
+    echo "Did you run ./.scripts/build/fc.arm64 ?" 1>&2
+    exit 1
+fi
+
+{
+# Remove previously created network interfaces.
+sudo ip link set dev tap0 down
+sudo ip link del dev tap0
+} > /dev/null 2>&1
+
+# Create tap interface for Firecracker networking.
+sudo ip tuntap add dev tap0 mode tap
+sudo ip address add 172.44.0.1/24 dev tap0
+sudo ip link set dev tap0 up
+
+# dnsmasq forwards to upstream resolvers, so the guest needs outbound Internet.
+# The tap has no NAT of its own, so masquerade guest traffic leaving any
+# non-tap interface.
+sudo sysctl -qw net.ipv4.ip_forward=1
+sudo iptables -t nat -C POSTROUTING -s 172.44.0.0/24 ! -o tap0 -j MASQUERADE 2>/dev/null \
+    || sudo iptables -t nat -A POSTROUTING -s 172.44.0.0/24 ! -o tap0 -j MASQUERADE
+
+# Root DNSSEC trust anchors: prefer dns-root-data's root.ds if the build host
+# has it, else fetch them from IANA.
+if [ -f /usr/share/dns/root.ds ]; then
+    python3 ./.scripts/trust-anchors.py /usr/share/dns/root.ds
+else
+    python3 ./.scripts/trust-anchors.py
+fi
+
+# Pack filesystem as an initial ramdisk CPIO file.
+rm -f initrd.cpio
+./workdir/unikraft/support/scripts/mkcpio initrd.cpio ./rootfs/
+
+# Remove previously created files.
+rm -f firecracker.socket
+
+firecracker-aarch64 \
+        --api-sock firecracker.socket \
+        --config-file fc.arm64.json

@@ -1,0 +1,19 @@
+# Configure dnsmasq application for a build that uses initrd  to pass the
+# root filesystem and  user networking.
+
+config APPDNSMASQ
+bool "Configure dnsmasq application with initrd as rootfs"
+default y
+
+	# Select application library (dnsmasq). Use main function in application
+	# library. Other libraries, such as musl or lwip, are selected as
+	# dependencies of dnsmasq.
+	select LIBDNSMASQ
+	select LIBDNSMASQ_MAIN_FUNCTION
+
+	select LIBUKCPIO
+
+	# Use extended information (einfo) for configuring network parameters.
+	# This component parses the configuration string in the command line:
+	#    i.e netdev.ip=172.44.0.2/24:172.44.0.1:::
+	select LIBUKNETDEV_EINFO_LIBPARAM

@@ -1,0 +1,7 @@
+/workdir/
+/rootfs/etc/trust-anchors.conf
+*.cpio
+*.log
+*.pid
+.config
+.config.old
