@@ -1,0 +1,7 @@
+/workdir/
+*.cpio
+.config
+.config.old
+*.log
+/rootfs/etc/lighttpd/server.crt
+/rootfs/etc/lighttpd/server.key

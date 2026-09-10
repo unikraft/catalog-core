@@ -15,3 +15,7 @@ test -d repos/apps/elfloader || git clone https://github.com/unikraft/app-elfloa
 test -d repos/libs/redis || git clone https://github.com/unikraft/lib-redis repos/libs/redis
 test -d repos/libs/wamr || git clone https://github.com/unikraft/lib-wamr repos/libs/wamr
 test -d repos/libs/sqlite || git clone https://github.com/unikraft/lib-sqlite repos/libs/sqlite
+test -d repos/libs/openssl || git clone https://github.com/unikraft/lib-openssl repos/libs/openssl
+test -d repos/libs/zlib || git clone https://github.com/unikraft/lib-zlib repos/libs/zlib
+test -d repos/libs/pcre || git clone https://github.com/unikraft/lib-pcre repos/libs/pcre
+test -d repos/libs/lighttpd || git clone https://github.com/unikraft/lib-lighttpd repos/libs/lighttpd
