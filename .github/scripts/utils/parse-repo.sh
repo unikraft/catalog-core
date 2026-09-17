@@ -1,8 +1,4 @@
 #!/usr/bin/env bash
-#
-# Parses the repository payload from the input argument and sets GitHub step outputs.
-# Usage: bash parse-repo.sh "<owner>/<repo>"
-#
 
 REPO_PAYLOAD="$1"
 owner=$(echo "$REPO_PAYLOAD" | cut -d'/' -f1)
