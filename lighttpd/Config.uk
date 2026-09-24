@@ -1,0 +1,19 @@
+# Configure lighttpd application for a build with bridged networking and
+# using initrd to pass the root filesystem.
+
+config APPLIGHTTPD
+bool "Configure lighttpd application with initrd as rootfs"
+default y
+
+	# Select application library (lighttpd). Use the main function in the
+	# application library. Other libraries, such as musl or LWIP, are
+	# selected as dependencies of lighttpd.
+	select LIBLIGHTTPD
+	select LIBLIGHTTPD_MAIN_FUNCTION
+
+	select LIBUKCPIO
+
+	# Use extended information (einfo) for configuring network parameters.
+	# This component parses the configuration string in the command line:
+	#    netdev.ip=172.44.0.2/24:172.44.0.1:::
+	select LIBUKNETDEV_EINFO_LIBPARAM
