@@ -1,0 +1,5 @@
+#!/bin/sh
+
+rm -f initrd.cpio
+docker build -o ./rootfs -f Dockerfile .
+./workdir/unikraft/support/scripts/mkcpio initrd.cpio ./rootfs/
