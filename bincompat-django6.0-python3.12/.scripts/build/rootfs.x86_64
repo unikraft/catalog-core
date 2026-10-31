@@ -1,0 +1,13 @@
+#!/bin/sh
+
+rm -rf rootfs-out rootfs.tar
+rm -f initrd.cpio
+
+docker build -t unikraft-django-fs rootfs/
+docker container rm -f unikraft-django-container > /dev/null 2>&1 || true
+
+docker container create --name unikraft-django-container unikraft-django-fs sh
+docker export unikraft-django-container -o rootfs.tar
+mkdir -p rootfs-out
+tar xvf rootfs.tar -C rootfs-out/
+./workdir/unikraft/support/scripts/mkcpio initrd.cpio ./rootfs-out/
