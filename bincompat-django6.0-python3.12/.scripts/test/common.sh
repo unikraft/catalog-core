@@ -132,3 +132,4 @@ end_with_success()
 }
 
 start_command="$1"
+
