@@ -1,0 +1,4 @@
+menuconfig APPODINHELLO
+	bool "Odin Hello"
+	default y
+	select LIBMUSL
