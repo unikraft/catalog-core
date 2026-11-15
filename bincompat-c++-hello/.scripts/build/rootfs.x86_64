@@ -1,0 +1,6 @@
+#!/bin/sh
+
+rm -f initrd.cpio
+make -C rootfs/ clean
+make -C rootfs/
+./workdir/unikraft/support/scripts/mkcpio initrd.cpio ./rootfs/
