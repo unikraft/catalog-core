@@ -176,7 +176,7 @@ The filesystem is to be packed into `rootfs.cpio`, an initial ramdisk CPIO file.
 Use the command below for that:
 
 ```console
-rm -f initrd.cpio
+rm -f rootfs.cpio
 ./workdir/unikraft/support/scripts/mkcpio rootfs.cpio ./rootfs/
 ```
 
