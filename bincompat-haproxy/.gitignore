@@ -1,0 +1,8 @@
+workdir/
+initrd.cpio
+rootfs/usr/
+rootfs/lib/
+rootfs/lib64/
+rootfs/dev/
+rootfs/tmp/
+rootfs/.dockerenv
