@@ -6,6 +6,16 @@ if test ! -f "workdir/build/c-http_fc-x86_64"; then
     exit 1
 fi
 
+if ! command -v firecracker-x86_64 > /dev/null 2>&1; then
+    echo "firecracker-x86_64 not found in PATH. See README.md for installation." 1>&2
+    exit 1
+fi
+
+if test ! -e /dev/kvm; then
+    echo "/dev/kvm not found. Firecracker requires KVM support." 1>&2
+    exit 1
+fi
+
 {
 # Remove previously created network interfaces.
 sudo ip link set dev virbr0 down
