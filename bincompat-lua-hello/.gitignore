@@ -1,0 +1,6 @@
+workdir/
+rootfs/
+rootfs.tar
+initrd.cpio
+firecracker.socket
+.scripts/test/log/

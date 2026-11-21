@@ -1,0 +1,11 @@
+#!/bin/sh
+
+rm -rf rootfs rootfs.tar initrd.cpio
+mkdir rootfs
+docker build -t unikraft-lua-fs .
+docker container rm -f unikraft-lua-container > /dev/null 2>&1
+docker container create --name unikraft-lua-container unikraft-lua-fs sh
+docker export unikraft-lua-container -o rootfs.tar
+tar xf rootfs.tar -C rootfs/
+docker container rm unikraft-lua-container
+./workdir/unikraft/support/scripts/mkcpio initrd.cpio ./rootfs/
