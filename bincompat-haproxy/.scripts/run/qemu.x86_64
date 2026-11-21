@@ -13,9 +13,9 @@ if test ! -f "$base_kernel"; then
     exit 1
 fi
 
-bridge="ukbr-rp"
-host_ip="172.45.0.1"
-guest_ip="172.45.0.2"
+bridge="virbr0"
+host_ip="172.44.0.1"
+guest_ip="172.44.0.2"
 
 sudo ip link add dev "$bridge" type bridge 2>/dev/null
 sudo ip addr add "$host_ip/24" dev "$bridge" 2>/dev/null
