@@ -1,0 +1,32 @@
+#!/bin/sh
+
+if test ! -f initrd.cpio; then
+    echo "No initrd.cpio file found." 1>&2
+    echo "Did you run the build script?" 1>&2
+    exit 1
+fi
+
+base_kernel="workdir/base/build/elfloader_qemu-x86_64"
+if test ! -f "$base_kernel"; then
+    echo "No kernel file $base_kernel." 1>&2
+    echo "Did you run the build script?" 1>&2
+    exit 1
+fi
+
+bridge="virbr0"
+host_ip="172.44.0.1"
+guest_ip="172.44.0.2"
+
+sudo ip link add dev "$bridge" type bridge 2>/dev/null
+sudo ip addr add "$host_ip/24" dev "$bridge" 2>/dev/null
+sudo ip link set dev "$bridge" up
+
+sudo qemu-system-x86_64 \
+    -nographic \
+    -m 256 \
+    -cpu max \
+    -netdev bridge,id=en0,br="$bridge" -device virtio-net-pci,netdev=en0 \
+    -append "elfloader_qemu-x86_64 netdev.ip=$guest_ip/24:$host_ip::: vfs.fstab=[ \"initrd0:/:extract::ramfs=1:\" ] -- /usr/bin/haproxy -db -f /etc/haproxy/haproxy.conf" \
+    -kernel "$base_kernel" \
+    -initrd ./initrd.cpio \
+    < /dev/null
