@@ -13,11 +13,20 @@ if test ! -f "$base_kernel"; then
     exit 1
 fi
 
-qemu-system-x86_64 \
+bridge="ukbr-rp"
+host_ip="172.45.0.1"
+guest_ip="172.45.0.2"
+
+sudo ip link add dev "$bridge" type bridge 2>/dev/null
+sudo ip addr add "$host_ip/24" dev "$bridge" 2>/dev/null
+sudo ip link set dev "$bridge" up
+
+sudo qemu-system-x86_64 \
     -nographic \
-    -m 64 \
+    -m 256 \
     -cpu max \
-    -append "elfloader_qemu-x86_64 vfs.fstab=[ \"initrd0:/:extract::ramfs=1:\" ] -- /hello-c" \
+    -netdev bridge,id=en0,br="$bridge" -device virtio-net-pci,netdev=en0 \
+    -append "elfloader_qemu-x86_64 netdev.ip=$guest_ip/24:$host_ip::: vfs.fstab=[ \"initrd0:/:extract::ramfs=1:\" ] -- /usr/bin/haproxy -db -f /etc/haproxy/haproxy.conf" \
     -kernel "$base_kernel" \
     -initrd ./initrd.cpio \
     < /dev/null

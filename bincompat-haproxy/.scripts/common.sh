@@ -10,10 +10,15 @@ ln -sfn "../../$elfloader_base/workdir" workdir/base
 
 build_elfloader_base()
 {
+    app_defconfig="$(pwd)/.scripts/defconfig/$1"
+
     (
         cd "../$elfloader_base" &&
         ./setup.sh &&
         make distclean &&
-        "./.scripts/build/$1"
+        UK_DEFCONFIG="$app_defconfig" make defconfig &&
+        touch Makefile.uk &&
+        make prepare &&
+        make -j"$(nproc)"
     ) || exit 1
 }
