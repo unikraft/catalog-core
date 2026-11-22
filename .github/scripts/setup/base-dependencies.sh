@@ -18,7 +18,6 @@ sudo apt install -y --no-install-recommends \
 	qemu-kvm \
 	qemu-system-x86 \
 	qemu-system-arm \
-	sgabios \
 	libarchive-tools \
 	clang \
 	xen-utils \
