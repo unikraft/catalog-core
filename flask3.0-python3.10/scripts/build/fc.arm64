@@ -1,0 +1,13 @@
+#!/bin/sh
+
+make distclean
+UK_DEFCONFIG=$(pwd)/scripts/defconfig/fc.arm64 make defconfig
+touch Makefile.uk
+make prepare
+if test -z "$CC" && test -z "$CROSS_COMPILE"; then
+    make CROSS_COMPILE=aarch64-linux-gnu- -j $(nproc)
+elif test -z "$CC"; then
+    make CROSS_COMPILE="$CROSS_COMPILE" -j $(nproc)
+else
+    make CC="$CC" -j $(nproc)
+fi
